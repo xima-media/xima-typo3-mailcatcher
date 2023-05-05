@@ -1,0 +1,11 @@
+node_modules
+
+public/_assets
+public/fileadmin
+public/typo3
+public/typo3conf
+public/typo3temp
+public/index.php
+
+var
+vendor

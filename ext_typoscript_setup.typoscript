@@ -1,0 +1,7 @@
+module.tx_ximatypo3mailcatcher {
+	view {
+		templateRootPaths {
+			100 = EXT:xima_typo3_mailcatcher/Resources/Private/Templates/Backend
+		}
+	}
+}
