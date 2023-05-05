@@ -113,6 +113,9 @@ define(['exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Core/Ajax/Aja
                     .attr('srcdoc', resolved.src);
                 // @ts-ignore
                 $__default["default"]('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html($iframe);
+            })
+                .catch(() => {
+                $__default["default"]('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html('<div class="callout callout-danger">Could not load message</div>');
             });
         }
     }

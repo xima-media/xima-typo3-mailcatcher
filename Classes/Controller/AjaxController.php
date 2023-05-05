@@ -21,6 +21,10 @@ class AjaxController
         $parser = GeneralUtility::makeInstance(LogParserUtility::class);
         $mail = $parser->getMessageByFilename($params['messageFile']);
 
+        if (!$mail) {
+            return new JsonResponse([], 404);
+        }
+
         return new JsonResponse(['src' => $mail->bodyHtml]);
     }
 

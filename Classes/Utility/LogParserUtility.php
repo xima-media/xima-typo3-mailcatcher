@@ -50,7 +50,7 @@ class LogParserUtility
             return;
         }
 
-        //file_put_contents($absolutePath, '');
+        file_put_contents($absolutePath, '');
     }
 
     protected function extractMessages(): void

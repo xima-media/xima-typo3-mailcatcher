@@ -36,6 +36,9 @@ class MailMessage
         return $name;
     }
 
+    /**
+     * @param mixed[] $data
+     */
     public function loadFromJson(array $data): void
     {
         foreach ($data as $key => $value) {

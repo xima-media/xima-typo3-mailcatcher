@@ -109,6 +109,9 @@ class MailCatcher {
                 .attr('srcdoc', resolved.src);
             // @ts-ignore
             $('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html($iframe);
+        })
+            .catch(() => {
+            $('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html('<div class="callout callout-danger">Could not load message</div>');
         });
     }
 }
