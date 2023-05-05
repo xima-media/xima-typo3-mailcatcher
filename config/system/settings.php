@@ -1,8 +1,9 @@
 <?php
 
+use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\Argon2iPasswordHash;
 use TYPO3\CMS\Core\Log\Writer\FileWriter;
-use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
+
 return [
     'BE' => [
         'debug' => false,

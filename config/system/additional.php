@@ -1,6 +1,7 @@
 <?php
 
 use TYPO3\CMS\Core\Core\Environment;
+
 if (getenv('IS_DDEV_PROJECT') == 'true') {
     $GLOBALS['TYPO3_CONF_VARS'] = array_replace_recursive(
         $GLOBALS['TYPO3_CONF_VARS'],
@@ -26,7 +27,7 @@ if (getenv('IS_DDEV_PROJECT') == 'true') {
             // This mail configuration sends all emails to mailhog
             'MAIL' => [
                 'transport' => 'mbox',
-                'transport_mbox_file' => Environment::getProjectPath() . '/var/log/mail.log'
+                'transport_mbox_file' => Environment::getProjectPath() . '/var/log/mail.log',
             ],
             'SYS' => [
                 'trustedHostsPattern' => '.*.*',
