@@ -24,7 +24,7 @@
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master",
-		"typo3/cms-base-distribution": "^11.5",
+		"typo3/cms-base-distribution": "^12.4",
 		"phpstan/phpstan": "^1.6",
 		"bk2k/bootstrap-package": "dev-master",
 		"clue/phar-composer": "^1.0",
