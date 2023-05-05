@@ -2,9 +2,9 @@
 
 namespace Xima\XimaTypo3Mailcatcher\Controller;
 
-use TYPO3\CMS\Core\Page\PageRenderer;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
@@ -12,7 +12,6 @@ use Xima\XimaTypo3Mailcatcher\Utility\LogParserUtility;
 
 class BackendController extends ActionController
 {
-
     public function __construct(
         private ModuleTemplateFactory $moduleTemplateFactory,
         private PageRenderer $pageRenderer

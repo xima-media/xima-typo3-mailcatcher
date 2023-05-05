@@ -1,6 +1,7 @@
 <?php
 
 use Xima\XimaTypo3Mailcatcher\Controller\AjaxController;
+
 return [
     'mailcatcher_html' => [
         'path' => '/mailcatcher/html',
