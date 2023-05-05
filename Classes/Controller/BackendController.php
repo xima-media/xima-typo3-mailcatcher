@@ -6,17 +6,17 @@ use TYPO3\CMS\Core\Page\PageRenderer;
 use Psr\Http\Message\ResponseInterface;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Xima\XimaTypo3Mailcatcher\Utility\LogParserUtility;
 
 class BackendController extends ActionController
 {
-    protected ModuleTemplateFactory $moduleTemplateFactory;
 
     public function __construct(
-        ModuleTemplateFactory $moduleTemplateFactory
+        private ModuleTemplateFactory $moduleTemplateFactory,
+        private PageRenderer $pageRenderer
     ) {
-        $this->moduleTemplateFactory = $moduleTemplateFactory;
     }
 
     public function indexAction(): ResponseInterface
@@ -24,11 +24,14 @@ class BackendController extends ActionController
         $parser = GeneralUtility::makeInstance(LogParserUtility::class);
         $parser->run();
         $mails = $parser->getMessages();
-
-        $pageRenderer = GeneralUtility::makeInstance(PageRenderer::class);
-        $pageRenderer->loadRequireJsModule('TYPO3/CMS/XimaTypo3Mailcatcher/MailCatcher');
-
         $this->view->assign('mails', $mails);
+
+        $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
+        if ($version['version_main'] >= 12) {
+            $this->pageRenderer->loadJavaScriptModule('@xima/xima-typo3-mailcatcher/MailCatcher.js');
+        } else {
+            $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/XimaTypo3Mailcatcher/MailCatcher');
+        }
 
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
         $moduleTemplate->setContent($this->view->render());

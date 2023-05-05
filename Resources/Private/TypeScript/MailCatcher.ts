@@ -1,7 +1,8 @@
-import $ = require('jquery');
-import AjaxRequest = require('TYPO3/CMS/Core/Ajax/AjaxRequest');
-import Modal = require('TYPO3/CMS/Backend/Modal');
-import Severity = require('TYPO3/CMS/Backend/Severity');
+import $ from 'jquery'
+import Modal from '@typo3/backend/modal.js'
+import AjaxRequest from '@typo3/core/ajax/ajax-request.js'
+import Severity from '@typo3/backend/severity.js'
+
 
 class MailCatcher {
 	constructor() {
@@ -125,7 +126,7 @@ class MailCatcher {
 				const resolved = await response.resolve();
 				const $iframe = $('<iframe />')
 					.attr('width', '100%')
-					.attr('height', '500px')
+					.attr('height', '650px')
 					.attr('srcdoc', resolved.src);
 				// @ts-ignore
 				$('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html($iframe);
