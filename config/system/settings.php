@@ -1,10 +1,14 @@
 <?php
+
+use TYPO3\CMS\Core\Crypto\PasswordHashing\Argon2iPasswordHash;
+use TYPO3\CMS\Core\Log\Writer\FileWriter;
+use TYPO3\CMS\Core\Cache\Backend\Typo3DatabaseBackend;
 return [
     'BE' => [
         'debug' => false,
         'installToolPassword' => '$argon2i$v=19$m=65536,t=16,p=1$eEsyMnNITjJENWxWTUcuRQ$FeOyV/WJt5CKrGXlONooaDgxRKX+AanuMB1vSm85D1Y',
         'passwordHashing' => [
-            'className' => 'TYPO3\\CMS\\Core\\Crypto\\PasswordHashing\\Argon2iPasswordHash',
+            'className' => Argon2iPasswordHash::class,
             'options' => [],
         ],
     ],
@@ -51,7 +55,7 @@ return [
         'debug' => false,
         'disableNoCacheParameter' => true,
         'passwordHashing' => [
-            'className' => 'TYPO3\\CMS\\Core\\Crypto\\PasswordHashing\\Argon2iPasswordHash',
+            'className' => Argon2iPasswordHash::class,
             'options' => [],
         ],
     ],
@@ -69,7 +73,7 @@ return [
                 'deprecations' => [
                     'writerConfiguration' => [
                         'notice' => [
-                            'TYPO3\CMS\Core\Log\Writer\FileWriter' => [
+                            FileWriter::class => [
                                 'disabled' => true,
                             ],
                         ],
@@ -91,22 +95,22 @@ return [
         'caching' => [
             'cacheConfigurations' => [
                 'hash' => [
-                    'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\Typo3DatabaseBackend',
+                    'backend' => Typo3DatabaseBackend::class,
                 ],
                 'imagesizes' => [
-                    'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\Typo3DatabaseBackend',
+                    'backend' => Typo3DatabaseBackend::class,
                     'options' => [
                         'compression' => true,
                     ],
                 ],
                 'pages' => [
-                    'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\Typo3DatabaseBackend',
+                    'backend' => Typo3DatabaseBackend::class,
                     'options' => [
                         'compression' => true,
                     ],
                 ],
                 'rootline' => [
-                    'backend' => 'TYPO3\\CMS\\Core\\Cache\\Backend\\Typo3DatabaseBackend',
+                    'backend' => Typo3DatabaseBackend::class,
                     'options' => [
                         'compression' => true,
                     ],
