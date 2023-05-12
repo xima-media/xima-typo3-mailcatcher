@@ -160,6 +160,11 @@ class LogParserUtility
             $attachmentDto->filesize = $fileSize;
 
             $dto->attachments[] = $attachmentDto;
+
+            // replace embedded file identifier with public path
+            $contentId = 'cid:' . $attachment->getContentID();
+            $dto->bodyHtml = str_replace($contentId, $publicPath, $dto->bodyHtml);
+            $dto->bodyPlain = str_replace($contentId, $publicPath, $dto->bodyPlain);
         }
 
         return $dto;
