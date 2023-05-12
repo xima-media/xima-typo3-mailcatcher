@@ -20,8 +20,8 @@ define(['exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Core/Ajax/Aja
         onPanelClick(e) {
             // load html mail if no plain text body available
             const htmlIsLoaded = $__default["default"](e.currentTarget).attr('data-html-loaded') === 'true';
-            const onlyHtmlButton = $__default["default"]('.content-type-switches a[data-content-type="html"]:only-child', e.currentTarget);
-            if (onlyHtmlButton.length && !htmlIsLoaded) {
+            const firstHtmlButton = $__default["default"]('.content-type-switches a[data-content-type="html"]:first-child', e.currentTarget);
+            if (firstHtmlButton.length && !htmlIsLoaded) {
                 const messageId = $__default["default"](e.currentTarget).attr('data-message-file');
                 this.loadHtmlMail(messageId);
             }
@@ -113,6 +113,7 @@ define(['exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Core/Ajax/Aja
                     .attr('srcdoc', resolved.src);
                 // @ts-ignore
                 $__default["default"]('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html($iframe);
+                $__default["default"]('.panel[data-message-file="' + messageFile + '"]').attr('data-html-loaded', 'true');
             })
                 .catch(() => {
                 $__default["default"]('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html('<div class="callout callout-danger">Could not load message</div>');
