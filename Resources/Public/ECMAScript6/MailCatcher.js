@@ -16,8 +16,8 @@ class MailCatcher {
     onPanelClick(e) {
         // load html mail if no plain text body available
         const htmlIsLoaded = $(e.currentTarget).attr('data-html-loaded') === 'true';
-        const onlyHtmlButton = $('.content-type-switches a[data-content-type="html"]:only-child', e.currentTarget);
-        if (onlyHtmlButton.length && !htmlIsLoaded) {
+        const firstHtmlButton = $('.content-type-switches a[data-content-type="html"]:first-child', e.currentTarget);
+        if (firstHtmlButton.length && !htmlIsLoaded) {
             const messageId = $(e.currentTarget).attr('data-message-file');
             this.loadHtmlMail(messageId);
         }
@@ -109,6 +109,7 @@ class MailCatcher {
                 .attr('srcdoc', resolved.src);
             // @ts-ignore
             $('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html($iframe);
+            $('.panel[data-message-file="' + messageFile + '"]').attr('data-html-loaded', 'true');
         })
             .catch(() => {
             $('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html('<div class="callout callout-danger">Could not load message</div>');
