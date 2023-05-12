@@ -9,7 +9,7 @@ This TYPO3 extension adds a module to view emails that were printed to file.
 ## Installation
 
 ```
-composer require xima/xm-mail-catcher
+composer require xima/xima-typo3-mailcatcher
 ```
 
 ## Configuration
