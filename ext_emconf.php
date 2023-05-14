@@ -18,7 +18,7 @@ $EM_CONF[$_EXTKEY] = [
     ],
     'autoload' => [
         'psr-4' => [
-            'Xima\\XimaTypo3Mailcatcher\\' => 'Classes'
-        ]
+            'Xima\\XimaTypo3Mailcatcher\\' => 'Classes',
+        ],
     ],
 ];
