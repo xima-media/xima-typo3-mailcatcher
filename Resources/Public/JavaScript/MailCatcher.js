@@ -109,6 +109,7 @@ define(['exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Core/Ajax/Aja
                 const resolved = await response.resolve();
                 const $iframe = $__default["default"]('<iframe />')
                     .attr('width', '100%')
+                    .attr('frameBorder', '0')
                     .attr('height', '650px')
                     .attr('srcdoc', resolved.src);
                 // @ts-ignore
