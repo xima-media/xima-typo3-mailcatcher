@@ -17,10 +17,10 @@
 		"mail"
 	],
 	"require": {
-		"php": "^8.0",
-		"typo3/cms-core": ">=11.0.0",
+		"php": "^7.4 || ^8.0",
+		"typo3/cms-core": ">=10.0.0",
 		"ext-json": "*",
-		"php-mime-mail-parser/php-mime-mail-parser": "^8.0"
+		"php-mime-mail-parser/php-mime-mail-parser": "^7.1 || ^8.0"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master",

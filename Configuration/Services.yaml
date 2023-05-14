@@ -5,6 +5,6 @@ services:
     autoconfigure: true
     public: false
 
-  Xima\XimaTypo3Mailcatcher\:
-    resource: '../Classes/*'
-    exclude: '../Classes/Domain/Model/*'
+#  Xima\XimaTypo3Mailcatcher\:
+#    resource: '../Classes/*'
+#    exclude: '../Classes/Domain/Model/*'

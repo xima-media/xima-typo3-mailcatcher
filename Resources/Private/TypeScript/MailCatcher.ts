@@ -122,6 +122,7 @@ class MailCatcher {
                 const resolved = await response.resolve();
                 const $iframe = $('<iframe />')
                     .attr('width', '100%')
+                    .attr('frameBorder', '0')
                     .attr('height', '650px')
                     .attr('srcdoc', resolved.src);
                 // @ts-ignore
