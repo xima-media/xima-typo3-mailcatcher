@@ -19,12 +19,12 @@ class MailMessage
     public string $toName = '';
 
     /**
-     * @var Recipient[]
+     * @var array{name: string, email: string}[]
      */
     public array $ccRecipients = [];
 
     /**
-     * @var Recipient[]
+     * @var array{name: string, email: string}[]
      */
     public array $bccRecipients = [];
 
@@ -80,7 +80,7 @@ class MailMessage
     {
         $displayArray = [];
         foreach ($this->ccRecipients as $recipient) {
-            $displayArray[] = $recipient->name . ' <' . $recipient->email . '>';
+            $displayArray[] = $recipient['name'] . ' <' . $recipient['email'] . '>';
         }
 
         return implode(', ', $displayArray);
@@ -90,7 +90,7 @@ class MailMessage
     {
         $displayArray = [];
         foreach ($this->bccRecipients as $recipient) {
-            $displayArray[] = $recipient->name . ' <' . $recipient->email . '>';
+            $displayArray[] = $recipient['name'] . ' <' . $recipient['email'] . '>';
         }
 
         return implode(', ', $displayArray);
