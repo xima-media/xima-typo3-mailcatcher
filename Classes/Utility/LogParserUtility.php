@@ -11,6 +11,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\JsonDateTime;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailAttachment;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailMessage;
+use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\Recipient;
 
 class LogParserUtility
 {
@@ -112,6 +113,22 @@ class LogParserUtility
         if (isset($toAddresses[0])) {
             $dto->toName = $toAddresses[0]['display'] ?? '';
             $dto->to = $toAddresses[0]['address'] ?? '';
+        }
+
+        $ccAddresses = $parser->getAddresses('cc');
+        foreach ($ccAddresses as $address) {
+            $recipientDto = new Recipient();
+            $recipientDto->name = $address['display'] ?? '';
+            $recipientDto->email = $address['address'] ?? '';
+            $dto->ccRecipients[] = $recipientDto;
+        }
+
+        $bccAddresses = $parser->getAddresses('bcc');
+        foreach ($bccAddresses as $address) {
+            $recipientDto = new Recipient();
+            $recipientDto->name = $address['display'] ?? '';
+            $recipientDto->email = $address['address'] ?? '';
+            $dto->bccRecipients[] = $recipientDto;
         }
 
         $headers = $parser->getHeaders();

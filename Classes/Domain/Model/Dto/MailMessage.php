@@ -18,6 +18,16 @@ class MailMessage
 
     public string $toName = '';
 
+    /**
+     * @var Recipient[]
+     */
+    public array $ccRecipients = [];
+
+    /**
+     * @var Recipient[]
+     */
+    public array $bccRecipients = [];
+
     public string $bodyPlain = '';
 
     public string $bodyHtml = '';
@@ -64,5 +74,25 @@ class MailMessage
             return $this->toName . ' <' . $this->to . '>';
         }
         return $this->to;
+    }
+
+    public function getDisplayCcRecipients(): string
+    {
+        $displayArray = [];
+        foreach ($this->ccRecipients as $recipient) {
+            $displayArray[] = $recipient->name . ' <' . $recipient->email . '>';
+        }
+
+        return implode(', ', $displayArray);
+    }
+
+    public function getDisplayBccRecipients(): string
+    {
+        $displayArray = [];
+        foreach ($this->bccRecipients as $recipient) {
+            $displayArray[] = $recipient->name . ' <' . $recipient->email . '>';
+        }
+
+        return implode(', ', $displayArray);
     }
 }
