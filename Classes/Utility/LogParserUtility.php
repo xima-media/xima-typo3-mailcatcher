@@ -114,6 +114,22 @@ class LogParserUtility
             $dto->to = $toAddresses[0]['address'] ?? '';
         }
 
+        $ccAddresses = $parser->getAddresses('cc');
+        foreach ($ccAddresses as $address) {
+            $dto->ccRecipients[] = [
+                'name' => $address['display'] ?? '',
+                'email' => $address['address'] ?? '',
+            ];
+        }
+
+        $bccAddresses = $parser->getAddresses('bcc');
+        foreach ($bccAddresses as $address) {
+            $dto->bccRecipients[] = [
+                'name' => $address['display'] ?? '',
+                'email' => $address['address'] ?? '',
+            ];
+        }
+
         $headers = $parser->getHeaders();
         $dto->subject = $headers['subject'] ?? '';
         $dto->messageId = md5($headers['message-id'] ?? '');

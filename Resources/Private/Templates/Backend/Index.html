@@ -64,7 +64,10 @@
 									<div class="tab-header">
 										<div class="row">
 											<div class="col">
-												<span><strong>To:</strong> {mail.displayToAddress}<br/><strong>Date:</strong>
+												<span><strong>To:</strong> {mail.displayToAddress}<br/>
+                                                    <f:if condition="{mail.displayCcRecipients}"><strong>Cc:</strong> {mail.displayCcRecipients}<br/></f:if>
+                                                    <f:if condition="{mail.displayBccRecipients}"><strong>Bcc:</strong> {mail.displayBccRecipients}<br/></f:if>
+                                                    <strong>Date:</strong>
 													<f:format.date format="H:i, d.m.Y">{mail.date}</f:format.date>
 												</span>
 											</div>
