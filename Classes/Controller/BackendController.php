@@ -22,7 +22,7 @@ class BackendController extends ActionController
     {
         $parser = GeneralUtility::makeInstance(LogParserUtility::class);
         $parser->run();
-        $mails = $parser->getMessages();
+        $mails = $parser->loadAndGetMessages();
         $this->view->assign('mails', $mails);
 
         $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());

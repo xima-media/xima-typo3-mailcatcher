@@ -20,7 +20,7 @@ class LegacyBackendController extends ActionController
     {
         $parser = GeneralUtility::makeInstance(LogParserUtility::class);
         $parser->run();
-        $mails = $parser->getMessages();
+        $mails = $parser->loadAndGetMessages();
         $this->view->assign('mails', $mails);
 
         $this->view->getModuleTemplate()->getPageRenderer()->loadRequireJsModule('TYPO3/CMS/XimaTypo3Mailcatcher/MailCatcher');

@@ -2,15 +2,17 @@
 
 namespace Xima\XimaTypo3Mailcatcher\Utility;
 
-use PhpMimeMailParser\Parser;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
 use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\JsonDateTime;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailAttachment;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailMessage;
+use ZBateson\MailMimeParser\Header\HeaderConsts;
+use ZBateson\MailMimeParser\Message;
 
 class LogParserUtility
 {
@@ -20,6 +22,14 @@ class LogParserUtility
      * @var array<MailMessage>
      */
     protected array $messages = [];
+
+    public function run(): void
+    {
+        $this->loadLogFile();
+        $this->extractMessages();
+        $this->writeMessagesToFile();
+        //$this->emptyLogFile();
+    }
 
     protected function loadLogFile(): void
     {
@@ -33,24 +43,6 @@ class LogParserUtility
         }
 
         $this->fileContent = (string)file_get_contents($absolutePath);
-    }
-
-    /**
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     */
-    protected function emptyLogFile(): void
-    {
-        /** @var ExtensionConfiguration $extensionConfiguration */
-        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-        $logPath = $extensionConfiguration->get('xima_typo3_mailcatcher', 'logPath');
-        $absolutePath = Environment::getProjectPath() . $logPath;
-
-        if (!file_exists($absolutePath)) {
-            return;
-        }
-
-        file_put_contents($absolutePath, '');
     }
 
     protected function extractMessages(): void
@@ -86,67 +78,56 @@ class LogParserUtility
         }
     }
 
-    protected function writeMessagesToFile(): void
-    {
-        foreach ($this->messages as $message) {
-            $fileContent = (string)json_encode($message, JSON_THROW_ON_ERROR);
-            $fileName = $message->getFileName();
-            $filePath = self::getTempPath() . $fileName;
-            GeneralUtility::writeFileToTypo3tempDir($filePath, $fileContent);
-        }
-    }
-
     protected static function convertToDto(string $msg): MailMessage
     {
-        $parser = new Parser();
-        $parser->setText($msg);
+        $message = Message::from($msg, true);
         $dto = new MailMessage();
 
-        $fromAddresses = $parser->getAddresses('from');
-        if (isset($fromAddresses[0])) {
-            $dto->fromName = $fromAddresses[0]['display'] ?? '';
-            $dto->from = $fromAddresses[0]['address'] ?? '';
+        $fromHeader = $message->getHeader(HeaderConsts::FROM);
+        $dto->fromName = $fromHeader->getPersonName() ?? '';
+        $dto->from = $fromHeader->getEmail() ?? '';
+
+        $toHeader = $message->getHeader(HeaderConsts::TO);
+        $dto->to = $toHeader->getAddresses()[0]->getValue() ?? '';
+        $dto->toName = $toHeader->getAddresses()[0]->getName() ?: '';
+
+        $ccHeader = $message->getHeader(HeaderConsts::CC);
+        if ($ccHeader) {
+            foreach ($ccHeader->getAddresses() ?? [] as $address) {
+                $dto->ccRecipients[] = [
+                    'name' => $address->getName() ?? '',
+                    'email' => $address->getValue() ?? '',
+                ];
+            }
         }
 
-        $toAddresses = $parser->getAddresses('to');
-        if (isset($toAddresses[0])) {
-            $dto->toName = $toAddresses[0]['display'] ?? '';
-            $dto->to = $toAddresses[0]['address'] ?? '';
+        $bccHeader = $message->getHeader(HeaderConsts::CC);
+        if ($bccHeader) {
+            foreach ($bccHeader->getAddresses() ?? [] as $address) {
+                $dto->bccRecipients[] = [
+                    'name' => $address->getName() ?? '',
+                    'email' => $address->getValue() ?? '',
+                ];
+            }
         }
 
-        $ccAddresses = $parser->getAddresses('cc');
-        foreach ($ccAddresses as $address) {
-            $dto->ccRecipients[] = [
-                'name' => $address['display'] ?? '',
-                'email' => $address['address'] ?? '',
-            ];
-        }
-
-        $bccAddresses = $parser->getAddresses('bcc');
-        foreach ($bccAddresses as $address) {
-            $dto->bccRecipients[] = [
-                'name' => $address['display'] ?? '',
-                'email' => $address['address'] ?? '',
-            ];
-        }
-
-        $headers = $parser->getHeaders();
-        $dto->subject = $headers['subject'] ?? '';
-        $dto->messageId = md5($headers['message-id'] ?? '');
+        $subjectHeader = $message->getHeader(HeaderConsts::SUBJECT);
+        $dto->subject = $subjectHeader->getRawValue();
+        $dto->messageId = md5($message->getContentId() ?? '');
         try {
-            $dto->date = new JsonDateTime($headers['date']);
+            $dto->date = $message->getHeader('Date') ? new JsonDateTime($message->getHeader('Date')->getRawValue()) : new JsonDateTime();
         } catch (\Exception $e) {
         }
 
-        $dto->bodyPlain = @mb_convert_encoding($parser->getMessageBody('text'), 'UTF-8', 'auto');
-        $dto->bodyHtml = @mb_convert_encoding($parser->getMessageBody('html'), 'UTF-8', 'auto');
+        $dto->bodyPlain = @mb_convert_encoding($message->getTextContent() ?? '', 'UTF-8', 'auto');
+        $dto->bodyHtml = @mb_convert_encoding($message->getHtmlContent() ?? '', 'UTF-8', 'auto');
 
         $folder = self::getTempPath() . $dto->messageId;
         if (!file_exists($folder)) {
             mkdir($folder);
         }
 
-        $attachments = $parser->getAttachments();
+        $attachments = $message->getAllAttachmentParts();
 
         $folder = self::getTempPath() . $dto->messageId;
         if (count($attachments) && !file_exists($folder)) {
@@ -158,16 +139,17 @@ class LogParserUtility
 
             // get filename from content disposition
             $filename = $attachment->getFilename();
-            if (str_starts_with($filename, 'noname')) {
-                $headers = $attachment->getHeaders();
-                $disposition = $headers['content-disposition'] ?? '';
-                preg_match('/(?:; filename )(.+)/', $disposition, $filenameParts);
-                $filename = $filenameParts[1];
-            }
-            $attachmentDto->filename = $filename;
+            //if (str_starts_with($filename, 'noname')) {
+            //    $headers = $attachment->getHeaders();
+            //    $disposition = $headers['content-disposition'] ?? '';
+            //    preg_match('/(?:; filename )(.+)/', $disposition, $filenameParts);
+            //    $filename = $filenameParts[1];
+            //}
+            $attachmentDto->filename = $filename ?? (GeneralUtility::makeInstance(Random::class))->generateRandomHexString(10);
 
             // calculate public path
-            $fullFilePath = $attachment->save($folder, Parser::ATTACHMENT_RANDOM_FILENAME);
+            $fullFilePath = $folder . '/' . $filename;
+            $attachment->saveContent($fullFilePath);
             $publicPath = str_replace(Environment::getPublicPath(), '', $fullFilePath);
             $attachmentDto->publicPath = $publicPath;
 
@@ -186,11 +168,6 @@ class LogParserUtility
         return $dto;
     }
 
-    public static function getPublicPath(): string
-    {
-        return '/typo3temp/assets/xima_typo3_mailcatcher/';
-    }
-
     public static function getTempPath(): string
     {
         $tempPath = Environment::getPublicPath() . self::getPublicPath();
@@ -202,12 +179,28 @@ class LogParserUtility
         return $tempPath;
     }
 
-    public function run(): void
+    public static function getPublicPath(): string
     {
-        $this->loadLogFile();
-        $this->extractMessages();
-        $this->writeMessagesToFile();
-        $this->emptyLogFile();
+        return '/typo3temp/assets/xima_typo3_mailcatcher/';
+    }
+
+    protected function writeMessagesToFile(): void
+    {
+        foreach ($this->messages as $message) {
+            $fileContent = (string)json_encode($message, JSON_THROW_ON_ERROR);
+            $fileName = $message->getFileName();
+            $filePath = self::getTempPath() . $fileName;
+            GeneralUtility::writeFileToTypo3tempDir($filePath, $fileContent);
+        }
+    }
+
+    /**
+     * @return MailMessage[]
+     */
+    public function loadAndGetMessages(): array
+    {
+        $this->loadMessages();
+        return $this->messages;
     }
 
     public function loadMessages(): void
@@ -223,15 +216,6 @@ class LogParserUtility
                 $this->messages[] = $message;
             }
         }
-    }
-
-    /**
-     * @return MailMessage[]
-     */
-    public function getMessages(): array
-    {
-        $this->loadMessages();
-        return $this->messages;
     }
 
     public function getMessageByFilename(string $filename): ?MailMessage
@@ -250,17 +234,6 @@ class LogParserUtility
         return $message;
     }
 
-    public function deleteMessageByFilename(string $filename): bool
-    {
-        $file = self::getTempPath() . '/' . $filename;
-
-        if (!file_exists($file)) {
-            return false;
-        }
-
-        return unlink($file);
-    }
-
     public function deleteMessages(): bool
     {
         $success = true;
@@ -277,5 +250,34 @@ class LogParserUtility
         }
 
         return $success;
+    }
+
+    public function deleteMessageByFilename(string $filename): bool
+    {
+        $file = self::getTempPath() . '/' . $filename;
+
+        if (!file_exists($file)) {
+            return false;
+        }
+
+        return unlink($file);
+    }
+
+    /**
+     * @throws ExtensionConfigurationExtensionNotConfiguredException
+     * @throws ExtensionConfigurationPathDoesNotExistException
+     */
+    protected function emptyLogFile(): void
+    {
+        /** @var ExtensionConfiguration $extensionConfiguration */
+        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+        $logPath = $extensionConfiguration->get('xima_typo3_mailcatcher', 'logPath');
+        $absolutePath = Environment::getProjectPath() . $logPath;
+
+        if (!file_exists($absolutePath)) {
+            return;
+        }
+
+        file_put_contents($absolutePath, '');
     }
 }

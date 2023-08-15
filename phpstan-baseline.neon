@@ -1,2 +1,26 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			message: "#^Call to an undefined method ZBateson\\\\MailMimeParser\\\\Header\\\\IHeader\\:\\:getAddresses\\(\\)\\.$#"
+			count: 2
+			path: Classes/Utility/LogParserUtility.php
+
+		-
+			message: "#^Cannot call method getAddresses\\(\\) on ZBateson\\\\MailMimeParser\\\\Header\\\\IHeader\\|null\\.$#"
+			count: 2
+			path: Classes/Utility/LogParserUtility.php
+
+		-
+			message: "#^Cannot call method getEmail\\(\\) on ZBateson\\\\MailMimeParser\\\\Header\\\\IHeader\\|null\\.$#"
+			count: 1
+			path: Classes/Utility/LogParserUtility.php
+
+		-
+			message: "#^Cannot call method getPersonName\\(\\) on ZBateson\\\\MailMimeParser\\\\Header\\\\IHeader\\|null\\.$#"
+			count: 1
+			path: Classes/Utility/LogParserUtility.php
+
+		-
+			message: "#^Cannot call method getRawValue\\(\\) on ZBateson\\\\MailMimeParser\\\\Header\\\\IHeader\\|null\\.$#"
+			count: 1
+			path: Classes/Utility/LogParserUtility.php
