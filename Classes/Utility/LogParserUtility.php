@@ -11,6 +11,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\JsonDateTime;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailAttachment;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailMessage;
+use ZBateson\MailMimeParser\Header\AddressHeader;
 use ZBateson\MailMimeParser\Header\HeaderConsts;
 use ZBateson\MailMimeParser\Message;
 
@@ -72,7 +73,7 @@ class LogParserUtility
                 continue;
             }
 
-            $messageString = $messageParts[0];
+            $messageString = trim($messageParts[0]);
             $this->fileContent = $messageParts[1] ?? '';
             $this->messages[] = self::convertToDto((string)$messageString);
         }
@@ -83,37 +84,49 @@ class LogParserUtility
         $message = Message::from($msg, true);
         $dto = new MailMessage();
 
+        /** @var ?AddressHeader $fromHeader */
         $fromHeader = $message->getHeader(HeaderConsts::FROM);
-        $dto->fromName = $fromHeader->getPersonName() ?? '';
-        $dto->from = $fromHeader->getEmail() ?? '';
+        if ($fromHeader) {
+            $dto->fromName = $fromHeader->getPersonName() ?? '';
+            $dto->from = $fromHeader->getEmail() ?? '';
+        }
 
+        /** @var ?AddressHeader $toHeader */
         $toHeader = $message->getHeader(HeaderConsts::TO);
-        $dto->to = $toHeader->getAddresses()[0]->getValue() ?? '';
-        $dto->toName = $toHeader->getAddresses()[0]->getName() ?: '';
+        if ($toHeader) {
+            $dto->to = $toHeader->getAddresses()[0]->getValue() ?? '';
+            $dto->toName = $toHeader->getAddresses()[0]->getName() ?: '';
+        }
 
+        /** @var ?AddressHeader $ccHeader */
         $ccHeader = $message->getHeader(HeaderConsts::CC);
         if ($ccHeader) {
-            foreach ($ccHeader->getAddresses() ?? [] as $address) {
+            foreach ($ccHeader->getAddresses() as $address) {
                 $dto->ccRecipients[] = [
-                    'name' => $address->getName() ?? '',
+                    'name' => $address->getName(),
                     'email' => $address->getValue() ?? '',
                 ];
             }
         }
 
+        /** @var ?AddressHeader $bccHeader */
         $bccHeader = $message->getHeader(HeaderConsts::CC);
         if ($bccHeader) {
-            foreach ($bccHeader->getAddresses() ?? [] as $address) {
+            foreach ($bccHeader->getAddresses() as $address) {
                 $dto->bccRecipients[] = [
-                    'name' => $address->getName() ?? '',
+                    'name' => $address->getName(),
                     'email' => $address->getValue() ?? '',
                 ];
             }
         }
 
         $subjectHeader = $message->getHeader(HeaderConsts::SUBJECT);
-        $dto->subject = $subjectHeader->getRawValue();
+        if ($subjectHeader) {
+            $dto->subject = $subjectHeader->getRawValue();
+        }
+
         $dto->messageId = md5($message->getContentId() ?? '');
+
         try {
             $dto->date = $message->getHeader('Date') ? new JsonDateTime($message->getHeader('Date')->getRawValue()) : new JsonDateTime();
         } catch (\Exception $e) {
@@ -139,12 +152,6 @@ class LogParserUtility
 
             // get filename from content disposition
             $filename = $attachment->getFilename();
-            //if (str_starts_with($filename, 'noname')) {
-            //    $headers = $attachment->getHeaders();
-            //    $disposition = $headers['content-disposition'] ?? '';
-            //    preg_match('/(?:; filename )(.+)/', $disposition, $filenameParts);
-            //    $filename = $filenameParts[1];
-            //}
             $attachmentDto->filename = $filename ?? (GeneralUtility::makeInstance(Random::class))->generateRandomHexString(10);
 
             // calculate public path
