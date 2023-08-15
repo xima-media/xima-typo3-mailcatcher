@@ -29,7 +29,7 @@ class LogParserUtility
         $this->loadLogFile();
         $this->extractMessages();
         $this->writeMessagesToFile();
-        //$this->emptyLogFile();
+        $this->emptyLogFile();
     }
 
     protected function loadLogFile(): void
