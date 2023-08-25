@@ -1,2 +1,0 @@
-# cat=basic/enable/050; type=string; label=Log path: The path where the python dev mailer outputs the catched mails
-logPath=/var/log/mail.log

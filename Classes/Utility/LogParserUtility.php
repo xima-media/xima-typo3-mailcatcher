@@ -2,9 +2,6 @@
 
 namespace Xima\XimaTypo3Mailcatcher\Utility;
 
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
-use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -34,16 +31,13 @@ class LogParserUtility
 
     protected function loadLogFile(): void
     {
-        /** @var ExtensionConfiguration $extensionConfiguration */
-        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-        $logPath = $extensionConfiguration->get('xima_typo3_mailcatcher', 'logPath');
-        $absolutePath = Environment::getProjectPath() . $logPath;
+        $mboxFile = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] ?? '';
 
-        if (!file_exists($absolutePath)) {
+        if (!file_exists($mboxFile)) {
             return;
         }
 
-        $this->fileContent = (string)file_get_contents($absolutePath);
+        $this->fileContent = (string)file_get_contents($mboxFile);
     }
 
     protected function extractMessages(): void
@@ -270,21 +264,14 @@ class LogParserUtility
         return unlink($file);
     }
 
-    /**
-     * @throws ExtensionConfigurationExtensionNotConfiguredException
-     * @throws ExtensionConfigurationPathDoesNotExistException
-     */
     protected function emptyLogFile(): void
     {
-        /** @var ExtensionConfiguration $extensionConfiguration */
-        $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-        $logPath = $extensionConfiguration->get('xima_typo3_mailcatcher', 'logPath');
-        $absolutePath = Environment::getProjectPath() . $logPath;
+        $mboxFile = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] ?? '';
 
-        if (!file_exists($absolutePath)) {
+        if (!file_exists($mboxFile)) {
             return;
         }
 
-        file_put_contents($absolutePath, '');
+        file_put_contents($mboxFile, '');
     }
 }

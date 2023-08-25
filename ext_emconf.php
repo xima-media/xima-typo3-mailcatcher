@@ -2,7 +2,7 @@
 
 $EM_CONF[$_EXTKEY] = [
     'title' => 'XIMA Mail Catcher',
-    'description' => 'Display mails that were send to log file',
+    'description' => 'Backend module to display mails that were send to log file',
     'category' => 'backend',
     'author' => 'Maik Schneider',
     'author_email' => 'maik.scheider@xima.de',
