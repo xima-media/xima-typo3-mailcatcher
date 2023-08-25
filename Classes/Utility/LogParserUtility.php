@@ -110,7 +110,7 @@ class LogParserUtility
         }
 
         /** @var ?AddressHeader $bccHeader */
-        $bccHeader = $message->getHeader(HeaderConsts::CC);
+        $bccHeader = $message->getHeader(HeaderConsts::BCC);
         if ($bccHeader) {
             foreach ($bccHeader->getAddresses() as $address) {
                 $dto->bccRecipients[] = [
