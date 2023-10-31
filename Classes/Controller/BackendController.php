@@ -12,10 +12,16 @@ use Xima\XimaTypo3Mailcatcher\Utility\LogParserUtility;
 
 class BackendController extends ActionController
 {
+    private ModuleTemplateFactory $moduleTemplateFactory;
+
+    private PageRenderer $pageRenderer;
+
     public function __construct(
-        private ModuleTemplateFactory $moduleTemplateFactory,
-        private PageRenderer $pageRenderer
+        ModuleTemplateFactory $moduleTemplateFactory,
+        PageRenderer $pageRenderer
     ) {
+        $this->moduleTemplateFactory = $moduleTemplateFactory;
+        $this->pageRenderer = $pageRenderer;
     }
 
     public function indexAction(): ResponseInterface
