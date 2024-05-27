@@ -39,7 +39,6 @@ class LogParserUtilityTest extends UnitTestCase
 
     public function testDeleteMessages(): void
     {
-
         $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] = '/var/www/html/Tests/Fixtures/mail-env-tool.log';
         $this->subject->run(false);
 
