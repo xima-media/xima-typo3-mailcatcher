@@ -21,12 +21,14 @@ class LogParserUtility
      */
     protected array $messages = [];
 
-    public function run(): void
+    public function run(bool $emptyLogFile = true): void
     {
         $this->loadLogFile();
         $this->extractMessages();
         $this->writeMessagesToFile();
-        $this->emptyLogFile();
+        if ($emptyLogFile) {
+            $this->emptyLogFile();
+        }
     }
 
     protected function loadLogFile(): void
