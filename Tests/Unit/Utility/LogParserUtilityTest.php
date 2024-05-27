@@ -1,45 +1,53 @@
 <?php
 
-namespace Xima\XimaTypo3Mailcatcher\Tests\Utility;
+namespace Xima\XimaTypo3Mailcatcher\Tests\Unit\Utility;
 
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Xima\XimaTypo3Mailcatcher\Utility\LogParserUtility;
-use PHPUnit\Framework\TestCase;
 
-class LogParserUtilityTest extends TestCase
+class LogParserUtilityTest extends UnitTestCase
 {
+    protected LogParserUtility $subject;
 
-    public function testLoadAndGetMessages()
+    public function testLoadAndGetMessages(): void
     {
 
     }
 
-    public function testLoadMessages()
+    public function testLoadMessages(): void
     {
 
     }
 
-    public function testDeleteMessages()
+    public function testDeleteMessages(): void
     {
 
     }
 
-    public function testDeleteMessageByFilename()
+    public function testDeleteMessageByFilename(): void
     {
 
     }
 
-    public function testGetPublicPath()
+    public function testGetPublicPath(): void
     {
 
     }
 
-    public function testGetMessageByFilename()
+    public function testGetMessageByFilename(): void
     {
 
     }
 
-    public function testGetTempPath()
+    public function testGetTempPath(): void
     {
+        self::assertGreaterThan(2, strlen($this->subject::getTempPath()));
+        self::assertDirectoryExists($this->subject::getTempPath());
+    }
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->subject = new LogParserUtility();
     }
 }
