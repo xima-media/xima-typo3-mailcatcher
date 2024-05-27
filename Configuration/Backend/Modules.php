@@ -2,7 +2,9 @@
 
 use Xima\XimaTypo3Mailcatcher\Controller\BackendController;
 
-return [
+$isMbox = isset($GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport']) && $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] === 'mbox';
+
+return $isMbox ? [
     'system_mails' => [
         'parent' => 'system',
         'position' => [],
@@ -17,4 +19,4 @@ return [
             ],
         ],
     ],
-];
+] : [];
