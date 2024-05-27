@@ -12,8 +12,9 @@ class LogParserUtilityTest extends UnitTestCase
 
     public function testRunWithEnvironmentToolMail(): void
     {
-        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] = '/var/www/html/Tests/Fixtures/mail-env-tool.log';
+        self::assertEmpty($this->subject->loadAndGetMessages());
 
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] = '/var/www/html/Tests/Fixtures/mail-env-tool.log';
         $this->subject->run(false);
 
         self::assertDirectoryExists($this->subject::getTempPath() . 'd41d8cd98f00b204e9800998ecf8427e');
@@ -34,6 +35,16 @@ class LogParserUtilityTest extends UnitTestCase
         self::assertEmpty($messages[0]->ccRecipients);
         self::assertEmpty($messages[0]->bccRecipients);
         self::assertEmpty($messages[0]->attachments);
+    }
+
+    public function testDeleteMessages(): void
+    {
+
+        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] = '/var/www/html/Tests/Fixtures/mail-env-tool.log';
+        $this->subject->run(false);
+
+        $this->subject->deleteMessages();
+        self::assertEmpty($this->subject->loadAndGetMessages());
     }
 
     public function testGetTempPath(): void
