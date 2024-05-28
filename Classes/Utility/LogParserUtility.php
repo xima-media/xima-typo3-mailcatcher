@@ -131,14 +131,14 @@ class LogParserUtility
 
         $folder = self::getTempPath() . $dto->messageId;
         if (!file_exists($folder)) {
-            mkdir($folder);
+            GeneralUtility::mkdir($folder);
         }
 
         $attachments = $message->getAllAttachmentParts();
 
         $folder = self::getTempPath() . $dto->messageId;
         if (count($attachments) && !file_exists($folder)) {
-            mkdir($folder);
+            GeneralUtility::mkdir($folder);
         }
 
         foreach ($attachments as $attachment) {
@@ -174,7 +174,7 @@ class LogParserUtility
         $tempPath = Environment::getPublicPath() . self::getPublicPath();
 
         if (!is_dir($tempPath)) {
-            mkdir($tempPath);
+            GeneralUtility::mkdir($tempPath);
         }
 
         return $tempPath;
