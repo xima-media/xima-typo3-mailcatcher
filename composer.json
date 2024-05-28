@@ -20,7 +20,7 @@
 		"php": "^7.4 || ^8.0",
 		"typo3/cms-core": ">=10.0.0",
 		"ext-json": "*",
-		"zbateson/mail-mime-parser": "^2.4"
+		"zbateson/mail-mime-parser": "^2.4 || ^3.0"
 	},
 	"require-dev": {
 		"roave/security-advisories": "dev-master",
