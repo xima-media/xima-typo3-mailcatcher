@@ -21,17 +21,15 @@ class LogParserUtility
      */
     protected array $messages = [];
 
-    public function run(bool $emptyLogFile = true): void
+    public function run(): void
     {
         $this->loadLogFile();
         $this->extractMessages();
         $this->writeMessagesToFile();
-        if ($emptyLogFile) {
-            $this->emptyLogFile();
-        }
+        $this->emptyLogFile();
     }
 
-    protected function loadLogFile(): void
+    public function loadLogFile(): void
     {
         $mboxFile = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] ?? '';
 
@@ -39,10 +37,15 @@ class LogParserUtility
             return;
         }
 
-        $this->fileContent = (string)file_get_contents($mboxFile);
+        $this->setFileContent((string)file_get_contents($mboxFile));
     }
 
-    protected function extractMessages(): void
+    public function setFileContent(string $fileContent): void
+    {
+        $this->fileContent = $fileContent;
+    }
+
+    public function extractMessages(): void
     {
         if (!$this->fileContent) {
             return;
@@ -187,7 +190,7 @@ class LogParserUtility
         return '/typo3temp/assets/xima_typo3_mailcatcher/';
     }
 
-    protected function writeMessagesToFile(): void
+    public function writeMessagesToFile(): void
     {
         foreach ($this->messages as $message) {
             $fileContent = (string)json_encode($message, JSON_THROW_ON_ERROR);
@@ -195,6 +198,17 @@ class LogParserUtility
             $filePath = self::getTempPath() . $fileName;
             GeneralUtility::writeFileToTypo3tempDir($filePath, $fileContent);
         }
+    }
+
+    public function emptyLogFile(): void
+    {
+        $mboxFile = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] ?? '';
+
+        if (!file_exists($mboxFile)) {
+            return;
+        }
+
+        file_put_contents($mboxFile, '');
     }
 
     /**
@@ -237,6 +251,14 @@ class LogParserUtility
         return $message;
     }
 
+    /**
+     * @return MailMessage[]
+     */
+    public function getMessages(): array
+    {
+        return $this->messages;
+    }
+
     public function deleteMessages(): bool
     {
         $success = true;
@@ -264,16 +286,5 @@ class LogParserUtility
         }
 
         return unlink($file);
-    }
-
-    protected function emptyLogFile(): void
-    {
-        $mboxFile = $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] ?? '';
-
-        if (!file_exists($mboxFile)) {
-            return;
-        }
-
-        file_put_contents($mboxFile, '');
     }
 }

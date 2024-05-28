@@ -10,39 +10,92 @@ class LogParserUtilityTest extends UnitTestCase
 {
     protected LogParserUtility $subject;
 
-    public function testRunWithEnvironmentToolMail(): void
+    public static function mailDataProvider(): array
     {
-        self::assertEmpty($this->subject->loadAndGetMessages());
+        return [
+            [
+                'mail-env-tool.log',
+                'd41d8cd98f00b204e9800998ecf8427e',
+                '1716817329-74be16979710d4c4e7c6647856088456.json',
+                'Test TYPO3 CMS mail delivery from site "New TYPO3 site"',
+                'hello@example.com',
+                'TYPO3 CMS install tool',
+                'recipent@example.com',
+                '',
+            ],
+        ];
+    }
 
-        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] = '/var/www/html/Tests/Fixtures/mail-env-tool.log';
-        $this->subject->run(false);
+    /**
+     * @dataProvider mailDataProvider
+     */
+    public function testFileCreation(
+        $transportMboxFile,
+        $expectedMessageId,
+        $expectedMessageFileName,
+    ): void {
+        $this->subject->setFileContent(file_get_contents(__DIR__ . '/../../Fixtures/' . $transportMboxFile));
+        $this->subject->loadLogFile();
+        $this->subject->extractMessages();
+        $this->subject->writeMessagesToFile();
 
-        self::assertDirectoryExists($this->subject::getTempPath() . 'd41d8cd98f00b204e9800998ecf8427e');
-        self::assertFileExists($this->subject::getTempPath() . '1716817329-74be16979710d4c4e7c6647856088456.json');
-        self::assertJson(file_get_contents($this->subject::getTempPath() . '1716817329-74be16979710d4c4e7c6647856088456.json'));
+        self::assertDirectoryExists($this->subject::getTempPath() . $expectedMessageId);
+        self::assertFileExists($this->subject::getTempPath() . $expectedMessageFileName);
+        self::assertJson(file_get_contents($this->subject::getTempPath() . $expectedMessageFileName));
+    }
 
-        $messages = $this->subject->loadAndGetMessages();
+    public function testEmptyLogFile(): void
+    {
+        $this->subject->setFileContent(file_get_contents(__DIR__ . '/../../Fixtures/empty.log'));
+        $this->subject->loadLogFile();
+        $this->subject->extractMessages();
+        $this->subject->writeMessagesToFile();
+
+        self::assertEmpty(GeneralUtility::get_dirs(($this->subject::getTempPath())));
+        self::assertEmpty($this->subject->getMessages());
+    }
+
+    /**
+     * @dataProvider mailDataProvider
+     */
+    public function testMailContent(
+        $transportMboxFile,
+        $expectedMessageId,
+        $expectedMessageFileName,
+        $expectedSubject,
+        $expectedFrom,
+        $expectedFromName,
+        $expectedTo,
+        $expectedToName,
+    ): void {
+        $this->subject->setFileContent(file_get_contents(__DIR__ . '/../../Fixtures/' . $transportMboxFile));
+        $this->subject->extractMessages();
+
+        $messages = $this->subject->getMessages();
         self::assertCount(1, $messages);
-        self::assertEquals('d41d8cd98f00b204e9800998ecf8427e', $messages[0]->messageId);
+
+        self::assertEquals($expectedMessageId, $messages[0]->messageId);
         self::assertIsObject($messages[0]->date);
-        self::assertStringStartsWith('Test TYPO3 CMS mail delivery from site', $messages[0]->subject);
-        self::assertEquals('hello@example.com', $messages[0]->from);
-        self::assertEquals('TYPO3 CMS install tool', $messages[0]->fromName);
-        self::assertEquals('recipent@example.com', $messages[0]->to);
-        self::assertEquals(0, strlen($messages[0]->toName));
-        self::assertStringContainsString('Hey TYPO3 Administrator', $messages[0]->bodyPlain);
-        self::assertStringContainsString('<table', $messages[0]->bodyHtml);
+        self::assertEquals($expectedSubject, $messages[0]->subject);
+        self::assertEquals($expectedFrom, $messages[0]->from);
+        self::assertEquals($expectedFromName, $messages[0]->fromName);
+        self::assertEquals($expectedTo, $messages[0]->to);
+        self::assertEquals($expectedToName, $messages[0]->toName);
         self::assertEmpty($messages[0]->ccRecipients);
         self::assertEmpty($messages[0]->bccRecipients);
         self::assertEmpty($messages[0]->attachments);
     }
 
-    public function testDeleteMessages(): void
+    /**
+     * @dataProvider mailDataProvider
+     */
+    public function testDeleteMessages($transportMboxFile): void
     {
-        $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] = '/var/www/html/Tests/Fixtures/mail-env-tool.log';
-        $this->subject->run(false);
-
+        $this->subject->setFileContent(file_get_contents(__DIR__ . '/../../Fixtures/' . $transportMboxFile));
+        $this->subject->loadLogFile();
+        $this->subject->extractMessages();
         $this->subject->deleteMessages();
+
         self::assertEmpty($this->subject->loadAndGetMessages());
     }
 
@@ -55,6 +108,7 @@ class LogParserUtilityTest extends UnitTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        GeneralUtility::rmdir(LogParserUtility::getTempPath(), true);
         $this->subject = new LogParserUtility();
     }
 
