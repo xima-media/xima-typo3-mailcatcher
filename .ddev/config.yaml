@@ -15,9 +15,16 @@ nfs_mount_enabled: false
 mutagen_enabled: false
 use_dns_when_possible: true
 composer_version: "2"
-web_environment: []
 nodejs_version: "16"
 webimage_extra_packages: [php8.1-mailparse]
+web_environment:
+  - TESTING_DOMAIN=$DDEV_HOSTNAME
+  - XDEBUG_MODE=coverage
+  - TYPO3_CONTEXT=Development/DDEV
+  - typo3DatabaseHost=db
+  - typo3DatabaseUsername=root
+  - typo3DatabasePassword=root
+  - typo3DatabaseName=db
 
 # Key features of ddev's config.yaml:
 

@@ -64,6 +64,7 @@
 	"scripts": {
 		"php:fixer": "./vendor/bin/php-cs-fixer --config=php-cs-fixer.php fix",
 		"php:stan": "./vendor/bin/phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
-		"test:unit": "XDEBUG_MODE=coverage && php vendor/bin/phpunit -c phpunit.unit.xml"
+		"test:unit": "XDEBUG_MODE=coverage && php vendor/bin/phpunit -c phpunit.unit.xml",
+		"test:functional": "XDEBUG_MODE=coverage && php vendor/bin/phpunit -c phpunit.functional.xml"
 	}
 }
