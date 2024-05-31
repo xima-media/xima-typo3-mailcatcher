@@ -57,9 +57,6 @@ class LogParserUtility
             $boundaries
         );
 
-        // decode whole file
-        $this->fileContent = quoted_printable_decode($this->fileContent);
-
         if (!isset($boundaries[1])) {
             return;
         }
