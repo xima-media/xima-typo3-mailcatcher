@@ -27,12 +27,16 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        php-version: [ "8.2" ]
-        typo3-version: [ "11.5", "12.4" ]
-        dependencies: [ "highest", "lowest" ]
-        exclude:
-          - php-version: "8.1"
-            typo3-version: "13.1"
+        typo3-version: [ "10.4", "11.5", "12.4", "13.1" ]
+        include:
+          - typo3-version: "10.4"
+            php-version: "7.4"
+          - typo3-version: "11.5"
+            php-version: "8.1"
+          - typo3-version: "12.4"
+            php-version: "8.2"
+          - typo3-version: "13.1"
+            php-version: "8.3"
     steps:
       - uses: actions/checkout@v4
         with:
