@@ -71,8 +71,7 @@
 		"test:coverage:merge": "phpcov merge --html coverage/html/_merged --clover coverage/clover.xml --text php://stdout coverage/php",
 		"test:coverage": [
 			"@test:coverage:unit",
-			"@test:coverage:functional",
-			"@test:coverage:merge"
+			"@test:coverage:functional"
 		]
 	}
 }
