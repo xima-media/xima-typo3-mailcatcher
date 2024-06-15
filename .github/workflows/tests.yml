@@ -11,7 +11,7 @@ on:
       - main
 
 jobs:
-  tests2:
+  tests:
     name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }} & ${{ matrix.dependencies }} dependencies)
     runs-on: ubuntu-latest
     services:
@@ -29,9 +29,6 @@ jobs:
       matrix:
         typo3-version: [ "11.5", "12.4" ]
         php-version: [ "7.4", "8.1", "8.2", "8.3" ]
-        include:
-          - typo3-version: "10.4"
-            php-version: "7.4"
         exclude:
           - typo3-version: "12.4"
             php-version: "7.4"
