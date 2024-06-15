@@ -28,7 +28,7 @@ class LogParserUtilityTest extends FunctionalTestCase
     ];
 
     /**
-     * @return array<int, array<string, string>>[]
+     * @return array<string, string>[][][]
      */
     public static function mailDataProvider(): array
     {
@@ -114,9 +114,18 @@ class LogParserUtilityTest extends FunctionalTestCase
             ->format($exampleMail['format'])
             ->subject($exampleMail['subject'])
             ->setTemplate('TestMailTemplate');
-        GeneralUtility::makeInstance(MailerInterface::class)->send($email);
+
+        // since typo3 version >12.1 MailerInterface is used
+        if (class_exists(\Symfony\Component\Mailer\MailerInterface::class)) {
+            GeneralUtility::makeInstance(\Symfony\Component\Mailer\MailerInterface::class)->send($email);
+        } else {
+            GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\Mailer::class)->send($email);
+        }
     }
 
+    /**
+     * @param array<string, string> $exampleMail
+     */
     protected static function testMailMessage(MailMessage $message, array $exampleMail): void
     {
         if ($exampleMail['format'] === FluidEmail::FORMAT_HTML || $exampleMail['format'] === FluidEmail::FORMAT_BOTH) {
