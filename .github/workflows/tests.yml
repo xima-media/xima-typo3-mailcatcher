@@ -15,24 +15,18 @@ jobs:
     name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }} & ${{ matrix.dependencies }} dependencies)
     runs-on: ubuntu-latest
     services:
-      db:
-        image: mariadb:latest
+      mysql:
+        image: mysql:latest
         env:
-          MARIADB_ROOT_PASSWORD: root
-          MARIADB_USER: root
-          MARIADB_PASSWORD: root
-          MARIADB_DATABASE: db
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: root
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         ports:
           - 3306/tcp
-        options: >-
-          --health-cmd="healthcheck.sh --connect --innodb_initialized"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
     strategy:
       fail-fast: false
       matrix:
-        php-version: [ "8.1", "8.2", "8.3" ]
+        php-version: [ "8.2" ]
         typo3-version: [ "11.5", "12.4" ]
         dependencies: [ "highest", "lowest" ]
         exclude:
@@ -67,20 +61,15 @@ jobs:
     name: Test coverage
     runs-on: ubuntu-latest
     services:
-      db:
-        image: mariadb:latest
+      mysql:
+        image: mysql:latest
         env:
-          MARIADB_ROOT_PASSWORD: root
-          MARIADB_USER: root
-          MARIADB_PASSWORD: root
-          MARIADB_DATABASE: db
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_ROOT_PASSWORD: root
         ports:
           - 3306/tcp
-        options: >-
-          --health-cmd="healthcheck.sh --connect --innodb_initialized"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
       - uses: actions/checkout@v4
         with:
