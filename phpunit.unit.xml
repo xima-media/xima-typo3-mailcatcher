@@ -7,9 +7,8 @@
 >
     <coverage>
         <report>
-            <php outputFile="coverage/php/unit.cov"/>
-            <html outputDirectory="coverage/html/unit/"/>
-            <text outputFile="php://stdout" showUncoveredFiles="true"/>
+            <clover outputFile=".build/coverage/clover-unit.xml"/>
+            <text outputFile="php://stdout" showOnlySummary="true"/>
         </report>
     </coverage>
     <testsuites>

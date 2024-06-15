@@ -15,9 +15,8 @@
 >
     <coverage>
         <report>
-            <php outputFile="coverage/php/functional.cov"/>
-            <html outputDirectory="coverage/html/functional/"/>
-            <text outputFile="php://stdout" showUncoveredFiles="true"/>
+            <clover outputFile=".build/coverage/clover-functional.xml"/>
+            <text outputFile="php://stdout" showOnlySummary="true"/>
         </report>
     </coverage>
     <testsuites>
@@ -25,6 +24,9 @@
             <directory>Tests/Functional</directory>
         </testsuite>
     </testsuites>
+    <logging>
+        <junit outputFile="coverage/functional/unit.xml"/>
+    </logging>
     <source>
         <include>
             <directory>Classes</directory>

@@ -56,6 +56,7 @@
 	"config": {
 		"vendor-dir": "vendor",
 		"allow-plugins": {
+			"composer/installers": true,
 			"typo3/cms-composer-installers": true,
 			"typo3/class-alias-loader": true,
 			"phpstan/extension-installer": true
