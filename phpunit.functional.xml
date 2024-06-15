@@ -27,4 +27,9 @@
     <logging>
         <junit outputFile="coverage/functional/unit.xml"/>
     </logging>
+    <source>
+        <include>
+            <directory>Classes</directory>
+        </include>
+    </source>
 </phpunit>

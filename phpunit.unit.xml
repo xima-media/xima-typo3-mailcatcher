@@ -19,4 +19,9 @@
     <logging>
         <junit outputFile="coverage/junit/unit.xml"/>
     </logging>
+    <source>
+        <include>
+            <directory>Classes</directory>
+        </include>
+    </source>
 </phpunit>
