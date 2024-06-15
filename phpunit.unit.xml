@@ -7,7 +7,7 @@
 >
     <coverage>
         <report>
-            <clover outputFile=".build/coverage/clover-unit.xml"/>
+            <clover outputFile="coverage/clover-unit.xml"/>
             <text outputFile="php://stdout" showOnlySummary="true"/>
         </report>
     </coverage>
@@ -19,9 +19,4 @@
     <logging>
         <junit outputFile="coverage/junit/unit.xml"/>
     </logging>
-    <source>
-        <include>
-            <directory>Classes</directory>
-        </include>
-    </source>
 </phpunit>
