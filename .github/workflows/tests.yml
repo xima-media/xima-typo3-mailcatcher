@@ -22,7 +22,7 @@ jobs:
           MYSQL_ROOT_PASSWORD: root
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
         ports:
-          - 3306/tcp
+          - 3306:3306
     strategy:
       fail-fast: false
       matrix:
@@ -56,6 +56,12 @@ jobs:
         run: |
           composer test:functional
           composer test:unit
+        env:
+          typo3DatabaseHost: '127.0.0.1'
+          typo3DatabaseUsername: root
+          typo3DatabasePort: 3306
+          typo3DatabasePassword: root
+          typo3DatabaseName: db
 
   coverage:
     name: Test coverage
@@ -67,7 +73,7 @@ jobs:
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: root
         ports:
-          - 3306/tcp
+          - 3306:3306
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
