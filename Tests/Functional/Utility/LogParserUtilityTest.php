@@ -16,6 +16,16 @@ class LogParserUtilityTest extends FunctionalTestCase
     protected LogParserUtility $subject;
 
     protected array $configurationToUseInTestInstance = [
+        'DB' => [
+            'Connections' => [
+                'Default' => [
+                    'driver' => 'mysqli',
+                    'host' => 'db',
+                    'password' => 'root',
+                    'user' => 'root',
+                ],
+            ],
+        ],
         'MAIL' => [
             'transport' => 'mbox',
             'templateRootPaths' => [700 => 'EXT:xima_typo3_mailcatcher/Tests/Fixtures'],

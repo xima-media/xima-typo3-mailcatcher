@@ -64,7 +64,15 @@
 	"scripts": {
 		"php:fixer": "./vendor/bin/php-cs-fixer --config=php-cs-fixer.php fix",
 		"php:stan": "./vendor/bin/phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
-		"test:unit": "XDEBUG_MODE=coverage && php vendor/bin/phpunit -c phpunit.unit.xml",
-		"test:functional": "XDEBUG_MODE=coverage && php vendor/bin/phpunit -c phpunit.functional.xml"
+		"test:unit": "phpunit -c phpunit.unit.xml --no-coverage",
+		"test:functional": "phpunit -c phpunit.functional.xml --no-coverage",
+		"test:coverage:unit": "phpunit -c phpunit.unit.xml",
+		"test:coverage:functional": "phpunit -c phpunit.functional.xml",
+		"test:coverage:merge": "phpcov merge --html coverage/html/_merged --clover coverage/clover.xml --text php://stdout coverage/php",
+		"test:coverage": [
+			"@test:coverage:unit",
+			"@test:coverage:functional",
+			"@test:coverage:merge"
+		]
 	}
 }

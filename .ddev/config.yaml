@@ -5,21 +5,19 @@ php_version: "8.1"
 webserver_type: nginx-fpm
 router_http_port: "80"
 router_https_port: "443"
-xdebug_enabled: false
+xdebug_enabled: true
 additional_hostnames: []
 additional_fqdns: []
 database:
     type: mariadb
     version: "10.4"
-nfs_mount_enabled: false
-mutagen_enabled: false
 use_dns_when_possible: true
 composer_version: "2"
 nodejs_version: "16"
-webimage_extra_packages: [php8.1-mailparse]
+webimage_extra_packages: []
 web_environment:
+  - XDEBUG_MODE=debug,coverage
   - TESTING_DOMAIN=$DDEV_HOSTNAME
-  - XDEBUG_MODE=coverage
   - TYPO3_CONTEXT=Development/DDEV
   - typo3DatabaseHost=db
   - typo3DatabaseUsername=root
