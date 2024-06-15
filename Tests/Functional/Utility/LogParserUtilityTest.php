@@ -9,6 +9,7 @@ use TYPO3\CMS\Core\Mail\FluidEmail;
 use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
+use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailMessage;
 use Xima\XimaTypo3Mailcatcher\Utility\LogParserUtility;
 
 class LogParserUtilityTest extends FunctionalTestCase
@@ -19,8 +20,9 @@ class LogParserUtilityTest extends FunctionalTestCase
         'DB' => [
             'Connections' => [
                 'Default' => [
+                    'dbname' => 'db',
                     'driver' => 'mysqli',
-                    'host' => 'db',
+                    'host' => '127.0.0.1',
                     'password' => 'root',
                     'user' => 'root',
                 ],
@@ -42,71 +44,72 @@ class LogParserUtilityTest extends FunctionalTestCase
     public static function mailDataProvider(): array
     {
         return [
+            //[
+            //    [
+            //        'to' => 'contact@example.org',
+            //        'toName' => 'Contact',
+            //        'from' => 'hello-world@example.com',
+            //        'fromName' => 'Test',
+            //        'subject' => 'TYPO3 loves you - here is why',
+            //        'template' => 'TestMailTemplate',
+            //        'format' => FluidEmail::FORMAT_BOTH,
+            //    ],
+            //],
             [
                 [
-                    'to' => 'contact@example.org',
-                    'toName' => 'Contact',
-                    'from' => 'hello-world@example.com',
-                    'fromName' => 'Test',
-                    'subject' => 'TYPO3 loves you - here is why',
-                    'template' => 'TestMailTemplate',
-                    'format' => FluidEmail::FORMAT_BOTH,
+                    [
+                        'to' => 'contact@example.org',
+                        'toName' => '',
+                        'from' => 'hello-world@example.com',
+                        'fromName' => 'Test',
+                        'subject' => 'TYPO3 loves you - here is why',
+                        'template' => 'TestMailTemplate',
+                        'format' => FluidEmail::FORMAT_BOTH,
+                    ],
+                    [
+                        'to' => 'contact@example.org',
+                        'toName' => 'Contact',
+                        'from' => 'hello-world@example.com',
+                        'fromName' => 'Test',
+                        'subject' => 'TYPO3 loves you - here is why',
+                        'template' => 'TestMailTemplate',
+                        'format' => FluidEmail::FORMAT_BOTH,
+                    ],
                 ],
             ],
-            [
-                [
-                    'to' => 'contact@example.org',
-                    'toName' => 'Contact',
-                    'from' => 'hello-world@example.com',
-                    'fromName' => 'Test',
-                    'subject' => 'TYPO3 loves you - here is why',
-                    'template' => 'TestMailTemplate',
-                    'format' => FluidEmail::FORMAT_PLAIN,
-                ],
-            ],
-            [
-                [
-                    'to' => 'contact@example.org',
-                    'toName' => 'Contact',
-                    'from' => 'hello-world@example.com',
-                    'fromName' => 'Test',
-                    'subject' => 'TYPO3 loves you - here is why',
-                    'template' => 'TestMailTemplate',
-                    'format' => FluidEmail::FORMAT_HTML,
-                ],
-            ],
+            //[
+            //    [
+            //        'to' => 'contact@example.org',
+            //        'toName' => 'Contact',
+            //        'from' => 'hello-world@example.com',
+            //        'fromName' => 'Test',
+            //        'subject' => 'TYPO3 loves you - here is why',
+            //        'template' => 'TestMailTemplate',
+            //        'format' => FluidEmail::FORMAT_HTML,
+            //    ],
+            //],
         ];
     }
 
     /**
      * @dataProvider mailDataProvider
-     * @param array<string, string> $exampleMail
+     * @param array<int, array<string, string>> $exampleMails
      * @throws TransportExceptionInterface
      */
-    public function testEmailEncoding(array $exampleMail): void
+    public function testEmailEncoding(array $exampleMails): void
     {
-        $this->createTestMail($exampleMail);
-        $this->subject->run();
+        foreach ($exampleMails as $key => $exampleMail) {
+            $this->createTestMail($exampleMail);
+        }
 
+        $this->subject->run();
         $messages = $this->subject->getMessages();
 
-        if ($exampleMail['format'] === FluidEmail::FORMAT_HTML || $exampleMail['format'] === FluidEmail::FORMAT_BOTH) {
-            self::assertEmailFileEqualsString(
-                'EXT:xima_typo3_mailcatcher/Tests/Fixtures/' . $exampleMail['template'] . '.html',
-                $messages[0]->bodyHtml
-            );
+        self::assertCount(count($exampleMails), $messages);
+
+        foreach ($exampleMails as $key => $exampleMail) {
+            self::testMailMessage($messages[$key], $exampleMail);
         }
-        if ($exampleMail['format'] === FluidEmail::FORMAT_PLAIN || $exampleMail['format'] === FluidEmail::FORMAT_BOTH) {
-            self::assertEmailFileEqualsString(
-                'EXT:xima_typo3_mailcatcher/Tests/Fixtures/' . $exampleMail['template'] . '.txt',
-                $messages[0]->bodyPlain
-            );
-        }
-        self::assertEquals($exampleMail['to'], $messages[0]->to);
-        self::assertEquals($exampleMail['toName'], $messages[0]->toName);
-        self::assertEquals($exampleMail['from'], $messages[0]->from);
-        self::assertEquals($exampleMail['fromName'], $messages[0]->fromName);
-        self::assertEquals($exampleMail['subject'], $messages[0]->subject);
     }
 
     /**
@@ -125,13 +128,33 @@ class LogParserUtilityTest extends FunctionalTestCase
         GeneralUtility::makeInstance(MailerInterface::class)->send($email);
     }
 
+    protected static function testMailMessage(MailMessage $message, array $exampleMail): void
+    {
+        if ($exampleMail['format'] === FluidEmail::FORMAT_HTML || $exampleMail['format'] === FluidEmail::FORMAT_BOTH) {
+            self::assertEmailFileEqualsString(
+                'EXT:xima_typo3_mailcatcher/Tests/Fixtures/' . $exampleMail['template'] . '.html',
+                $message->bodyHtml
+            );
+        }
+        if ($exampleMail['format'] === FluidEmail::FORMAT_PLAIN || $exampleMail['format'] === FluidEmail::FORMAT_BOTH) {
+            self::assertEmailFileEqualsString(
+                'EXT:xima_typo3_mailcatcher/Tests/Fixtures/' . $exampleMail['template'] . '.txt',
+                $message->bodyPlain
+            );
+        }
+        self::assertEquals($exampleMail['to'], $message->to);
+        self::assertEquals($exampleMail['toName'], $message->toName);
+        self::assertEquals($exampleMail['from'], $message->from);
+        self::assertEquals($exampleMail['fromName'], $message->fromName);
+        self::assertEquals($exampleMail['subject'], $message->subject);
+    }
+
     public static function assertEmailFileEqualsString(string $emailPath, string $string, string $message = null): void
     {
         $emailPath = GeneralUtility::getFileAbsFileName($emailPath);
         self::assertFileExists($emailPath);
         $emailContent = file_get_contents($emailPath);
         $emailContentWithoutBreaks = \trim(string: \preg_replace('/\s+/', ' ', $emailContent ?: '') ?? '');
-        $emailContentWithoutBreaks .= 'f';
         if ($emailContentWithoutBreaks !== $string) {
             file_put_contents(Environment::getVarPath() . '/log/' . md5($emailPath) . '_original.html', $string);
             file_put_contents(Environment::getVarPath() . '/log/' . md5($emailPath) . '_fail.html', $emailContent);

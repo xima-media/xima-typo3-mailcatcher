@@ -67,19 +67,19 @@ jobs:
   coverage:
     name: Test coverage
     runs-on: ubuntu-latest
-    container: ghcr.io/xima-media/php8.2-composer:2.7.6
+    #container: ghcr.io/xima-media/php8.2-composer:2.7.6
     services:
-      db:
-        image: mariadb:10.5
+      mysql:
+        image: mysql:latest
         env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
           MYSQL_DATABASE: db
         ports:
-          - 3306:3306
+          - 3306/tcp
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
@@ -89,7 +89,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-          tools: composer:v2
+          tools: phpunit-bridge
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
           coverage: xdebug
 
       # Install dependencies
@@ -101,15 +102,16 @@ jobs:
         run: composer test:coverage
         env:
           XDEBUG_MODE: coverage
-          typo3DatabaseHost: 127.0.0.1
+          typo3DatabaseHost: '127.0.0.1'
           typo3DatabaseUsername: root
+          typo3DatabasePort: ${{ job.services.mysql.ports['3306'] }}
           typo3DatabasePassword: root
           typo3DatabaseName: db
 
       # Upload artifact
-#      - name: Fix coverage path
-#        working-directory: coverage
-#        run: sed -i 's#/var/www/html#${{ github.workspace }}#g' clover.xml
+      #      - name: Fix coverage path
+      #        working-directory: coverage
+      #        run: sed -i 's#/var/www/html#${{ github.workspace }}#g' clover.xml
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
@@ -117,12 +119,12 @@ jobs:
           path: coverage/clover.xml
           retention-days: 7
 
-#      # Save acceptance reports
-#      - uses: actions/upload-artifact@v4
-#        with:
-#          name: acceptance-reports-coverage
-#          path: log/acceptance-reports
-#        if: failure()
+  #      # Save acceptance reports
+  #      - uses: actions/upload-artifact@v4
+  #        with:
+  #          name: acceptance-reports-coverage
+  #          path: log/acceptance-reports
+  #        if: failure()
 
   coverage-report:
     name: Report test coverage
