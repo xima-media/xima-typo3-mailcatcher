@@ -152,7 +152,7 @@ class LogParserUtilityTest extends FunctionalTestCase
         $emailPath = GeneralUtility::getFileAbsFileName($emailPath);
         self::assertFileExists($emailPath);
         $emailContent = file_get_contents($emailPath);
-        $emailContentWithoutBreaks = \trim(string: \preg_replace('/\s+/', ' ', $emailContent ?: '') ?? '');
+        $emailContentWithoutBreaks = \trim(\preg_replace('/\s+/', ' ', $emailContent ?: '') ?? '');
         if ($emailContentWithoutBreaks !== $string) {
             file_put_contents(Environment::getVarPath() . '/log/' . md5($emailPath) . '_original.html', $string);
             file_put_contents(Environment::getVarPath() . '/log/' . md5($emailPath) . '_fail.html', $emailContent);
