@@ -70,7 +70,7 @@ class LogParserUtility
             }
 
             $messageString = trim($messageParts[0]);
-            $this->fileContent = $messageParts[1] ?? '';
+            $this->fileContent = $messageParts[1] ?: '';
             $this->messages[] = self::convertToDto((string)$messageString);
         }
     }
@@ -90,7 +90,7 @@ class LogParserUtility
         /** @var ?AddressHeader $toHeader */
         $toHeader = $message->getHeader(HeaderConsts::TO);
         if ($toHeader) {
-            $dto->to = $toHeader->getAddresses()[0]->getValue() ?? '';
+            $dto->to = $toHeader->getAddresses()[0]->getValue();
             $dto->toName = $toHeader->getAddresses()[0]->getName() ?: '';
         }
 
@@ -100,7 +100,7 @@ class LogParserUtility
             foreach ($ccHeader->getAddresses() as $address) {
                 $dto->ccRecipients[] = [
                     'name' => $address->getName(),
-                    'email' => $address->getValue() ?? '',
+                    'email' => $address->getValue(),
                 ];
             }
         }
@@ -111,7 +111,7 @@ class LogParserUtility
             foreach ($bccHeader->getAddresses() as $address) {
                 $dto->bccRecipients[] = [
                     'name' => $address->getName(),
-                    'email' => $address->getValue() ?? '',
+                    'email' => $address->getValue(),
                 ];
             }
         }
@@ -219,9 +219,10 @@ class LogParserUtility
 
     public function loadMessages(): void
     {
-        $messageFiles = array_reverse(array_filter((array)scandir(self::getTempPath()), function ($filename) {
-            return strpos((string)$filename, '.json');
-        }));
+        $messageFiles = GeneralUtility::getFilesInDir(self::getTempPath(), 'json');
+        if (!is_array($messageFiles)) {
+            return;
+        }
 
         $this->messages = [];
 
@@ -260,9 +261,10 @@ class LogParserUtility
     {
         $success = true;
 
-        $messageFiles = array_filter((array)scandir(self::getTempPath()), function ($filename) {
-            return strpos((string)$filename, '.json');
-        });
+        $messageFiles = GeneralUtility::getFilesInDir(self::getTempPath(), 'json');
+        if (!is_array($messageFiles)) {
+            return true;
+        }
 
         foreach ($messageFiles as $filename) {
             $success = $this->deleteMessageByFilename((string)$filename);
