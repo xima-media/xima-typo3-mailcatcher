@@ -32,7 +32,8 @@
 		"phpstan/extension-installer": "^1.3",
 		"phpmd/phpmd": "^2.13.0",
 		"ssch/typo3-rector": "^1.0",
-		"typo3/testing-framework": "*"
+		"typo3/testing-framework": "*",
+		"helhum/typo3-console": "^8.1"
 	},
 	"autoload": {
 		"psr-4": {
@@ -57,7 +58,8 @@
 			"composer/installers": true,
 			"typo3/cms-composer-installers": true,
 			"typo3/class-alias-loader": true,
-			"phpstan/extension-installer": true
+			"phpstan/extension-installer": true,
+			"helhum/typo3-console-plugin": true
 		}
 	},
 	"scripts": {
@@ -65,12 +67,9 @@
 		"php:stan": "./vendor/bin/phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
 		"test:unit": "phpunit -c phpunit.unit.xml --no-coverage",
 		"test:functional": "phpunit -c phpunit.functional.xml --no-coverage",
-		"test:coverage:unit": "phpunit -c phpunit.unit.xml",
-		"test:coverage:functional": "phpunit -c phpunit.functional.xml",
-		"test:coverage:merge": "phpcov merge --html coverage/html/_merged --clover coverage/clover.xml --text php://stdout coverage/php",
 		"test:coverage": [
-			"@test:coverage:unit",
-			"@test:coverage:functional"
+			"phpunit -c phpunit.unit.xml",
+			"phpunit -c phpunit.functional.xml"
 		]
 	}
 }

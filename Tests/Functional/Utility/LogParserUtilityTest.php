@@ -32,51 +32,31 @@ class LogParserUtilityTest extends FunctionalTestCase
      */
     public static function mailDataProvider(): array
     {
+        $defaultMail = [
+            'to' => 'contact@example.org',
+            'toName' => 'Contact',
+            'from' => 'hello-world@example.com',
+            'fromName' => 'Test',
+            'subject' => 'TYPO3 loves you - here is why',
+            'template' => 'TestMailTemplate',
+            'format' => FluidEmail::FORMAT_BOTH,
+        ];
+
         return [
-            //[
-            //    [
-            //        'to' => 'contact@example.org',
-            //        'toName' => 'Contact',
-            //        'from' => 'hello-world@example.com',
-            //        'fromName' => 'Test',
-            //        'subject' => 'TYPO3 loves you - here is why',
-            //        'template' => 'TestMailTemplate',
-            //        'format' => FluidEmail::FORMAT_BOTH,
-            //    ],
-            //],
+            [
+                [$defaultMail],
+            ],
             [
                 [
-                    [
-                        'to' => 'contact@example.org',
-                        'toName' => '',
-                        'from' => 'hello-world@example.com',
-                        'fromName' => 'Test',
-                        'subject' => 'TYPO3 loves you - here is why',
-                        'template' => 'TestMailTemplate',
-                        'format' => FluidEmail::FORMAT_BOTH,
-                    ],
-                    [
-                        'to' => 'contact@example.org',
-                        'toName' => 'Contact',
-                        'from' => 'hello-world@example.com',
-                        'fromName' => 'Test',
-                        'subject' => 'TYPO3 loves you - here is why',
-                        'template' => 'TestMailTemplate',
-                        'format' => FluidEmail::FORMAT_BOTH,
-                    ],
+                    $defaultMail,
+                    $defaultMail,
                 ],
             ],
-            //[
-            //    [
-            //        'to' => 'contact@example.org',
-            //        'toName' => 'Contact',
-            //        'from' => 'hello-world@example.com',
-            //        'fromName' => 'Test',
-            //        'subject' => 'TYPO3 loves you - here is why',
-            //        'template' => 'TestMailTemplate',
-            //        'format' => FluidEmail::FORMAT_HTML,
-            //    ],
-            //],
+            [
+                [
+                    $defaultMail,
+                ],
+            ],
         ];
     }
 
