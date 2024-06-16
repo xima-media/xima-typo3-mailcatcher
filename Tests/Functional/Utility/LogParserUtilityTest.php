@@ -28,7 +28,7 @@ class LogParserUtilityTest extends FunctionalTestCase
     ];
 
     /**
-     * @return array<string, string>[][][]
+     * @return array<int, array<int, array<int, array<string, array<int, array<string, string>>|string>>>>
      */
     public static function mailDataProvider(): array
     {
@@ -111,11 +111,11 @@ class LogParserUtilityTest extends FunctionalTestCase
             ->subject($exampleMail['subject'])
             ->setTemplate('TestMailTemplate');
 
-        foreach ($exampleMail['cc'] ?? [] as $cc) {
+        foreach ($exampleMail['cc'] as $cc) {
             $email->addCc(new Address($cc['email'], $cc['name']));
         }
 
-        foreach ($exampleMail['bcc'] ?? [] as $bcc) {
+        foreach ($exampleMail['bcc'] as $bcc) {
             $email->addBcc(new Address($bcc['email'], $bcc['name']));
         }
 
@@ -150,15 +150,12 @@ class LogParserUtilityTest extends FunctionalTestCase
         self::assertEquals($exampleMail['fromName'], $message->fromName);
         self::assertEquals($exampleMail['subject'], $message->subject);
 
-        foreach ($exampleMail['cc'] ?? [] as $key => $cc) {
+        foreach ($exampleMail['cc'] as $key => $cc) {
             self::assertEquals($cc['email'], $message->ccRecipients[$key]['email']);
             self::assertEquals($cc['name'], $message->ccRecipients[$key]['name']);
         }
 
-        foreach ($exampleMail['bcc'] ?? [] as $key => $bcc) {
-            self::assertNull($message->bccRecipients[$key]['email']);
-            self::assertNull($message->bccRecipients[$key]['name']);
-        }
+        self::assertEmpty($message->bccRecipients);
     }
 
     public static function assertEmailFileEqualsString(string $emailPath, string $string, string $message = null): void
