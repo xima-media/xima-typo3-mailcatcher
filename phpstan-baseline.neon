@@ -1,2 +1,11 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			message: "#^Expression on left side of \\?\\? is not nullable\\.$#"
+			count: 3
+			path: Classes/Utility/LogParserUtility.php
+
+		-
+			message: "#^Parameter \\#2 \\$callback of function array_filter expects \\(callable\\(string\\|false\\)\\: bool\\)\\|null, Closure\\(mixed\\)\\: \\(int\\<0, max\\>\\|false\\) given\\.$#"
+			count: 2
+			path: Classes/Utility/LogParserUtility.php
