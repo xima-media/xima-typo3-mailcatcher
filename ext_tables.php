@@ -16,18 +16,20 @@ if (isset($GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport']) && $GLOBALS['TYPO3_C
         $controllerName = \Xima\XimaTypo3Mailcatcher\Controller\BackendController::class;
     }
 
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
-        'XimaTypo3Mailcatcher',
-        'system',
-        'mails',
-        '',
-        [
-            $controllerName => 'index',
-        ],
-        [
-            'access' => 'admin',
-            'iconIdentifier' => 'module-mailcatcher',
-            'labels' => 'LLL:EXT:xima_typo3_mailcatcher/Resources/Private/Language/locallang_mod.xlf',
-        ]
-    );
+    if ($version['version_main'] < 13) {
+        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+            'XimaTypo3Mailcatcher',
+            'system',
+            'mails',
+            '',
+            [
+                $controllerName => 'index',
+            ],
+            [
+                'access' => 'admin',
+                'iconIdentifier' => 'module-mailcatcher',
+                'labels' => 'LLL:EXT:xima_typo3_mailcatcher/Resources/Private/Language/locallang_mod.xlf',
+            ]
+        );
+    }
 }
