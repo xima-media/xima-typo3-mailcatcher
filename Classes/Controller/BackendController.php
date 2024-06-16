@@ -29,7 +29,7 @@ class BackendController extends ActionController
         $parser = GeneralUtility::makeInstance(LogParserUtility::class);
         $parser->run();
         $mails = $parser->loadAndGetMessages();
-        $this->view->assign('mails', $mails);
+        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 
         $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
         if ($version['version_main'] >= 12) {
@@ -38,8 +38,13 @@ class BackendController extends ActionController
             $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/XimaTypo3Mailcatcher/MailCatcher');
         }
 
-        $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
-        $moduleTemplate->setContent($this->view->render());
-        return $this->htmlResponse($moduleTemplate->renderContent());
+        if ($version['version_main'] < 13) {
+            $this->view->assign('mails', $mails);
+            $moduleTemplate->setContent($this->view->render());
+            return $this->htmlResponse($moduleTemplate->renderContent());
+        }
+
+        $moduleTemplate->assign('mails', $mails);
+        return $moduleTemplate->renderResponse('index');
     }
 }
