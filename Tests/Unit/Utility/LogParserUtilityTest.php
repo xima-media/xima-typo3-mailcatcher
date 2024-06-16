@@ -50,6 +50,12 @@ class LogParserUtilityTest extends UnitTestCase
         self::assertCount(1, $this->subject->loadAndGetMessages());
     }
 
+    public function testNonExistingLogFile(): void
+    {
+        $this->subject->loadLogFile();
+        self::assertEmpty($this->subject->getMessages());
+    }
+
     public function testEmptyLogFile(): void
     {
         $this->subject->setFileContent(file_get_contents(__DIR__ . '/../../Fixtures/empty.log') ?: '');

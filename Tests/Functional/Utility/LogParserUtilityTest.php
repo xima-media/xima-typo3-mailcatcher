@@ -28,7 +28,7 @@ class LogParserUtilityTest extends FunctionalTestCase
     ];
 
     /**
-     * @return array<string, string>[][][]
+     * @return array<int, array<int, array<int, array<string, array<int, array<string, string>>|string>>>>
      */
     public static function mailDataProvider(): array
     {
@@ -37,6 +37,22 @@ class LogParserUtilityTest extends FunctionalTestCase
             'toName' => 'Contact',
             'from' => 'hello-world@example.com',
             'fromName' => 'Test',
+            'cc' => [
+                [
+                    'email' => 'cc1@example.com',
+                    'name' => 'CC1',
+                ],
+                [
+                    'email' => 'cc2@example.com',
+                    'name' => 'CC2',
+                ],
+            ],
+            'bcc' => [
+                [
+                    'email' => 'bcc1@example.com',
+                    'name' => 'BCC1',
+                ],
+            ],
             'subject' => 'TYPO3 loves you - here is why',
             'template' => 'TestMailTemplate',
             'format' => FluidEmail::FORMAT_BOTH,
@@ -95,6 +111,14 @@ class LogParserUtilityTest extends FunctionalTestCase
             ->subject($exampleMail['subject'])
             ->setTemplate('TestMailTemplate');
 
+        foreach ($exampleMail['cc'] as $cc) {
+            $email->addCc(new Address($cc['email'], $cc['name']));
+        }
+
+        foreach ($exampleMail['bcc'] as $bcc) {
+            $email->addBcc(new Address($bcc['email'], $bcc['name']));
+        }
+
         // since typo3 version >12.1 MailerInterface is used
         if (class_exists(\Symfony\Component\Mailer\MailerInterface::class)) {
             GeneralUtility::makeInstance(\Symfony\Component\Mailer\MailerInterface::class)->send($email);
@@ -125,6 +149,13 @@ class LogParserUtilityTest extends FunctionalTestCase
         self::assertEquals($exampleMail['from'], $message->from);
         self::assertEquals($exampleMail['fromName'], $message->fromName);
         self::assertEquals($exampleMail['subject'], $message->subject);
+
+        foreach ($exampleMail['cc'] as $key => $cc) {
+            self::assertEquals($cc['email'], $message->ccRecipients[$key]['email']);
+            self::assertEquals($cc['name'], $message->ccRecipients[$key]['name']);
+        }
+
+        self::assertEmpty($message->bccRecipients);
     }
 
     public static function assertEmailFileEqualsString(string $emailPath, string $string, string $message = null): void
