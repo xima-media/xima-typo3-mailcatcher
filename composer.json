@@ -41,7 +41,7 @@
 		"codeception/module-asserts": "^3.0",
 		"codeception/module-cli": "^2.0",
 		"codeception/module-webdriver": "^4.0",
-		"helhum/typo3-console": "dev-issue/1169"
+		"helhum/typo3-console": "* || dev-issue/1169"
 	},
 	"autoload": {
 		"psr-4": {
