@@ -47,7 +47,8 @@ export TYPO3_PROJECT_NAME="EXT:xima_typo3_mailcatcher"
 _progress "Setting up TYPO3 installation"
 # TYPO3 v11
 if [ -f "$typo3cmsBinary" ]; then
-    "$typo3cmsBinary" install:setup --force --database-host-name="db" --database-user-name="db" --database-user-password="db" --database-name="db" --use-existing-database --admin-user-name="admin" --admin-password="Passw0rd\!"
+    "$typo3cmsBinary" install:setup --force --database-host-name="db" --database-user-name="db" --database-user-password="db" --database-name="db" --use-existing-database --admin-user-name="admin" --admin-password="Passw0rd!"
+    "$typo3cmsBinary" configuration:set SYS/trustedHostsPattern ".*"
 else
     "$typo3Binary" setup --no-interaction --force --quiet
 fi
