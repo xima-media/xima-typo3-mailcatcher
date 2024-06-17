@@ -51,6 +51,7 @@ jobs:
         run: |
           ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --webimage-extra-packages=
           ddev start
+          ddev init-typo3
 
       # Install dependencies
       - name: Install Composer dependencies
@@ -108,6 +109,7 @@ jobs:
         run: |
           ddev config --project-type=typo3 --xdebug-enabled=true
           ddev start
+          ddev init-typo3
 
       # Install dependencies
       - name: Install Composer dependencies
@@ -121,6 +123,8 @@ jobs:
           retry_on: error
           timeout_minutes: 10
           command: ddev composer test:coverage
+        env:
+          XDEBUG_MODE: coverage
 
       # Report coverage
       - name: Upload coverage reports to Codecov
