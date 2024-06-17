@@ -51,7 +51,8 @@
 	},
 	"autoload-dev": {
 		"psr-4": {
-			"Xima\\XimaTypo3Mailcatcher\\Tests\\": "Tests/"
+			"Xima\\XimaTypo3Mailcatcher\\Tests\\": "Tests/",
+			"Xima\\XimaTypo3Mailcatcher\\Tests\\Acceptance\\_generated\\": "Tests/Acceptance/Support/_generated/"
 		}
 	},
 	"extra": {
