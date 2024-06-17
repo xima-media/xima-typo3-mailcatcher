@@ -79,6 +79,7 @@
 		"test:coverage": [
 			"XDEBUG_MODE=coverage && phpunit -c phpunit.unit.xml",
 			"XDEBUG_MODE=coverage && phpunit -c phpunit.functional.xml",
+			"mkdir -p Tests/Acceptance/_output/c3tmp/ && touch Tests/Acceptance/_output/c3tmp/codecoverage.serialized",
 			"XDEBUG_MODE=coverage && codecept run Acceptance --coverage --coverage-xml"
 		]
 	}
