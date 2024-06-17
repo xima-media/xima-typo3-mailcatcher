@@ -41,7 +41,6 @@
 		"codeception/module-asserts": "^3.0",
 		"codeception/module-cli": "^2.0",
 		"codeception/module-webdriver": "^4.0",
-		"typo3/cms-lowlevel": "^13.1",
 		"helhum/typo3-console": "dev-issue/1169"
 	},
 	"autoload": {
@@ -74,6 +73,7 @@
 	"scripts": {
 		"php:fixer": "./vendor/bin/php-cs-fixer --config=php-cs-fixer.php fix",
 		"php:stan": "./vendor/bin/phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
+		"test:acceptance": "codecept run Acceptance",
 		"test:unit": "phpunit -c phpunit.unit.xml --no-coverage",
 		"test:functional": "phpunit -c phpunit.functional.xml --no-coverage",
 		"test:coverage": [
