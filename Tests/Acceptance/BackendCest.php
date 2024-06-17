@@ -23,6 +23,7 @@ class BackendCest
     public function moduleNotVisible(AcceptanceTester $I, ExtensionConfiguration $extensionConfiguration): void
     {
         $extensionConfiguration->write('transport', 'sendmail');
+        $I->wait(1);
         $extensionConfiguration->flushCache();
         $I->reloadPage();
         $I->dontSee('Mail Log');
@@ -31,6 +32,7 @@ class BackendCest
     public function moduleVisible(AcceptanceTester $I, ExtensionConfiguration $extensionConfiguration): void
     {
         $extensionConfiguration->write('transport', 'mbox');
+        $I->wait(1);
         $extensionConfiguration->flushCache();
         $I->reloadPage();
         $I->see('Mail Log');
