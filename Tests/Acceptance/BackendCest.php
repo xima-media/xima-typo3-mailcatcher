@@ -13,7 +13,7 @@ class BackendCest
         $I->waitForElementVisible('input[name="username"]');
         $I->waitForElementVisible('input[type="password"]');
         $I->fillField('input[name="username"]', 'admin');
-        $I->fillField('input[type="password"]', 'changeme');
+        $I->fillField('input[type="password"]', 'Passw0rd!');
         $I->click('button[type="submit"]');
         $I->waitForElementNotVisible('form[name="loginform"]');
         $I->seeCookie('be_typo_user');

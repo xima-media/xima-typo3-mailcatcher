@@ -12,6 +12,7 @@ on:
 
 jobs:
   acceptance:
+    name: Acceptance Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
     runs-on: ubuntu-latest
     services:
       mysql:
@@ -61,7 +62,9 @@ jobs:
           composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}"
 
       - name: Run acceptance tests
-        run: ddev composer test:acceptance
+        run: |
+          ddev init-typo3
+          ddev composer test:acceptance
         env:
           typo3DatabaseHost: '127.0.0.1'
           typo3DatabaseUsername: root
