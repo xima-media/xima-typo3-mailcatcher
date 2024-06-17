@@ -129,8 +129,6 @@ jobs:
           retry_on: error
           timeout_minutes: 10
           command: ddev composer test:coverage
-        env:
-          XDEBUG_MODE: coverage
 
       # Report coverage
       - name: Upload coverage reports to Codecov

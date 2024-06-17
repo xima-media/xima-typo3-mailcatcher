@@ -77,9 +77,9 @@
 		"test:unit": "phpunit -c phpunit.unit.xml --no-coverage",
 		"test:functional": "phpunit -c phpunit.functional.xml --no-coverage",
 		"test:coverage": [
-			"phpunit -c phpunit.unit.xml",
-			"phpunit -c phpunit.functional.xml",
-			"codecept run Acceptance --coverage --coverage-xml"
+			"XDEBUG_MODE=coverage && phpunit -c phpunit.unit.xml",
+			"XDEBUG_MODE=coverage && phpunit -c phpunit.functional.xml",
+			"XDEBUG_MODE=coverage && codecept run Acceptance --coverage --coverage-xml"
 		]
 	}
 }
