@@ -20,7 +20,7 @@ use TYPO3\TestingFramework\Core\Acceptance\Step\FrameSteps;/**
 */
 class AcceptanceTester extends \Codeception\Actor
 {
-    use _generated\AcceptanceTesterActions;
+    use \Xima\XimaTypo3Mailcatcher\Tests\Acceptance\Support\_generated\AcceptanceTesterActions;
 
     /**
      * Define custom actions here
