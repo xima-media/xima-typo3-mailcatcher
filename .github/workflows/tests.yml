@@ -11,7 +11,7 @@ on:
       - v13
 
 jobs:
-  acceptance:
+  tests:
     name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
     runs-on: ubuntu-latest
     strategy:
@@ -51,7 +51,6 @@ jobs:
         run: |
           ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --webimage-extra-packages=
           ddev start
-          ddev init-typo3
 
       # Install dependencies
       - name: Install Composer dependencies
@@ -59,6 +58,10 @@ jobs:
         with:
           dependency-versions: ${{ matrix.dependencies }}
           composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}"
+
+      # Init TYPO3
+      - name: Init TYPO3
+        run: ddev init-typo3
 
       # Run tests
       - name: Run acceptance tests
@@ -109,11 +112,14 @@ jobs:
         run: |
           ddev config --project-type=typo3 --xdebug-enabled=true
           ddev start
-          ddev init-typo3
 
       # Install dependencies
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
+
+      # Init TYPO3
+      - name: Init TYPO3
+        run: ddev init-typo3
 
       # Run tests
       - name: Run tests
