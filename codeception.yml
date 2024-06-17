@@ -15,7 +15,7 @@ params:
   - env
 
 coverage:
-  enabled: false
+  enabled: true
   include:
     - Classes/*
 

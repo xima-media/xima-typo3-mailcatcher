@@ -38,9 +38,9 @@
 		"phpmd/phpmd": "^2.13.0",
 		"ssch/typo3-rector": "*",
 		"typo3/testing-framework": "*",
-		"codeception/module-asserts": "^3.0",
-		"codeception/module-cli": "^2.0",
-		"codeception/module-webdriver": "^4.0",
+		"codeception/module-asserts": "*",
+		"codeception/module-cli": "*",
+		"codeception/module-webdriver": "*",
 		"helhum/typo3-console": "* || dev-issue/1169"
 	},
 	"autoload": {
@@ -78,7 +78,8 @@
 		"test:functional": "phpunit -c phpunit.functional.xml --no-coverage",
 		"test:coverage": [
 			"phpunit -c phpunit.unit.xml",
-			"phpunit -c phpunit.functional.xml"
+			"phpunit -c phpunit.functional.xml",
+			"codecept run Acceptance --coverage --coverage-xml"
 		]
 	}
 }

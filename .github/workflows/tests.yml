@@ -12,23 +12,21 @@ on:
 
 jobs:
   acceptance:
-    name: Acceptance Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
+    name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_PASSWORD: root
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: db
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-        ports:
-          - 3306:3306
     strategy:
       fail-fast: false
       matrix:
-        typo3-version: [ "13.1" ]
-        php-version: [ "8.3" ]
+        typo3-version: [ "11.5", "12.4", "13.1" ]
+        php-version: [ "7.4", "8.1", "8.2", "8.3" ]
+        exclude:
+          - typo3-version: "12.4"
+            php-version: "7.4"
+          - typo3-version: "13.1"
+            php-version: "7.4"
+          - typo3-version: "13.1"
+            php-version: "8.1"
+
     steps:
       - uses: actions/checkout@v4
         with:
@@ -61,88 +59,30 @@ jobs:
           dependency-versions: ${{ matrix.dependencies }}
           composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}"
 
+      # Run tests
       - name: Run acceptance tests
-        run: |
-          ddev init-typo3
-          ddev composer test:acceptance
-        env:
-          typo3DatabaseHost: '127.0.0.1'
-          typo3DatabaseUsername: root
-          typo3DatabasePort: 3306
-          typo3DatabasePassword: root
-          typo3DatabaseName: db
-
-  tests:
-    name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
-    runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_PASSWORD: root
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: db
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
-        ports:
-          - 3306:3306
-    strategy:
-      fail-fast: false
-      matrix:
-        typo3-version: [ "11.5", "12.4", "13.1" ]
-        php-version: [ "7.4", "8.1", "8.2", "8.3" ]
-        exclude:
-          - typo3-version: "12.4"
-            php-version: "7.4"
-          - typo3-version: "13.1"
-            php-version: "7.4"
-          - typo3-version: "13.1"
-            php-version: "8.1"
-    steps:
-      - uses: actions/checkout@v4
+        uses: nick-fields/retry@v3
         with:
-          fetch-depth: 0
-
-      # Prepare environment
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          php-version: ${{ matrix.php-version }}
-          coverage: none
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
-
-      # Install dependencies
-      - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
-        with:
-          dependency-versions: ${{ matrix.dependencies }}
-          composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}"
-
+          max_attempts: 3
+          retry_on: error
+          timeout_minutes: 10
+          command: ddev composer test:acceptance
+          new_command_on_retry: ddev composer test:acceptance -- -g failed
       - name: Run functional and unit tests
         run: |
-          composer test:functional
-          composer test:unit
-        env:
-          typo3DatabaseHost: '127.0.0.1'
-          typo3DatabaseUsername: root
-          typo3DatabasePort: 3306
-          typo3DatabasePassword: root
-          typo3DatabaseName: db
+          ddev composer test:functional
+          ddev composer test:unit
+
+      # Save acceptance reports
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acceptance-reports-${{ matrix.php-version }}-${{ matrix.typo3-version }}
+          path: Tests/Acceptance/_output
+        if: failure()
 
   coverage:
     name: Test coverage
     runs-on: ubuntu-latest
-    services:
-      mysql:
-        image: mysql:latest
-        env:
-          MYSQL_PASSWORD: root
-          MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: db
-        ports:
-          - 3306:3306
-        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
       - uses: actions/checkout@v4
@@ -156,9 +96,18 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           php-version: 8.2
-          tools: phpunit-bridge
-          coverage: xdebug
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+          tools: composer:v2
+          coverage: none
+
+      # Setup DDEV
+      - name: Setup DDEV
+        uses: ddev/github-action-setup-ddev@v1
+        with:
+          autostart: false
+      - name: Configure and start DDEV
+        run: |
+          ddev config --project-type=typo3 --xdebug-enabled=true
+          ddev start
 
       # Install dependencies
       - name: Install Composer dependencies
@@ -166,17 +115,16 @@ jobs:
 
       # Run tests
       - name: Run tests
-        run: composer test:coverage
-        env:
-          XDEBUG_MODE: coverage
-          typo3DatabaseHost: '127.0.0.1'
-          typo3DatabaseUsername: root
-          typo3DatabasePassword: root
-          typo3DatabaseName: db
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          retry_on: error
+          timeout_minutes: 10
+          command: ddev composer test:coverage
 
       # Report coverage
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v4.0.1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/clover-unit.xml,./coverage/clover-functional.xml
+          files: ./coverage/clover-unit.xml,./coverage/clover-functional.xml,./Tests/Acceptance/_output/coverage.xml

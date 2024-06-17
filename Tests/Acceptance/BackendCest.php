@@ -32,6 +32,7 @@ class BackendCest
     public function moduleVisible(AcceptanceTester $I, ExtensionConfiguration $extensionConfiguration): void
     {
         $extensionConfiguration->write('transport', 'mbox');
+        $extensionConfiguration->write('transport_mbox_file', '/var/www/html/var/log/mail.log');
         $I->wait(1);
         $extensionConfiguration->flushCache();
         $I->reloadPage();
