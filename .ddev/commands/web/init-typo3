@@ -13,6 +13,7 @@ readonly dbName="db"
 readonly dbCredentials="-h${dbHost} -u${dbUser} -p${dbPassword}"
 readonly fixturePath="/var/www/html/Tests/Acceptance/Fixtures"
 readonly typo3Binary="/var/www/html/vendor/bin/typo3"
+readonly typo3cmsBinary="/var/www/html/vendor/bin/typo3cms"
 
 function _progress() {
     printf "%s... " "$1"
@@ -45,8 +46,8 @@ export TYPO3_PROJECT_NAME="EXT:xima_typo3_mailcatcher"
 # Set up environment
 _progress "Setting up TYPO3 installation"
 # TYPO3 v11
-if [ ! -f "$typo3Binary" ]; then
-    vendor/bin/typo3cms install:setup --force --database-host-name="db" --database-user-name="db" --database-user-password="db" --database-name="db" --use-existing-database --admin-user-name="admin" --admin-password="Passw0rd\!"
+if [ -f "$typo3cmsBinary" ]; then
+    "$typo3cmsBinary" install:setup --force --database-host-name="db" --database-user-name="db" --database-user-password="db" --database-name="db" --use-existing-database --admin-user-name="admin" --admin-password="Passw0rd\!"
 else
     "$typo3Binary" setup --no-interaction --force --quiet
 fi
