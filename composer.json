@@ -11,6 +11,12 @@
 			"email": "maik.schneider@xima.de"
 		}
 	],
+	"repositories": [
+		{
+			"type": "github",
+			"url": "git@github.com:bmack/TYPO3-Console.git"
+		}
+	],
 	"keywords": [
 		"typo3",
 		"typo3-cms-extension",
@@ -23,6 +29,7 @@
 		"zbateson/mail-mime-parser": "^2.0 || ^3.0"
 	},
 	"require-dev": {
+		"codeception/module-phpbrowser": "*",
 		"phpstan/phpstan": "^1.6",
 		"bk2k/bootstrap-package": "*",
 		"friendsofphp/php-cs-fixer": "^3.12",
@@ -30,7 +37,12 @@
 		"phpstan/extension-installer": "^1.3",
 		"phpmd/phpmd": "^2.13.0",
 		"ssch/typo3-rector": "*",
-		"typo3/testing-framework": "*"
+		"typo3/testing-framework": "*",
+		"codeception/module-asserts": "^3.0",
+		"codeception/module-cli": "^2.0",
+		"codeception/module-webdriver": "^4.0",
+		"typo3/cms-lowlevel": "^13.1",
+		"helhum/typo3-console": "dev-issue/1169"
 	},
 	"autoload": {
 		"psr-4": {

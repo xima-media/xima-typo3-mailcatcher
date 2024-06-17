@@ -25,10 +25,6 @@ if (getenv('IS_DDEV_PROJECT') == 'true') {
                 'processor_path_lzw' => '/usr/bin/',
             ],
             // This mail configuration sends all emails to mailhog
-            'MAIL' => [
-                'transport' => 'mbox',
-                'transport_mbox_file' => Environment::getProjectPath() . '/var/log/mail.log',
-            ],
             'SYS' => [
                 'trustedHostsPattern' => '.*.*',
                 'devIPmask' => '*',

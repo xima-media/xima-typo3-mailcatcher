@@ -10,5 +10,7 @@ public/typo3conf
 public/typo3temp
 public/index.php
 
+Tests/Acceptance/_output
+
 var
 vendor
