@@ -6,18 +6,24 @@ use Codeception\Module;
 use Composer\InstalledVersions;
 use ReflectionClass;
 
-final class ExtensionConfiguration
+class ExtensionConfiguration
 {
     /**
      * @var non-empty-string
      */
-    private readonly string $scriptPath;
+    private string $scriptPath;
+
+    private Module\Asserts $asserts;
+
+    private Module\Cli $cli;
 
     public function __construct(
-        private readonly Module\Asserts $asserts,
-        private readonly Module\Cli $cli
+        Module\Asserts $asserts,
+        Module\Cli $cli
     ) {
         $this->scriptPath = $this->determineScriptPath();
+        $this->asserts = $asserts;
+        $this->cli = $cli;
     }
 
     /**
