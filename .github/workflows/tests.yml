@@ -77,6 +77,11 @@ jobs:
           ddev composer test:functional
           ddev composer test:unit
 
+      # Fix namespace (add"/Support" to end of namespace) only for typo3-version 11
+      - name: Fix codeception.yml namespace
+        run: sed -i '1s/$/\\\\Support/' codeception.yml
+        if: matrix.typo3-version == '11.5.37'
+
       # Save acceptance reports
       - uses: actions/upload-artifact@v4
         with:
