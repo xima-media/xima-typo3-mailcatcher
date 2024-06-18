@@ -59,6 +59,11 @@ jobs:
           dependency-versions: ${{ matrix.dependencies }}
           composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}"
 
+      # Fix namespace (add"/Support" to end of namespace) only for typo3-version 11
+      - name: Fix codeception.yml namespace
+        run: sed -i '1s/$/\\\\Support/' codeception.yml
+        if: matrix.typo3-version == '11.5.37'
+
       # Init TYPO3
       - name: Init TYPO3
         run: ddev init-typo3
@@ -76,11 +81,6 @@ jobs:
         run: |
           ddev composer test:functional
           ddev composer test:unit
-
-      # Fix namespace (add"/Support" to end of namespace) only for typo3-version 11
-      - name: Fix codeception.yml namespace
-        run: sed -i '1s/$/\\\\Support/' codeception.yml
-        if: matrix.typo3-version == '11.5.37'
 
       # Save acceptance reports
       - uses: actions/upload-artifact@v4
