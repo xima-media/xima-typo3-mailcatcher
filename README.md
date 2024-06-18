@@ -5,6 +5,9 @@
 # TYPO3 extension `xima_typo3_mailcatcher`
 
 [![Supported TYPO3 versions](https://typo3-badges.dev/badge/xima_typo3_mailcatcher/typo3/shields.svg)](https://extensions.typo3.org/extension/xima_typo3_mailcatcher)
+[![Tests](https://github.com/xima-media/xima-typo3-mailcatcher/actions/workflows/tests.yml/badge.svg)](https://github.com/xima-media/xima-typo3-mailcatcher/actions/workflows/tests.yml)
+[![codecov](https://codecov.io/gh/xima-media/xima-typo3-mailcatcher/graph/badge.svg?token=VUMQ5EUG02)](https://codecov.io/gh/xima-media/xima-typo3-mailcatcher)
+
 
 </div>
 
