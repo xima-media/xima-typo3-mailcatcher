@@ -42,7 +42,8 @@
 		"codeception/module-cli": "*",
 		"codeception/module-webdriver": "*",
 		"helhum/typo3-console": "* || dev-issue/1169",
-		"typo3/cms-install": "*"
+		"typo3/cms-install": "*",
+		"codeception/module-filesystem": "*"
 	},
 	"autoload": {
 		"psr-4": {

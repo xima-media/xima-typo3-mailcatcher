@@ -41,3 +41,4 @@ suites:
                       last_modified: 1688930908
                       setting: 1
         - Asserts
+        - Filesystem
