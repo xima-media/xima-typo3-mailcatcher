@@ -11,6 +11,12 @@
 			"email": "maik.schneider@xima.de"
 		}
 	],
+	"repositories": [
+		{
+			"type": "github",
+			"url": "git@github.com:bmack/TYPO3-Console.git"
+		}
+	],
 	"keywords": [
 		"typo3",
 		"typo3-cms-extension",
@@ -23,6 +29,7 @@
 		"zbateson/mail-mime-parser": "^2.0 || ^3.0"
 	},
 	"require-dev": {
+		"codeception/module-phpbrowser": "*",
 		"phpstan/phpstan": "^1.6",
 		"bk2k/bootstrap-package": "*",
 		"friendsofphp/php-cs-fixer": "^3.12",
@@ -30,7 +37,13 @@
 		"phpstan/extension-installer": "^1.3",
 		"phpmd/phpmd": "^2.13.0",
 		"ssch/typo3-rector": "*",
-		"typo3/testing-framework": "*"
+		"typo3/testing-framework": "*",
+		"codeception/module-asserts": "*",
+		"codeception/module-cli": "*",
+		"codeception/module-webdriver": "*",
+		"helhum/typo3-console": "* || dev-issue/1169",
+		"typo3/cms-install": "*",
+		"codeception/module-filesystem": "*"
 	},
 	"autoload": {
 		"psr-4": {
@@ -62,11 +75,14 @@
 	"scripts": {
 		"php:fixer": "./vendor/bin/php-cs-fixer --config=php-cs-fixer.php fix",
 		"php:stan": "./vendor/bin/phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
+		"test:acceptance": "codecept run Acceptance",
 		"test:unit": "phpunit -c phpunit.unit.xml --no-coverage",
 		"test:functional": "phpunit -c phpunit.functional.xml --no-coverage",
 		"test:coverage": [
-			"phpunit -c phpunit.unit.xml",
-			"phpunit -c phpunit.functional.xml"
+			"XDEBUG_MODE=coverage && phpunit -c phpunit.unit.xml",
+			"XDEBUG_MODE=coverage && phpunit -c phpunit.functional.xml",
+			"mkdir -p Tests/Acceptance/_output/c3tmp/ && touch Tests/Acceptance/_output/c3tmp/codecoverage.serialized",
+			"XDEBUG_MODE=coverage && codecept run Acceptance --coverage --coverage-xml"
 		]
 	}
 }
