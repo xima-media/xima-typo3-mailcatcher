@@ -76,7 +76,7 @@ class ExtensionConfiguration
     /**
      * @param non-empty-string $path
      */
-    public function write(string $path, $value): void
+    public function write(string $path, mixed $value): void
     {
         $command = $this->buildCommand(['configuration:set', 'MAIL/' . $path, $value]);
 

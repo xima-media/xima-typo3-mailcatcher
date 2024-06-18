@@ -1,4 +1,4 @@
-namespace: Xima\XimaTypo3Mailcatcher\Tests\Acceptance\Support
+namespace: Xima\XimaTypo3Mailcatcher\Tests\Acceptance
 support_namespace: Support
 paths:
   tests: Tests/Acceptance
