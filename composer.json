@@ -43,7 +43,8 @@
 		"codeception/module-webdriver": "*",
 		"helhum/typo3-console": "* || dev-issue/1169",
 		"typo3/cms-install": "*",
-		"codeception/module-filesystem": "*"
+		"codeception/module-filesystem": "*",
+		"eliashaeussler/typo3-codeception-helper": "*"
 	},
 	"autoload": {
 		"psr-4": {
@@ -69,7 +70,8 @@
 			"typo3/cms-composer-installers": true,
 			"typo3/class-alias-loader": true,
 			"phpstan/extension-installer": true,
-			"helhum/typo3-console-plugin": true
+			"helhum/typo3-console-plugin": true,
+			"codeception/c3": true
 		}
 	},
 	"scripts": {
@@ -81,7 +83,6 @@
 		"test:coverage": [
 			"XDEBUG_MODE=coverage && phpunit -c phpunit.unit.xml",
 			"XDEBUG_MODE=coverage && phpunit -c phpunit.functional.xml",
-			"mkdir -p Tests/Acceptance/_output/c3tmp/ && touch Tests/Acceptance/_output/c3tmp/codecoverage.serialized",
 			"XDEBUG_MODE=coverage && codecept run Acceptance --coverage --coverage-xml"
 		]
 	}

@@ -12,9 +12,8 @@ class BackendCest
 {
     protected const MAIL_LOG_DIR = '/var/www/html/var/log';
 
-    public function _before(AcceptanceTester $I): void
+    public function login(AcceptanceTester $I): void
     {
-        $I->amOnPage('/typo3/');
         $I->waitForElementVisible('input[name="username"]');
         $I->waitForElementVisible('input[type="password"]');
         $I->fillField('input[name="username"]', 'admin');
@@ -24,7 +23,9 @@ class BackendCest
         $I->seeCookie('be_typo_user');
     }
 
-    // tests
+    /**
+     * @Depends login
+     */
     public function moduleNotVisible(AcceptanceTester $I, ExtensionConfiguration $extensionConfiguration): void
     {
         $extensionConfiguration->write('transport', 'sendmail');
@@ -34,6 +35,9 @@ class BackendCest
         $I->dontSee('Mail Log');
     }
 
+    /**
+     * @Depends login
+     */
     public function moduleVisible(AcceptanceTester $I, ExtensionConfiguration $extensionConfiguration): void
     {
         $extensionConfiguration->write('transport', 'mbox');
@@ -44,6 +48,9 @@ class BackendCest
         $I->see('Mail Log');
     }
 
+    /**
+     * @Depends login
+     */
     public function seeEnvTestMail(AcceptanceTester $I): void
     {
         $I->cleanDir(self::MAIL_LOG_DIR);
@@ -57,7 +64,25 @@ class BackendCest
     }
 
     /**
+     * @Depends login
      * @Depends seeEnvTestMail
+     */
+    public function openEnvTestMail(AcceptanceTester $I): void
+    {
+        $I->click('Mail Log');
+        $I->switchToContentFrame();
+        $I->click('TYPO3 CMS install tool <hello@example.com>');
+        $I->wait(1);
+        $I->see('Hey TYPO3 Administrator');
+        $I->click('HTML');
+        $I->wait(1);
+        $I->switchToIFrame('iframe');
+        $I->see('Hey TYPO3 Administrator', 'h4');
+    }
+
+    /**
+     * @Depends seeEnvTestMail
+     * @Depends login
      */
     public function deleteEnvTestMail(AcceptanceTester $I, ModalDialog $modalDialog): void
     {
@@ -65,7 +90,8 @@ class BackendCest
         $I->switchToContentFrame();
         $I->click('Delete all messages');
         $modalDialog->canSeeDialog();
-        $modalDialog->clickButtonInDialog('Yes');
+        $modalDialog->clickButtonInDialog('Yes, delete');
+        $I->waitForText('All messages have been deleted');
         $I->switchToContentFrame();
         $I->see('No messages');
     }
