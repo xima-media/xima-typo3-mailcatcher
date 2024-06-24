@@ -19,3 +19,4 @@ parameters:
 
     excludePaths:
         - Classes/Controller/LegacyBackendController
+        - Tests/Acceptance/Support
