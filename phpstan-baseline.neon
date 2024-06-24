@@ -1,16 +1,2 @@
 parameters:
-	ignoreErrors:
-		-
-			message: "#^Call to an undefined method TYPO3\\\\CMS\\\\Backend\\\\Template\\\\ModuleTemplate\\:\\:renderContent\\(\\)\\.$#"
-			count: 1
-			path: Classes/Controller/BackendController.php
-
-		-
-			message: "#^Call to an undefined method TYPO3\\\\CMS\\\\Backend\\\\Template\\\\ModuleTemplate\\:\\:setContent\\(\\)\\.$#"
-			count: 1
-			path: Classes/Controller/BackendController.php
-
-		-
-			message: "#^Call to an undefined method TYPO3\\\\CMS\\\\Core\\\\Page\\\\PageRenderer\\:\\:loadRequireJsModule\\(\\)\\.$#"
-			count: 1
-			path: Classes/Controller/BackendController.php
+	ignoreErrors: []
