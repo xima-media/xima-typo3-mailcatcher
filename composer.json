@@ -15,6 +15,10 @@
 		{
 			"type": "github",
 			"url": "git@github.com:bmack/TYPO3-Console.git"
+		},
+		{
+			"type": "github",
+			"url": "git@github.com:maikschneider/typo3-codeception-helper.git"
 		}
 	],
 	"keywords": [
@@ -44,7 +48,7 @@
 		"helhum/typo3-console": "* || dev-issue/1169",
 		"typo3/cms-install": "*",
 		"codeception/module-filesystem": "*",
-		"eliashaeussler/typo3-codeception-helper": "*"
+		"eliashaeussler/typo3-codeception-helper": "dev-main"
 	},
 	"autoload": {
 		"psr-4": {
