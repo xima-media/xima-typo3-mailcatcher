@@ -8,7 +8,6 @@ on:
   pull_request:
     branches:
       - main
-      - v13
 
 jobs:
   tests:
@@ -49,7 +48,7 @@ jobs:
           autostart: false
       - name: Configure and start DDEV
         run: |
-          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --webimage-extra-packages=
+          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --xdebug-enabled=true --web-environment-add="XDEBUG_MODE=coverage"
           ddev start
 
       # Install dependencies
@@ -75,12 +74,12 @@ jobs:
           max_attempts: 3
           retry_on: error
           timeout_minutes: 10
-          command: ddev composer test:acceptance
+          command: ddev composer test:coverage:acceptance
           new_command_on_retry: ddev composer test:acceptance -- -g failed
       - name: Run functional and unit tests
         run: |
-          ddev composer test:functional
-          ddev composer test:unit
+          ddev composer test:coverage:functional
+          ddev composer test:coverage:unit
 
       # Save acceptance reports
       - uses: actions/upload-artifact@v4
@@ -88,52 +87,6 @@ jobs:
           name: acceptance-reports-${{ matrix.php-version }}-${{ matrix.typo3-version }}
           path: Tests/Acceptance/_output
         if: failure()
-
-  coverage:
-    name: Test coverage
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      # Prepare environment
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          php-version: 8.2
-          tools: composer:v2
-          coverage: none
-
-      # Setup DDEV
-      - name: Setup DDEV
-        uses: ddev/github-action-setup-ddev@v1
-        with:
-          autostart: false
-      - name: Configure and start DDEV
-        run: |
-          ddev config --project-type=typo3 --xdebug-enabled=true --web-environment-add="XDEBUG_MODE=coverage"
-          ddev start
-
-      # Install dependencies
-      - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
-
-      # Init TYPO3
-      - name: Init TYPO3
-        run: ddev init-typo3
-
-      # Run tests
-      - name: Run tests
-        uses: nick-fields/retry@v3
-        with:
-          max_attempts: 3
-          retry_on: error
-          timeout_minutes: 10
-          command: ddev composer test:coverage
 
       # Report coverage
       - name: Upload coverage reports to Codecov

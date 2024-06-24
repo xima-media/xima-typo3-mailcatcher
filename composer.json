@@ -80,10 +80,8 @@
 		"test:acceptance": "codecept run Acceptance",
 		"test:unit": "phpunit -c phpunit.unit.xml --no-coverage",
 		"test:functional": "phpunit -c phpunit.functional.xml --no-coverage",
-		"test:coverage": [
-			"XDEBUG_MODE=coverage && phpunit -c phpunit.unit.xml",
-			"XDEBUG_MODE=coverage && phpunit -c phpunit.functional.xml",
-			"XDEBUG_MODE=coverage && codecept run Acceptance --coverage --coverage-xml"
-		]
+		"test:coverage:unit": "XDEBUG_MODE=coverage && phpunit -c phpunit.unit.xml",
+		"test:coverage:functional": "XDEBUG_MODE=coverage && phpunit -c phpunit.functional.xml",
+		"test:coverage:acceptance": "XDEBUG_MODE=coverage && codecept run Acceptance --coverage --coverage-xml"
 	}
 }
