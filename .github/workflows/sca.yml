@@ -49,5 +49,5 @@ jobs:
       - uses: staabm/annotate-pull-request-from-checkstyle-action@v1
         name: Annotate code issues
         with:
-          files: php-cs-fixer.xml
+          files: php-cs-fixer.xml;phpstan.xml
           notices-as-warnings: true
