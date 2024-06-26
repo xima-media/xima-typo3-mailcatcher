@@ -21,10 +21,14 @@ jobs:
       # Setup DDEV
       - name: Setup DDEV
         uses: ddev/github-action-setup-ddev@v1
+        with:
+          autostart: false
 
       # Install dependencies
       - name: Install Composer dependencies
         run: |
+          ddev service disable selenium-chrome
+          ddev start
           ddev composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
           ddev composer install
 
