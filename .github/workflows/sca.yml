@@ -32,11 +32,11 @@ jobs:
         run: ddev composer ci:php:lint
 
       - name: PHP CS Fixer
-        run: ddev composer ci:php:fixer | ddev exec cs2pr
+        run: ddev composer ci:php:fixer
         continue-on-error: true
 
       - name: PHPStan
-        run: ddev composer ci:php:stan | ddev exec cs2pr
+        run: ddev composer ci:php:stan
 
       - name: XML lint
         run: ddev composer ci:xml:lint
