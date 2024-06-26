@@ -28,6 +28,9 @@ jobs:
           ddev composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
           ddev composer install
 
+      - name: Composer audit
+        run: ddev composer audit
+
       - name: PHP lint
         run: ddev composer ci:php:lint
 
@@ -44,6 +47,7 @@ jobs:
         run: ddev composer ci:yaml:lint
 
       - uses: staabm/annotate-pull-request-from-checkstyle-action@v1
+        name: Annotate code issues
         with:
-          files: php-cs-fixer.xml,phpstan.xml
+          files: php-cs-fixer.xml
           notices-as-warnings: true
