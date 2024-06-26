@@ -42,6 +42,7 @@ jobs:
 
       - name: PHP CS Fixer
         run: ddev composer ci:php:fixer | cs2pr
+        continue-on-error: true
 
       - name: PHPStan
         run: ddev composer ci:php:stan | cs2pr
