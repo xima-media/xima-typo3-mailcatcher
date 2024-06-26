@@ -80,8 +80,8 @@
 		}
 	},
 	"scripts": {
-		"php:fixer": "./vendor/bin/php-cs-fixer --config=php-cs-fixer.php fix",
-		"php:stan": "./vendor/bin/phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
+		"php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix",
+		"php:stan": "phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
 		"test:acceptance": "codecept run Acceptance",
 		"test:unit": "phpunit -c phpunit.unit.xml --no-coverage",
 		"test:functional": "phpunit -c phpunit.functional.xml --no-coverage",
@@ -89,8 +89,8 @@
 		"ci:test:functional": "XDEBUG_MODE=coverage && phpunit -c phpunit.functional.xml",
 		"ci:test:acceptance": "XDEBUG_MODE=coverage && codecept run Acceptance --coverage --coverage-xml",
 		"ci:php:lint": "find *.php . -name '*.php' ! -path './vendor/*'  ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",
-		"ci:php:fixer": "php vendor/bin/php-cs-fixer --config=php-cs-fixer.php check --format=junit > phpfixer-report.xml",
-		"ci:php:stan": "php vendor/bin/phpstan --no-progress --error-format=junit > phpstan-report.xml",
+		"ci:php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix --dry-run --format=checkstyle",
+		"ci:php:stan": "phpstan --no-progress --error-format=checkstyle",
 		"ci:xml:lint": "find . -name '*.xlf' ! -path './public/*' ! -path './vendor/*' | xargs -r xmllint --schema vendor/symfony/translation/Resources/schemas/xliff-core-1.2-transitional.xsd --noout",
 		"ci:yaml:lint": "find . ! -path '*node_modules/*' ! -path './vendor/*' ! -path './public/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint"
 	}

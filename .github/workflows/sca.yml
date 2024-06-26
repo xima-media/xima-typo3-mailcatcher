@@ -26,6 +26,7 @@ jobs:
         with:
           php-version: 8.3
           coverage: none
+          tools: cs2pr
           extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
 
       # Setup DDEV
@@ -40,10 +41,10 @@ jobs:
         run: ddev composer ci:php:lint
 
       - name: PHP CS Fixer
-        run: ddev composer ci:php:fixer
+        run: ddev composer ci:php:fixer | cs2pr
 
       - name: PHPStan
-        run: ddev composer ci:php:stan
+        run: ddev composer ci:php:stan | cs2pr
 
       - name: XML lint
         run: ddev composer ci:xml:lint
