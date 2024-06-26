@@ -11,6 +11,36 @@ on:
 
 jobs:
   sca:
-    uses: maikschneider/reusable-workflows/.github/workflows/sca.yml@main
-    with:
-      php-version: 8.3
+    name: SCA
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Prepare environment
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          php-version: 8.3
+          coverage: none
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+
+      # Setup DDEV
+      - name: Setup DDEV
+        uses: ddev/github-action-setup-ddev@v1
+
+      # Install dependencies
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
+
+      # Run SCA tests
+      - name: Run SCA tests
+        run: |
+          ddev composer ci:php:lint
+          ddev composer ci:php:fixer
+          ddev composer ci:php:stan
+          ddev composer ci:xml:lint
+          ddev composer ci:yaml:lint

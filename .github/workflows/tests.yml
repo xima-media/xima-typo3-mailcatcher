@@ -74,12 +74,12 @@ jobs:
           max_attempts: 3
           retry_on: error
           timeout_minutes: 10
-          command: ddev composer test:coverage:acceptance
+          command: ddev composer ci:test:acceptance
           new_command_on_retry: ddev composer test:acceptance -- -g failed
       - name: Run functional and unit tests
         run: |
-          ddev composer test:coverage:functional
-          ddev composer test:coverage:unit
+          ddev composer ci:test:functional
+          ddev composer ci:test:unit
 
       # Save acceptance reports
       - uses: actions/upload-artifact@v4
