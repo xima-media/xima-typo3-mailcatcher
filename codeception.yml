@@ -1,0 +1,50 @@
+namespace: Xima\XimaTypo3Mailcatcher\Tests\Acceptance
+support_namespace: Support
+paths:
+  tests: Tests/Acceptance
+  output: Tests/Acceptance/_output
+  data: Tests/Acceptance/Support/Data
+  support: Tests/Acceptance/Support
+actor_suffix: Tester
+
+extensions:
+  enabled:
+    - Codeception\Extension\RunFailed
+    - EliasHaeussler\Typo3CodeceptionHelper\Codeception\Extension\ApplicationEntrypointModifier:
+        entrypoints:
+          - web-dir: public
+          - web-dir: public/typo3
+
+params:
+  - env
+
+coverage:
+  enabled: true
+  remote: true
+  include:
+    - Classes/*
+
+suites:
+  Acceptance:
+    actor: AcceptanceTester
+    path: .
+    modules:
+      enabled:
+        - WebDriver:
+            url: https://%TESTING_DOMAIN%/typo3
+            browser: chrome
+            wait: 5
+            host: selenium-chrome
+            clear_cookies: false
+            port: 4444
+            capabilities:
+              acceptInsecureCerts: true
+              chromeOptions:
+                args: [ '--disable-dev-shm-usage' ]
+                prefs:
+                  profile.content_settings.exceptions.clipboard:
+                    '[*.],*':
+                      last_modified: 1688930908
+                      setting: 1
+        - Asserts
+        - Filesystem

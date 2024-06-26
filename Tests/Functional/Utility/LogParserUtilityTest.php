@@ -1,12 +1,11 @@
 <?php
 
-namespace Xima\XimaTypo3Mailcatcher\Tests\Functional\Controller;
+namespace Xima\XimaTypo3Mailcatcher\Tests\Functional\Utility;
 
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Mail\FluidEmail;
-use TYPO3\CMS\Core\Mail\MailerInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailMessage;
@@ -17,6 +16,13 @@ class LogParserUtilityTest extends FunctionalTestCase
     protected LogParserUtility $subject;
 
     protected array $configurationToUseInTestInstance = [
+        'DB' => [
+            'Connections' => [
+                'Default' => [
+                    'port' => 3306,
+                ],
+            ],
+        ],
         'MAIL' => [
             'transport' => 'mbox',
             'templateRootPaths' => [700 => 'EXT:xima_typo3_mailcatcher/Tests/Fixtures'],

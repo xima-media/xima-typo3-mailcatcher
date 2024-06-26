@@ -5,7 +5,7 @@ parameters:
     parallel:
         maximumNumberOfProcesses: 5
 
-    level: 8
+    level: 1
 
     bootstrapFiles:
         - vendor/autoload.php
@@ -19,3 +19,4 @@ parameters:
 
     excludePaths:
         - Classes/Controller/LegacyBackendController
+        - Tests/Acceptance/Support

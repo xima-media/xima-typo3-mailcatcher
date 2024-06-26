@@ -1,11 +1,11 @@
 name: xima-typo3-mailcatcher
 type: typo3
 docroot: public
-php_version: "8.1"
+php_version: "8.3"
 webserver_type: nginx-fpm
 router_http_port: "80"
 router_https_port: "443"
-xdebug_enabled: true
+xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
 database:
@@ -14,7 +14,9 @@ database:
 use_dns_when_possible: true
 composer_version: "2"
 nodejs_version: "16"
-webimage_extra_packages: []
+webimage_extra_packages: [libxml2-utils]
+omit_containers: [ddev-ssh-agent]
+disable_settings_management: true
 web_environment:
   - XDEBUG_MODE=debug,coverage
   - TESTING_DOMAIN=$DDEV_HOSTNAME
