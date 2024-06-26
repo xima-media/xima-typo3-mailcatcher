@@ -51,7 +51,13 @@ jobs:
         run: ddev composer ci:yaml:lint
 
       - uses: staabm/annotate-pull-request-from-checkstyle-action@v1
-        name: Annotate code issues
+        name: Annotate PHP CS Fixer
         with:
-          files: php-cs-fixer.xml;phpstan.xml
+          files: php-cs-fixer.xml
+          notices-as-warnings: true
+
+      - uses: staabm/annotate-pull-request-from-checkstyle-action@v1
+        name: Annotate PHPStan
+        with:
+          files: phpstan.xml
           notices-as-warnings: true
