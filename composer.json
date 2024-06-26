@@ -49,8 +49,7 @@
 		"typo3/cms-install": "*",
 		"codeception/module-filesystem": "*",
 		"eliashaeussler/typo3-codeception-helper": "dev-main",
-		"symfony/translation": "*",
-		"staabm/annotate-pull-request-from-checkstyle": "*"
+		"symfony/translation": "*"
 	},
 	"autoload": {
 		"psr-4": {
@@ -90,8 +89,8 @@
 		"ci:test:functional": "XDEBUG_MODE=coverage && phpunit -c phpunit.functional.xml",
 		"ci:test:acceptance": "XDEBUG_MODE=coverage && codecept run Acceptance --coverage --coverage-xml",
 		"ci:php:lint": "find *.php . -name '*.php' ! -path './vendor/*'  ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",
-		"ci:php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix --dry-run --format=checkstyle",
-		"ci:php:stan": "phpstan --no-progress --error-format=checkstyle",
+		"ci:php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix --dry-run --format=checkstyle > php-cs-fixer.xml || true",
+		"ci:php:stan": "phpstan --no-progress --error-format=checkstyle > phpstan.xml || true",
 		"ci:xml:lint": "find . -name '*.xlf' ! -path './public/*' ! -path './vendor/*' | xargs -r xmllint --schema vendor/symfony/translation/Resources/schemas/xliff-core-1.2-transitional.xsd --noout",
 		"ci:yaml:lint": "find . ! -path '*node_modules/*' ! -path './vendor/*' ! -path './public/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint"
 	}

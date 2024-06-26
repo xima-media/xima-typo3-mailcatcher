@@ -33,7 +33,6 @@ jobs:
 
       - name: PHP CS Fixer
         run: ddev composer ci:php:fixer
-        continue-on-error: true
 
       - name: PHPStan
         run: ddev composer ci:php:stan
@@ -43,3 +42,8 @@ jobs:
 
       - name: YAML lint
         run: ddev composer ci:yaml:lint
+
+      - uses: staabm/annotate-pull-request-from-checkstyle-action@v1
+        with:
+          files: php-cs-fixer.xml,phpstan.xml
+          notices-as-warnings: true
