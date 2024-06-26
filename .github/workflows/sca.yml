@@ -18,34 +18,25 @@ jobs:
         with:
           fetch-depth: 0
 
-      # Prepare environment
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          php-version: 8.3
-          coverage: none
-          tools: cs2pr
-          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
-
       # Setup DDEV
       - name: Setup DDEV
         uses: ddev/github-action-setup-ddev@v1
 
       # Install dependencies
       - name: Install Composer dependencies
-        uses: ramsey/composer-install@v2
+        run: |
+          ddev composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+          ddev composer install
 
       - name: PHP lint
         run: ddev composer ci:php:lint
 
       - name: PHP CS Fixer
-        run: ddev composer ci:php:fixer | cs2pr
+        run: ddev composer ci:php:fixer | ddev exec cs2pr
         continue-on-error: true
 
       - name: PHPStan
-        run: ddev composer ci:php:stan | cs2pr
+        run: ddev composer ci:php:stan | ddev exec cs2pr
 
       - name: XML lint
         run: ddev composer ci:xml:lint
