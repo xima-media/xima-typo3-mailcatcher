@@ -36,11 +36,17 @@ jobs:
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
 
-      # Run SCA tests
-      - name: Run SCA tests
-        run: |
-          ddev composer ci:php:lint
-          ddev composer ci:php:fixer
-          ddev composer ci:php:stan
-          ddev composer ci:xml:lint
-          ddev composer ci:yaml:lint
+      - name: PHP lint
+        run: ddev composer ci:php:lint
+
+      - name: PHP CS Fixer
+        run: ddev composer ci:php:fixer
+
+      - name: PHPStan
+        run: ddev composer ci:php:stan
+
+      - name: XML lint
+        run: ddev composer ci:xml:lint
+
+      - name: YAML lint
+        run: ddev composer ci:yaml:lint
