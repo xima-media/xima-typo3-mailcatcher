@@ -14,7 +14,7 @@ return [
         'resources\\/private\\/frontend',
         'resources\\/private\\/libs\\/build',
         'tailor-version-upload',
-        'tests',
+        'Tests',
         'var',
         'vendor',
     ],
