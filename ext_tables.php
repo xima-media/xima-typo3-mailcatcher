@@ -26,7 +26,7 @@ if (isset($GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport']) && $GLOBALS['TYPO3_C
                 $controllerName => 'index',
             ],
             [
-                'access' => 'admin',
+                'access' => 'user,group',
                 'iconIdentifier' => 'module-mailcatcher',
                 'labels' => 'LLL:EXT:xima_typo3_mailcatcher/Resources/Private/Language/locallang_mod.xlf',
             ]
