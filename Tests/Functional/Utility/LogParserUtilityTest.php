@@ -64,20 +64,36 @@ class LogParserUtilityTest extends FunctionalTestCase
             'format' => FluidEmail::FORMAT_BOTH,
         ];
 
+        $htmlOnlyMail = $defaultMail;
+        $htmlOnlyMail['format'] = FluidEmail::FORMAT_HTML;
+
+        $plainOnlyMail = $defaultMail;
+        $plainOnlyMail['format'] = FluidEmail::FORMAT_PLAIN;
+
         return [
             [
                 [$defaultMail],
             ],
             [
                 [
+                    $plainOnlyMail,
+                    $plainOnlyMail,
                     $defaultMail,
-                    $defaultMail,
+                    $plainOnlyMail,
                 ],
             ],
             [
                 [
+                    $htmlOnlyMail,
+                    $htmlOnlyMail,
                     $defaultMail,
+                    $htmlOnlyMail,
                 ],
+            ],
+            [
+                [$defaultMail],
+                [$htmlOnlyMail],
+                [$plainOnlyMail],
             ],
         ];
     }
@@ -89,7 +105,7 @@ class LogParserUtilityTest extends FunctionalTestCase
      */
     public function testEmailEncoding(array $exampleMails): void
     {
-        foreach ($exampleMails as $key => $exampleMail) {
+        foreach ($exampleMails as $exampleMail) {
             $this->createTestMail($exampleMail);
         }
 
