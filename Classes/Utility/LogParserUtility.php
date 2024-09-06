@@ -51,26 +51,11 @@ class LogParserUtility
             return;
         }
 
-        preg_match_all(
-            '/(?:; boundary=)(.+)(?:\r\n)/Ums',
-            $this->fileContent,
-            $boundaries
-        );
+        $mails = preg_split('/(?=(To:\s(.+)\nFrom:\s(.+)\nSubject:\s))/Ums', $this->fileContent);
+        $mails = array_filter($mails);
 
-        if (!isset($boundaries[1])) {
-            return;
-        }
-
-        foreach ($boundaries[1] as $boundary) {
-            $separator = '--' . $boundary . '--';
-            $messageParts = explode($separator, $this->fileContent);
-
-            if (!str_contains($messageParts[0], 'boundary=')) {
-                continue;
-            }
-
-            $messageString = trim($messageParts[0]);
-            $this->fileContent = $messageParts[1] ?: '';
+        foreach ($mails as $mailContent) {
+            $messageString = trim($mailContent);
             $this->messages[] = self::convertToDto((string)$messageString);
         }
     }
@@ -130,6 +115,10 @@ class LogParserUtility
 
         $dto->bodyPlain = @mb_convert_encoding($message->getTextContent() ?? '', 'UTF-8', 'auto');
         $dto->bodyHtml = @mb_convert_encoding($message->getHtmlContent() ?? '', 'UTF-8', 'auto');
+
+        // remove "\r\n" from content, replace double line breaks with single line break and remove trailing whitespaces
+        $dto->bodyPlain = preg_replace(['/\r\n\r\n/', '/\s$/'], [' ', ''], $dto->bodyPlain);
+        $dto->bodyHtml = preg_replace(['/\r\n/', '/\s$/'], [' ', ''], $dto->bodyHtml);
 
         $folder = self::getTempPath() . $dto->messageId;
         if (!file_exists($folder)) {
