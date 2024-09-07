@@ -62,6 +62,18 @@ class LogParserUtilityTest extends FunctionalTestCase
             'subject' => 'TYPO3 loves you - here is why',
             'template' => 'TestMailTemplate',
             'format' => FluidEmail::FORMAT_BOTH,
+            'attachments' => [
+                [
+                    'filename' => 'test.txt',
+                    'content' => 'Hello World',
+                    'contentType' => 'text/plain',
+                ],
+                [
+                    'filename' => 'test.html',
+                    'content' => '<h1>Hello World</h1>',
+                    'contentType' => 'text/html',
+                ],
+            ],
         ];
 
         $htmlOnlyMail = $defaultMail;
@@ -69,6 +81,9 @@ class LogParserUtilityTest extends FunctionalTestCase
 
         $plainOnlyMail = $defaultMail;
         $plainOnlyMail['format'] = FluidEmail::FORMAT_PLAIN;
+
+        $noAttachmentMail = $defaultMail;
+        $noAttachmentMail['attachments'] = [];
 
         return [
             [
@@ -88,6 +103,7 @@ class LogParserUtilityTest extends FunctionalTestCase
                     $htmlOnlyMail,
                     $defaultMail,
                     $htmlOnlyMail,
+                    $noAttachmentMail,
                 ],
             ],
             [
@@ -141,6 +157,10 @@ class LogParserUtilityTest extends FunctionalTestCase
             $email->addBcc(new Address($bcc['email'], $bcc['name']));
         }
 
+        foreach ($exampleMail['attachments'] as $attachment) {
+            $email->attach($attachment['content'], $attachment['filename'], $attachment['contentType']);
+        }
+
         // since typo3 version >12.1 MailerInterface is used
         if (class_exists(\Symfony\Component\Mailer\MailerInterface::class)) {
             GeneralUtility::makeInstance(\Symfony\Component\Mailer\MailerInterface::class)->send($email);
@@ -171,10 +191,20 @@ class LogParserUtilityTest extends FunctionalTestCase
         self::assertEquals($exampleMail['from'], $message->from);
         self::assertEquals($exampleMail['fromName'], $message->fromName);
         self::assertEquals($exampleMail['subject'], $message->subject);
+        self::assertCount(count($exampleMail['attachments']), $message->attachments);
 
         foreach ($exampleMail['cc'] as $key => $cc) {
             self::assertEquals($cc['email'], $message->ccRecipients[$key]['email']);
             self::assertEquals($cc['name'], $message->ccRecipients[$key]['name']);
+        }
+
+        foreach ($exampleMail['attachments'] as $key => $attachment) {
+            self::assertEquals($attachment['filename'], $message->attachments[$key]->filename);
+            self::assertFileExists(Environment::getPublicPath() . '/' . $message->attachments[$key]->publicPath);
+            self::assertEquals(
+                $attachment['content'],
+                file_get_contents(Environment::getPublicPath() . '/' . $message->attachments[$key]->publicPath)
+            );
         }
 
         self::assertEmpty($message->bccRecipients);
