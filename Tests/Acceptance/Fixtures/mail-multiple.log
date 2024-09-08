@@ -1,0 +1,151 @@
+To: Contact <contact@example.org>
+From: Test <hello-world@example.com>
+Subject: TYPO3 loves you - here is why
+Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
+X-Mailer: TYPO3
+Message-ID: <0b7ee8d542f367e477988ba9807451ec@example.com>
+MIME-Version: 1.0
+Date: Sun, 08 Sep 2024 12:54:08 +0000
+Content-Type: multipart/mixed; boundary=HMNj3Zs8
+
+--HMNj3Zs8
+Content-Type: multipart/alternative; boundary=c__M9LEZ
+
+--c__M9LEZ
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hallo Welt!
+
+https://domain/sign-in/registration/confirmation?tx_getacc=
+ess_confirmation%5Baction%5D=3Duser&tx_getaccess_confirmation%5Bcontroller%=
+5D=3DConfirmation&tx_getaccess_confirmation%5Bhash%5D=3D2720ba93a3007066&cH=
+ash=3D3179e61306999063853b2247a1bd4d
+--c__M9LEZ
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<h1>Hallo Welt!</h1><br />
+<br />
+<a href=3D"#">https://domain/sign-in/=
+registration/confirmation?tx_getaccess_confirmation%5Baction%5D=3Duser&tx_g=
+etaccess_confirmation%5Bcontroller%5D=3DConfirmation&tx_getaccess_confirmat=
+ion%5Bhash%5D=3D2720ba93a3007066&cHash=3D3179e61306999063853b2247a1bd4d</a>=
+
+
+--c__M9LEZ--
+
+--HMNj3Zs8
+Content-Type: text/plain; name=test.txt
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; name=test.txt; filename=test.txt
+
+SGVsbG8gV29ybGQ=
+--HMNj3Zs8
+Content-Type: text/html; name=test.html
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; name=test.html; filename=test.html
+
+PGgxPkhlbGxvIFdvcmxkPC9oMT4=
+--HMNj3Zs8--
+To: Contact <contact@example.org>
+From: Test <hello-world@example.com>
+Subject: TYPO3 loves you - here is why
+Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
+X-Mailer: TYPO3
+Message-ID: <496cf5ba77722685b595a118dadc32ff@example.com>
+MIME-Version: 1.0
+Date: Sun, 08 Sep 2024 12:54:08 +0000
+Content-Type: multipart/mixed; boundary=UETCT4oq
+
+--UETCT4oq
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<h1>Hallo Welt!</h1><br />
+<br />
+<a href=3D"#">https://domain/sign-in/=
+registration/confirmation?tx_getaccess_confirmation%5Baction%5D=3Duser&tx_g=
+etaccess_confirmation%5Bcontroller%5D=3DConfirmation&tx_getaccess_confirmat=
+ion%5Bhash%5D=3D2720ba93a3007066&cHash=3D3179e61306999063853b2247a1bd4d</a>=
+
+
+--UETCT4oq
+Content-Type: text/plain; name=test.txt
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; name=test.txt; filename=test.txt
+
+SGVsbG8gV29ybGQ=
+--UETCT4oq
+Content-Type: text/html; name=test.html
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; name=test.html; filename=test.html
+
+PGgxPkhlbGxvIFdvcmxkPC9oMT4=
+--UETCT4oq--
+To: Contact <contact@example.org>
+From: Test <hello-world@example.com>
+Subject: TYPO3 loves you - here is why
+Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
+X-Mailer: TYPO3
+Message-ID: <89f87915789a521d098368d7b79671ba@example.com>
+MIME-Version: 1.0
+Date: Sun, 08 Sep 2024 12:54:08 +0000
+Content-Type: multipart/mixed; boundary=dKgZx-0V
+
+--dKgZx-0V
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hallo Welt!
+
+https://domain/sign-in/registration/confirmation?tx_getacc=
+ess_confirmation%5Baction%5D=3Duser&tx_getaccess_confirmation%5Bcontroller%=
+5D=3DConfirmation&tx_getaccess_confirmation%5Bhash%5D=3D2720ba93a3007066&cH=
+ash=3D3179e61306999063853b2247a1bd4d
+--dKgZx-0V
+Content-Type: text/plain; name=test.txt
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; name=test.txt; filename=test.txt
+
+SGVsbG8gV29ybGQ=
+--dKgZx-0V
+Content-Type: text/html; name=test.html
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; name=test.html; filename=test.html
+
+PGgxPkhlbGxvIFdvcmxkPC9oMT4=
+--dKgZx-0V--
+To: Contact <contact@example.org>
+From: Test <hello-world@example.com>
+Subject: TYPO3 loves you - here is why
+Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
+X-Mailer: TYPO3
+Message-ID: <c053f3fb5e75e5d6c305abd192e084b5@example.com>
+MIME-Version: 1.0
+Date: Sun, 08 Sep 2024 12:54:08 +0000
+Content-Type: multipart/alternative; boundary=NY5BkTTA
+
+--NY5BkTTA
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hallo Welt!
+
+https://domain/sign-in/registration/confirmation?tx_getacc=
+ess_confirmation%5Baction%5D=3Duser&tx_getaccess_confirmation%5Bcontroller%=
+5D=3DConfirmation&tx_getaccess_confirmation%5Bhash%5D=3D2720ba93a3007066&cH=
+ash=3D3179e61306999063853b2247a1bd4d
+--NY5BkTTA
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<h1>Hallo Welt!</h1><br />
+<br />
+<a href=3D"#">https://domain/sign-in/=
+registration/confirmation?tx_getaccess_confirmation%5Baction%5D=3Duser&tx_g=
+etaccess_confirmation%5Bcontroller%5D=3DConfirmation&tx_getaccess_confirmat=
+ion%5Bhash%5D=3D2720ba93a3007066&cHash=3D3179e61306999063853b2247a1bd4d</a>=
+
+
+--NY5BkTTA--
