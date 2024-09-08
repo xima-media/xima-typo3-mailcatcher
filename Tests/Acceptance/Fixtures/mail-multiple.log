@@ -55,7 +55,7 @@ Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
 X-Mailer: TYPO3
 Message-ID: <496cf5ba77722685b595a118dadc32ff@example.com>
 MIME-Version: 1.0
-Date: Sun, 08 Sep 2024 12:54:08 +0000
+Date: Sun, 08 Sep 2024 12:55:08 +0000
 Content-Type: multipart/mixed; boundary=UETCT4oq
 
 --UETCT4oq
@@ -90,7 +90,7 @@ Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
 X-Mailer: TYPO3
 Message-ID: <89f87915789a521d098368d7b79671ba@example.com>
 MIME-Version: 1.0
-Date: Sun, 08 Sep 2024 12:54:08 +0000
+Date: Sun, 08 Sep 2024 12:56:08 +0000
 Content-Type: multipart/mixed; boundary=dKgZx-0V
 
 --dKgZx-0V
@@ -123,7 +123,7 @@ Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
 X-Mailer: TYPO3
 Message-ID: <c053f3fb5e75e5d6c305abd192e084b5@example.com>
 MIME-Version: 1.0
-Date: Sun, 08 Sep 2024 12:54:08 +0000
+Date: Sun, 08 Sep 2024 12:57:08 +0000
 Content-Type: multipart/alternative; boundary=NY5BkTTA
 
 --NY5BkTTA
