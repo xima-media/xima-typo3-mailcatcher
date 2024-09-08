@@ -1,6 +1,6 @@
 To: Contact <contact@example.org>
 From: Test <hello-world@example.com>
-Subject: TYPO3 loves you - here is why
+Subject: Test1: TYPO3 loves you - here is why
 Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
 X-Mailer: TYPO3
 Message-ID: <0b7ee8d542f367e477988ba9807451ec@example.com>
@@ -50,7 +50,7 @@ PGgxPkhlbGxvIFdvcmxkPC9oMT4=
 --HMNj3Zs8--
 To: Contact <contact@example.org>
 From: Test <hello-world@example.com>
-Subject: TYPO3 loves you - here is why
+Subject: Test2: TYPO3 loves you - here is why
 Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
 X-Mailer: TYPO3
 Message-ID: <496cf5ba77722685b595a118dadc32ff@example.com>
@@ -85,7 +85,7 @@ PGgxPkhlbGxvIFdvcmxkPC9oMT4=
 --UETCT4oq--
 To: Contact <contact@example.org>
 From: Test <hello-world@example.com>
-Subject: TYPO3 loves you - here is why
+Subject: Test3: TYPO3 loves you - here is why
 Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
 X-Mailer: TYPO3
 Message-ID: <89f87915789a521d098368d7b79671ba@example.com>
@@ -118,7 +118,7 @@ PGgxPkhlbGxvIFdvcmxkPC9oMT4=
 --dKgZx-0V--
 To: Contact <contact@example.org>
 From: Test <hello-world@example.com>
-Subject: TYPO3 loves you - here is why
+Subject: Test4: TYPO3 loves you - here is why
 Cc: CC1 <cc1@example.com>, CC2 <cc2@example.com>
 X-Mailer: TYPO3
 Message-ID: <c053f3fb5e75e5d6c305abd192e084b5@example.com>
