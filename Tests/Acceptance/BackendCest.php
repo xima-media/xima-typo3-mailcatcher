@@ -84,7 +84,7 @@ class BackendCest
      * @Depends seeEnvTestMail
      * @Depends login
      */
-    public function deleteEnvTestMail(AcceptanceTester $I, ModalDialog $modalDialog): void
+    public function deleteAllMails(AcceptanceTester $I, ModalDialog $modalDialog): void
     {
         $I->click('Mail Log');
         $I->switchToContentFrame();
@@ -94,5 +94,29 @@ class BackendCest
         $I->waitForText('All messages have been deleted');
         $I->switchToContentFrame();
         $I->see('No messages');
+    }
+
+    /**
+     * @Depends login
+     */
+    public function testMultipleMailFixture(AcceptanceTester $I): void
+    {
+        // write fixtures to mail.log
+        $testMail = file_get_contents(__DIR__ . '/Fixtures/mail-multiple.log') ?: '';
+        file_put_contents(self::MAIL_LOG_DIR . '/mail.log', $testMail);
+        $I->click('Mail Log');
+        $I->switchToContentFrame();
+        $I->seeNumberOfElements('div[data-message-file]', 4);
+        // navigate to files of first mail
+        $I->click('Test1');
+        $I->waitForElementVisible('.btn-group.content-type-switches');
+        $I->click('Files');
+        $I->waitForElementVisible('.form-section[data-content-type="files"]');
+        $I->see('test.txt');
+        $I->see('test.html');
+        // delete the first mail
+        $I->click('.panel[data-message-file="1725800048-74be16979710d4c4e7c6647856088456.json"] button[data-delete]');
+        $I->waitForElementNotVisible('.panel[data-message-file="1725800048-74be16979710d4c4e7c6647856088456.json"]');
+        $I->seeNumberOfElements('div[data-message-file]', 3);
     }
 }
