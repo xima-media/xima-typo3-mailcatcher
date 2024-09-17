@@ -220,6 +220,10 @@ class LogParserUtility
                 $this->messages[] = $message;
             }
         }
+
+        usort($this->messages, static function (MailMessage $a, MailMessage $b) {
+            return $b->date->getTimestamp() <=> $a->date->getTimestamp();
+        });
     }
 
     public function getMessageByFilename(string $filename): ?MailMessage
