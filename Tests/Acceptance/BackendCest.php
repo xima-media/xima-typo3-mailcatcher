@@ -12,7 +12,13 @@ class BackendCest
 {
     protected const MAIL_LOG_DIR = '/var/www/html/var/log';
 
-    public function login(AcceptanceTester $I): void
+    public function _before(AcceptanceTester $I): void
+    {
+        $I->cleanDir(self::MAIL_LOG_DIR);
+        $I->cleanDir('/var/www/html/public/typo3temp/assets/xima_typo3_mailcatcher/');
+    }
+
+    public function login(AcceptanceTester $I, ExtensionConfiguration $extensionConfiguration): void
     {
         $I->waitForElementVisible('input[name="username"]');
         $I->waitForElementVisible('input[type="password"]');
@@ -49,63 +55,38 @@ class BackendCest
     }
 
     /**
-     * @Depends login
+     * @Depends moduleVisible
      */
-    public function seeEnvTestMail(AcceptanceTester $I): void
+    public function testEnvMail(AcceptanceTester $I): void
     {
-        $I->cleanDir(self::MAIL_LOG_DIR);
         $testMail = file_get_contents(__DIR__ . '/Fixtures/mail-env-tool.log') ?: '';
-        $I->writeToFile(self::MAIL_LOG_DIR . '/mail.log', $testMail);
+        file_put_contents(self::MAIL_LOG_DIR . '/mail.log', $testMail);
         $I->click('Mail Log');
         $I->switchToContentFrame();
+        $I->waitForElement('h1');
+        assertEmpty(file_get_contents(self::MAIL_LOG_DIR . '/mail.log'));
         $I->see('TYPO3 CMS install tool <hello@example.com>');
         $I->see('Test TYPO3 CMS mail delivery from site "New TYPO3 site"');
-        assertEmpty(file_get_contents(self::MAIL_LOG_DIR . '/mail.log'));
-    }
-
-    /**
-     * @Depends login
-     * @Depends seeEnvTestMail
-     */
-    public function openEnvTestMail(AcceptanceTester $I): void
-    {
-        $I->click('Mail Log');
-        $I->switchToContentFrame();
         $I->click('TYPO3 CMS install tool <hello@example.com>');
         $I->wait(1);
         $I->see('Hey TYPO3 Administrator');
-        $I->click('HTML', '#m5');
+        $I->click('HTML', '#m1');
         $I->wait(1);
         $I->switchToIFrame('iframe');
         $I->see('Hey TYPO3 Administrator', 'h4');
     }
 
     /**
-     * @Depends seeEnvTestMail
-     * @Depends login
+     * @Depends moduleVisible
      */
-    public function deleteAllMails(AcceptanceTester $I, ModalDialog $modalDialog): void
-    {
-        $I->click('Mail Log');
-        $I->switchToContentFrame();
-        $I->click('Delete all messages');
-        $modalDialog->canSeeDialog();
-        $modalDialog->clickButtonInDialog('Yes, delete');
-        $I->waitForText('All messages have been deleted');
-        $I->switchToContentFrame();
-        $I->see('No messages');
-    }
-
-    /**
-     * @Depends login
-     */
-    public function testMultipleMailFixture(AcceptanceTester $I): void
+    public function testMultipleMailFixture(AcceptanceTester $I, ModalDialog $modalDialog): void
     {
         // write fixtures to mail.log
         $testMail = file_get_contents(__DIR__ . '/Fixtures/mail-multiple.log') ?: '';
         file_put_contents(self::MAIL_LOG_DIR . '/mail.log', $testMail);
         $I->click('Mail Log');
         $I->switchToContentFrame();
+        $I->waitForElement('h1');
         $I->seeNumberOfElements('div[data-message-file]', 4);
         // navigate to files of first mail
         $I->click('Test1');
@@ -118,5 +99,12 @@ class BackendCest
         $I->click('.panel[data-message-file="1725800048-74be16979710d4c4e7c6647856088456.json"] button[data-delete]');
         $I->waitForElementNotVisible('.panel[data-message-file="1725800048-74be16979710d4c4e7c6647856088456.json"]');
         $I->seeNumberOfElements('div[data-message-file]', 3);
+        // delete all mails
+        $I->click('Delete all messages');
+        $modalDialog->canSeeDialog();
+        $modalDialog->clickButtonInDialog('Yes, delete');
+        $I->waitForText('All messages have been deleted');
+        $I->switchToContentFrame();
+        $I->see('No messages');
     }
 }
