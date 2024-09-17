@@ -32,7 +32,8 @@ suites:
       enabled:
         - WebDriver:
             url: https://%TESTING_DOMAIN%/typo3
-            browser: chrome
+            browser: firefox
+            window_size: 2000x1000
             wait: 5
             host: selenium-chrome
             clear_cookies: false
