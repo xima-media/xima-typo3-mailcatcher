@@ -75,7 +75,7 @@ jobs:
           retry_on: error
           timeout_minutes: 10
           command: ddev composer ci:test:acceptance
-          new_command_on_retry: ddev composer test:acceptance -- -g failed
+          new_command_on_retry: ddev composer ci:test:acceptance -- -g failed
       - name: Run functional and unit tests
         run: |
           ddev composer ci:test:functional
