@@ -123,7 +123,7 @@ class MailCatcher {
                 const $iframe = $('<iframe />')
                     .attr('width', '100%')
                     .attr('frameBorder', '0')
-                    .attr('height', '650px')
+                    .attr('height', '668px')
                     .attr('srcdoc', resolved.src);
                 // @ts-ignore
                 $('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html($iframe);
