@@ -41,7 +41,7 @@ class MailCatcher {
             },
             {
                 text: 'No, abort',
-                btnClass: 'primary-outline',
+                btnClass: 'btn-default',
                 active: true,
                 trigger: function () {
                     Modal.dismiss();
