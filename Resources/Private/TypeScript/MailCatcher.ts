@@ -100,8 +100,8 @@ class MailCatcher {
         const contentType = $(e.currentTarget).attr('data-content-type');
         const mId = $(e.currentTarget).attr('data-m-id');
 
-        $('.content-type-switches a[data-m-id="' + mId + '"]').addClass('btn-outline-primary').removeClass('btn-primary');
-        $('.content-type-switches a[data-m-id="' + mId + '"][data-content-type="' + contentType + '"]').removeClass('btn-outline-primary').addClass('btn-primary');
+        $('.content-type-switches a[data-m-id="' + mId + '"]').addClass('btn-default').removeClass('btn-primary');
+        $('.content-type-switches a[data-m-id="' + mId + '"][data-content-type="' + contentType + '"]').removeClass('btn-default').addClass('btn-primary');
 
         $('.form-section[data-m-id="' + mId + '"]').addClass('hidden');
         const $formSection = $('.form-section[data-m-id="' + mId + '"][data-content-type="' + contentType + '"]');

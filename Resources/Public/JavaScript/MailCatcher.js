@@ -91,8 +91,8 @@ define(['exports', 'jquery', 'TYPO3/CMS/Backend/Modal', 'TYPO3/CMS/Core/Ajax/Aja
             e.preventDefault();
             const contentType = $__default["default"](e.currentTarget).attr('data-content-type');
             const mId = $__default["default"](e.currentTarget).attr('data-m-id');
-            $__default["default"]('.content-type-switches a[data-m-id="' + mId + '"]').addClass('btn-outline-primary').removeClass('btn-primary');
-            $__default["default"]('.content-type-switches a[data-m-id="' + mId + '"][data-content-type="' + contentType + '"]').removeClass('btn-outline-primary').addClass('btn-primary');
+            $__default["default"]('.content-type-switches a[data-m-id="' + mId + '"]').addClass('btn-default').removeClass('btn-primary');
+            $__default["default"]('.content-type-switches a[data-m-id="' + mId + '"][data-content-type="' + contentType + '"]').removeClass('btn-default').addClass('btn-primary');
             $__default["default"]('.form-section[data-m-id="' + mId + '"]').addClass('hidden');
             const $formSection = $__default["default"]('.form-section[data-m-id="' + mId + '"][data-content-type="' + contentType + '"]');
             $formSection.removeClass('hidden');
