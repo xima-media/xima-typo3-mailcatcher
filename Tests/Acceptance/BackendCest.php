@@ -74,7 +74,7 @@ class BackendCest
         $I->click('TYPO3 CMS install tool <hello@example.com>');
         $I->wait(1);
         $I->see('Hey TYPO3 Administrator');
-        $I->click('HTML');
+        $I->click('HTML', '#m5');
         $I->wait(1);
         $I->switchToIFrame('iframe');
         $I->see('Hey TYPO3 Administrator', 'h4');
@@ -109,11 +109,11 @@ class BackendCest
         $I->seeNumberOfElements('div[data-message-file]', 4);
         // navigate to files of first mail
         $I->click('Test1');
-        $I->waitForElementVisible('.btn-group.content-type-switches');
-        $I->click('Files');
-        $I->waitForElementVisible('.form-section[data-content-type="files"]');
-        $I->see('test.txt');
-        $I->see('test.html');
+        $I->waitForElementVisible('#m4 .btn-group.content-type-switches');
+        $I->click('Files', '#m4');
+        $I->waitForElementVisible('#m4 .form-section[data-content-type="files"]');
+        $I->see('test.txt', '#m4');
+        $I->see('test.html', '#m4');
         // delete the first mail
         $I->click('.panel[data-message-file="1725800048-74be16979710d4c4e7c6647856088456.json"] button[data-delete]');
         $I->waitForElementNotVisible('.panel[data-message-file="1725800048-74be16979710d4c4e7c6647856088456.json"]');
