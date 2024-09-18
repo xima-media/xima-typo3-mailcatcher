@@ -15,10 +15,6 @@
 		{
 			"type": "github",
 			"url": "git@github.com:bmack/TYPO3-Console.git"
-		},
-		{
-			"type": "github",
-			"url": "git@github.com:maikschneider/typo3-codeception-helper.git"
 		}
 	],
 	"keywords": [
