@@ -11,14 +11,13 @@ on:
 
 jobs:
   tests:
-    name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }} & ${{ matrix.dependencies }} dependencies)
+    name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         typo3-version: [ "11.5", "12.4", "13.3" ]
         php-version: [ "7.4", "8.1", "8.2", "8.3" ]
-        dependencies: ["highest", "lowest"]
         exclude:
           - typo3-version: "12.4"
             php-version: "7.4"
@@ -56,7 +55,6 @@ jobs:
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
         with:
-          dependency-versions: ${{ matrix.dependencies }}
           composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}"
 
       # Fix namespace (add"/Support" to end of namespace) only for typo3-version 11
@@ -81,7 +79,7 @@ jobs:
       # Save acceptance reports
       - uses: actions/upload-artifact@v4
         with:
-          name: acceptance-reports-${{ matrix.php-version }}-${{ matrix.typo3-version }}-${{ matrix.dependencies }}
+          name: acceptance-reports-${{ matrix.php-version }}-${{ matrix.typo3-version }}
           path: Test/Acceptance/_output
         if: failure()
 
