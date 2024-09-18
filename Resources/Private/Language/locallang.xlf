@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-04-29T07:42:06Z">
+		<body>
+			<trans-unit id="js.delete.button">
+				<source>Delete Messages</source>
+			</trans-unit>
+			<trans-unit id="js.delete.message">
+				<source>Are you sure, you want to delete all messages?</source>
+			</trans-unit>
+			<trans-unit id="js.delete.yes">
+				<source>Yes, delete</source>
+			</trans-unit>
+			<trans-unit id="js.delete.no">
+				<source>No, abort</source>
+			</trans-unit>
+			<trans-unit id="js.success.headline">
+				<source>Success</source>
+			</trans-unit>
+			<trans-unit id="js.success.text">
+				<source>All messages have been deleted</source>
+			</trans-unit>
+			<trans-unit id="js.success.text2">
+				<source>Message has been deleted</source>
+			</trans-unit>
+			<trans-unit id="js.error.headline">
+				<source>Error</source>
+			</trans-unit>
+			<trans-unit id="js.error.text">
+				<source>Could not delete messages</source>
+			</trans-unit>
+			<trans-unit id="js.error.text2">
+				<source>Could not delete message</source>
+			</trans-unit>
+			<trans-unit id="js.error.text3">
+				<source>Could not load message</source>
+			</trans-unit>
+			<trans-unit id="empty.title">
+				<source>No messages</source>
+			</trans-unit>
+			<trans-unit id="empty.text">
+				<source>There are currently no messages to display</source>
+			</trans-unit>
+			<trans-unit id="mailLog">
+				<source>Mail Log</source>
+			</trans-unit>
+			<trans-unit id="inbox">
+				<source>Inbox</source>
+			</trans-unit>
+			<trans-unit id="button.delete.all">
+				<source>Delete all messages</source>
+			</trans-unit>
+			<trans-unit id="to">
+				<source>To</source>
+			</trans-unit>
+			<trans-unit id="date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="button.plain">
+				<source>Plain</source>
+			</trans-unit>
+			<trans-unit id="button.files">
+				<source>Files</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

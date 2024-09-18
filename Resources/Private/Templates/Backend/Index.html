@@ -3,19 +3,19 @@
         <div class="row justify-content-md-center">
             <div class="col"></div>
             <div class="col col-lg-10">
-                <h1>Mail Log</h1>
+                <h1>{f:translate(key: 'mailLog')}</h1>
             </div>
         </div>
         <div class="row justify-content-md-center">
             <div class="col">
                 <ul class="list-group">
-                    <li class="list-group-item">Inbox (<span class="message-count">{mails->f:count()}</span>)</li>
+                    <li class="list-group-item">{f:translate(key: 'inbox')} (<span class="message-count">{mails->f:count()}</span>)</li>
                 </ul>
 
                 <div class="text-center">
                     <button type="button" class="btn btn-danger" id="delete-all-messages">
                         <core:icon identifier="actions-delete" size="small" />
-                        Delete all messages
+                        {f:translate(key: 'button.delete.all')}
                     </button>
                 </div>
 
@@ -23,7 +23,7 @@
             <div class="col col-lg-10">
 
                 <div class="infobox hidden" data-message-count="{mails->f:count()}">
-                    <f:be.infobox title="No messages" state="-1">There are currently no messages to display</f:be.infobox>
+                    <f:be.infobox title="{f:translate(key: 'empty.title')}" state="-1">{f:translate(key: 'empty.text')}</f:be.infobox>
                 </div>
 
                 <f:if condition="{mails}">
@@ -51,7 +51,6 @@
                                             <div class="btn-group btn-group-sm" role="group">
                                                 <button type="button" class="btn btn-default" title="Delete mail" data-delete>
                                                     <core:icon identifier="actions-delete" size="small" />
-                                                    </span>
                                                 </button>
                                             </div>
                                         </div>
@@ -62,19 +61,19 @@
                                         <div class="tab-header">
                                             <div class="row">
                                                 <div class="col">
-                                                    <span><strong>To:</strong> {mail.displayToAddress}<br />
+                                                    <span><strong>{f:translate(key: 'to')}:</strong> {mail.displayToAddress}<br />
                                                         <f:if condition="{mail.displayCcRecipients}"><strong>Cc:</strong>
                                                             {mail.displayCcRecipients}<br /></f:if>
                                                         <f:if condition="{mail.displayBccRecipients}"><strong>Bcc:</strong>
                                                             {mail.displayBccRecipients}<br /></f:if>
-                                                        <strong>Date:</strong>
+                                                        <strong>{f:translate(key: 'date')}:</strong>
                                                         <f:format.date format="H:i, d.m.Y">{mail.date}</f:format.date>
                                                     </span>
                                                 </div>
                                                 <div class="col d-flex justify-content-end align-items-center">
                                                     <div class="btn-group content-type-switches">
                                                         <f:if condition="{mail.bodyPlain}">
-                                                            <a class="btn btn-primary" data-content-type="plain" data-m-id="{i.cycle}">Plain
+                                                            <a class="btn btn-primary" data-content-type="plain" data-m-id="{i.cycle}">{f:translate(key: 'button.plain')}
                                                             </a>
                                                         </f:if>
                                                         <f:if condition="{mail.bodyHtml}">
@@ -84,7 +83,7 @@
                                                             </a>
                                                         </f:if>
                                                         <f:if condition="{mail.attachments->f:count()}">
-                                                            <a class="btn btn-default" data-content-type="files" data-m-id="{i.cycle}">Files
+                                                            <a class="btn btn-default" data-content-type="files" data-m-id="{i.cycle}">{f:translate(key: 'button.files')}
                                                             </a>
                                                         </f:if>
                                                     </div>

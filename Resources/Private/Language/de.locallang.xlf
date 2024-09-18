@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2019-04-29T07:42:06Z">
+		<body>
+			<trans-unit id="js.delete.button">
+				<source>Delete Messages</source>
+				<target>Alle Nachrichten löschen</target>
+			</trans-unit>
+			<trans-unit id="js.delete.message">
+				<source>Are you sure, you want to delete all messages?</source>
+				<target>Bist du sicher, dass du alle Nachrichten löschen möchtest?</target>
+			</trans-unit>
+			<trans-unit id="js.delete.yes">
+				<source>Yes, delete</source>
+				<target>Ja, löschen</target>
+			</trans-unit>
+			<trans-unit id="js.delete.no">
+				<source>No, abort</source>
+				<target>Nein, abbrechen</target>
+			</trans-unit>
+			<trans-unit id="js.success.headline">
+				<source>Success</source>
+				<target>Erfolgreich</target>
+			</trans-unit>
+			<trans-unit id="js.success.text">
+				<source>All messages have been deleted</source>
+				<target>Alle Nachrichten wurden gelöscht</target>
+			</trans-unit>
+			<trans-unit id="js.success.text2">
+				<source>Message has been deleted</source>
+				<target>Nachricht wurde gelöscht</target>
+			</trans-unit>
+			<trans-unit id="js.error.headline">
+				<source>Error</source>
+				<target>Fehler</target>
+			</trans-unit>
+			<trans-unit id="js.error.text">
+				<source>Could not delete messages</source>
+				<target>Nachrichten konnten nicht gelöscht werden</target>
+			</trans-unit>
+			<trans-unit id="js.error.text2">
+				<source>Could not delete message</source>
+				<target>Nachricht konnte nicht gelöscht werden</target>
+			</trans-unit>
+			<trans-unit id="js.error.text3">
+				<source>Could not load message</source>
+				<target>Nachricht konnte nicht geladen werden</target>
+			</trans-unit>
+			<trans-unit id="empty.title">
+				<source>No messages</source>
+				<target>Keine Nachrichten</target>
+			</trans-unit>
+			<trans-unit id="empty.text">
+				<source>There are currently no messages to display</source>
+				<target>Aktuell gibt es keine Nachrichten zum Anzeigen</target>
+			</trans-unit>
+			<trans-unit id="mailLog">
+				<source>Mail Log</source>
+				<target>Mail Log</target>
+			</trans-unit>
+			<trans-unit id="inbox">
+				<source>Inbox</source>
+				<target>Eingang</target>
+			</trans-unit>
+			<trans-unit id="button.delete.all">
+				<source>Delete all messages</source>
+				<target>Alle löschen</target>
+			</trans-unit>
+			<trans-unit id="to">
+				<source>To</source>
+				<target>An</target>
+			</trans-unit>
+			<trans-unit id="date">
+				<source>Date</source>
+				<target>Datum</target>
+			</trans-unit>
+			<trans-unit id="button.plain">
+				<source>Plain</source>
+				<target>Text</target>
+			</trans-unit>
+			<trans-unit id="button.files">
+				<source>Files</source>
+				<target>Anhänge</target>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
