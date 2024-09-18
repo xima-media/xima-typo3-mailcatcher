@@ -50,6 +50,18 @@
 			<trans-unit id="button.delete.all">
 				<source>Delete all messages</source>
 			</trans-unit>
+			<trans-unit id="to">
+				<source>To</source>
+			</trans-unit>
+			<trans-unit id="date">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="button.plain">
+				<source>Plain</source>
+			</trans-unit>
+			<trans-unit id="button.files">
+				<source>Files</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
