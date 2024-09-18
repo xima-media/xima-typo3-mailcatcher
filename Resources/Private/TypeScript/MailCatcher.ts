@@ -30,9 +30,9 @@ class MailCatcher {
         e.preventDefault();
         const self = this;
 
-        Modal.confirm('Delete Messages', 'Are you sure, you want to delete all messages?', Severity.warning, [
+        Modal.confirm(TYPO3.lang['js.delete.button'], TYPO3.lang['js.delete.message'], Severity.warning, [
             {
-                text: 'Yes, delete',
+                text: TYPO3.lang['js.delete.yes'],
                 btnClass: 'btn-danger',
                 trigger: function () {
                     self.deleteAllMessages();
@@ -40,7 +40,7 @@ class MailCatcher {
                 }
             },
             {
-                text: 'No, abort',
+                text: TYPO3.lang['js.delete.no'],
                 btnClass: 'btn-default',
                 active: true,
                 trigger: function () {
@@ -61,10 +61,10 @@ class MailCatcher {
                 if (resolved.success) {
                     $panel.remove();
                     self.refreshMessageCount();
-                    top.TYPO3.Notification.success('Success', 'All messages have been deleted', 3);
+                    top.TYPO3.Notification.success(TYPO3.lang['js.success.headline'], TYPO3.lang['js.success.text'], 3);
                     return;
                 }
-                top.TYPO3.Notification.error('Error', 'Could not delete messages', 3);
+                top.TYPO3.Notification.error(TYPO3.lang['js.error.headline'], TYPO3.lang['js.error.text'], 3);
             });
     }
 
@@ -88,9 +88,10 @@ class MailCatcher {
                 if (resolved.success) {
                     $panel.remove();
                     self.refreshMessageCount();
+                    top.TYPO3.Notification.success(TYPO3.lang['js.success.headline'], TYPO3.lang['js.success.text2'], 3);
                     return;
                 }
-                top.TYPO3.Notification.error('Error', 'Could not delete message', 3);
+                top.TYPO3.Notification.error(TYPO3.lang['js.error.headline'], TYPO3.lang['js.error.text2'], 3);
             });
     }
 
@@ -130,7 +131,7 @@ class MailCatcher {
                 $('.panel[data-message-file="' + messageFile + '"]').attr('data-html-loaded', 'true');
             })
             .catch(() => {
-                $('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html('<div class="callout callout-danger">Could not load message</div>');
+                $('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html('<div class="callout callout-danger">' + TYPO3.lang['js.error.text3'] + '</div>');
             })
     }
 }

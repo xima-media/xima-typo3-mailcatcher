@@ -9,13 +9,13 @@
         <div class="row justify-content-md-center">
             <div class="col"></div>
             <div class="col col-lg-10">
-                <h1>Mail Log</h1>
+                <h1>{f:translate(key: 'mailLog')}</h1>
             </div>
         </div>
         <div class="row justify-content-md-center">
             <div class="col">
                 <ul class="list-group">
-                    <li class="list-group-item">Inbox
+                    <li class="list-group-item">{f:translate(key: 'inbox')}
                         (<span class="message-count">{mails->f:count()}</span>)
                     </li>
                 </ul>
@@ -23,7 +23,7 @@
                 <div class="text-center">
                     <button type="button" class="btn btn-danger" id="delete-all-messages">
                         <core:icon identifier="actions-delete" size="small" />
-                        Delete all messages
+                        {f:translate(key: 'button.delete.all')}
                     </button>
                 </div>
 
@@ -31,7 +31,7 @@
             <div class="col col-lg-10">
 
                 <div class="infobox hidden" data-message-count="{mails->f:count()}">
-                    <f:be.infobox title="No messages" state="-1">There are currently no messages to display</f:be.infobox>
+                    <f:be.infobox title="{f:translate(key: 'empty.title')}" state="-1">{f:translate(key: 'empty.text')}</f:be.infobox>
                 </div>
 
                 <f:if condition="{mails}">
@@ -59,7 +59,6 @@
                                             <div class="btn-group btn-group-sm" role="group">
                                                 <button type="button" class="btn btn-default" title="Delete mail" data-delete>
                                                     <core:icon identifier="actions-delete" size="small" />
-                                                    </span>
                                                 </button>
                                             </div>
                                         </div>
@@ -133,7 +132,6 @@
                 </f:if>
             </div>
         </div>
-    </div>
     </div>
 
     <style>
