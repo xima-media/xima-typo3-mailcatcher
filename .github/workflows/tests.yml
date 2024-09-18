@@ -48,7 +48,7 @@ jobs:
           autostart: false
       - name: Configure and start DDEV
         run: |
-          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --xdebug-enabled=true --web-environment-add="XDEBUG_MODE=coverage"
+          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --xdebug-enabled=true
           ddev start
 
       # Install dependencies
