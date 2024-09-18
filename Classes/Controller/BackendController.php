@@ -22,6 +22,7 @@ class BackendController extends ActionController
     ) {
         $this->moduleTemplateFactory = $moduleTemplateFactory;
         $this->pageRenderer = $pageRenderer;
+        $this->pageRenderer->addCssFile('EXT:xima_typo3_mailcatcher/Resources/Public/Css/backend.css');
     }
 
     public function indexAction(): ResponseInterface
@@ -32,6 +33,8 @@ class BackendController extends ActionController
         $moduleTemplate = $this->moduleTemplateFactory->create($this->request);
 
         $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
+        $this->view->assign('typo3version', $version['version_main']);
+
         if ($version['version_main'] >= 12) {
             $this->pageRenderer->loadJavaScriptModule('@xima/xima-typo3-mailcatcher/MailCatcher.js');
         } else {

@@ -1,4 +1,4 @@
-<div class="module-body t3js-module-body">
+<div class="module-body t3js-module-body typo3-v{typo3version}">
     <div class="container">
         <div class="row justify-content-md-center">
             <div class="col"></div>
@@ -27,7 +27,7 @@
                 </div>
 
                 <f:if condition="{mails}">
-                    <div class="panel-group panel-hover" id="messages">
+                    <div class="panel-hover" id="messages">
                         <f:for each="{mails}" iteration="i" as="mail">
                             <div class="panel" data-message-file="{mail.fileName}" data-html-loaded="false">
                                 <div class="panel-heading" id="h{i.cycle}">
@@ -71,7 +71,7 @@
                                                         <f:format.date format="H:i, d.m.Y">{mail.date}</f:format.date>
                                                     </span>
                                                 </div>
-                                                <div class="col text-right">
+                                                <div class="col d-flex justify-content-end align-items-center">
                                                     <div class="btn-group content-type-switches">
                                                         <f:if condition="{mail.bodyPlain}">
                                                             <a class="btn btn-primary" data-content-type="plain" data-m-id="{i.cycle}">Plain
@@ -127,33 +127,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    :root {
-        --panel-heading-bg: #eee;
-    }
-
-    .tab-header {
-        background: #fff;
-        padding: 10px;
-    }
-
-    .loading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 300px;
-    }
-
-    .infobox[data-message-count="0"] {
-        display: block !important;
-    }
-
-    #delete-all-messages {
-        margin-top: 30px;
-    }
-
-    .text-right {
-        text-align: right;
-    }
-</style>
