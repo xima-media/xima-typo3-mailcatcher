@@ -109,7 +109,7 @@
                                             <div class="form-section hidden" data-content-type="files" data-m-id="{i.cycle}">
                                                 <f:for each="{mail.attachments}" as="file">{mail.publicPath}
                                                     <p>
-                                                        <a href="{file.publicPath}" class="btn default" download="{file.filename}">
+                                                        <a href="{file.publicPath}" class="btn btn-default" download="{file.filename}">
                                                             <core:icon identifier="actions-download" size="small" />
                                                             {file.filename} ({file.filesize->f:format.bytes()})
                                                         </a>
