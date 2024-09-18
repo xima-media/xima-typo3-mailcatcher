@@ -14,11 +14,10 @@ database:
 use_dns_when_possible: true
 composer_version: "2"
 nodejs_version: "16"
-webimage_extra_packages: [libxml2-utils,php8.3-pcov]
+webimage_extra_packages: [libxml2-utils]
 omit_containers: [ddev-ssh-agent]
 disable_settings_management: true
 web_environment:
-  - XDEBUG_MODE=coverage
   - TESTING_DOMAIN=$DDEV_HOSTNAME
   - TYPO3_CONTEXT=Development/DDEV
   - typo3DatabaseHost=db

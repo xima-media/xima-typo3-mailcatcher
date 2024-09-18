@@ -48,7 +48,7 @@ jobs:
           autostart: false
       - name: Configure and start DDEV
         run: |
-          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --xdebug-enabled=false --web-environment-add=
+          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --xdebug-enabled=false --webimage-extra-packages=
           ddev start
 
       # Install dependencies
@@ -103,7 +103,7 @@ jobs:
           autostart: false
       - name: Configure and start DDEV
         run: |
-          ddev config --project-type=typo3 --xdebug-enabled=true
+          ddev config --project-type=typo3 --xdebug-enabled=true --webimage-extra-packages=php8.3-pcov --web-environment-add="XDEBUG_MODE=coverage"
           ddev start
 
       # Install dependencies

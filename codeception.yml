@@ -20,7 +20,6 @@ params:
 
 coverage:
   enabled: true
-  remote: true
   include:
     - Classes/*
 
@@ -32,8 +31,7 @@ suites:
       enabled:
         - WebDriver:
             url: https://%TESTING_DOMAIN%/typo3
-            browser: firefox
-            window_size: 2000x1000
+            browser: chrome
             wait: 5
             host: selenium-chrome
             clear_cookies: false
