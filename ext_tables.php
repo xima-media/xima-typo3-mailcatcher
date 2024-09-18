@@ -1,22 +1,13 @@
 <?php
 
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use Xima\XimaTypo3Mailcatcher\Controller\BackendController;
+
 if (isset($GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport']) && $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] === 'mbox') {
-    $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-    $iconRegistry->registerIcon(
-        'module-mailcatcher',
-        \TYPO3\CMS\Core\Imaging\IconProvider\SvgIconProvider::class,
-        ['source' => 'EXT:xima_typo3_mailcatcher/Resources/Public/Icons/Extension.svg']
-    );
+    $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
+    $controllerName = BackendController::class;
 
-    $versionNumberUtility = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Utility\VersionNumberUtility::class);
-    $version = $versionNumberUtility->convertVersionStringToArray($versionNumberUtility->getNumericTypo3Version());
-
-    $controllerName = \Xima\XimaTypo3Mailcatcher\Controller\LegacyBackendController::class;
-    if ($version['version_main'] >= 11) {
-        $controllerName = \Xima\XimaTypo3Mailcatcher\Controller\BackendController::class;
-    }
-
-    if ($version['version_main'] < 13) {
+    if ($version['version_main'] < 12) {
         \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
             'XimaTypo3Mailcatcher',
             'system',

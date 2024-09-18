@@ -28,7 +28,7 @@
 	],
 	"require": {
 		"php": "^7.4 || ^8.0",
-		"typo3/cms-core": "^10.0 || ^11.0 || ^12.0 || ^13.0",
+		"typo3/cms-core": "^11.0 || ^12.0 || ^13.0",
 		"ext-json": "*",
 		"zbateson/mail-mime-parser": "^2.0 || ^3.0"
 	},
