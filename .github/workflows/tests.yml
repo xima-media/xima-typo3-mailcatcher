@@ -48,7 +48,7 @@ jobs:
           autostart: false
       - name: Configure and start DDEV
         run: |
-          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --xdebug-enabled=true
+          ddev config --project-type=typo3 --php-version=${{ matrix.php-version }} --xdebug-enabled=false --web-environment-add=
           ddev start
 
       # Install dependencies
@@ -63,9 +63,52 @@ jobs:
         run: sed -i '1s/$/\\Support/' codeception.yml
         if: matrix.php-version == '7.4'
 
-      # Init TYPO3
-      - name: Init TYPO3
-        run: ddev init-typo3
+      # Run tests
+      - name: Run acceptance tests
+        uses: nick-fields/retry@v3
+        with:
+          max_attempts: 3
+          retry_on: error
+          timeout_minutes: 10
+          command: ddev composer test:acceptance
+          new_command_on_retry: ddev composer test:acceptance -- -g failed
+      - name: Run functional and unit tests
+        run: |
+          ddev composer test:functional
+          ddev composer test:unit
+
+
+  coverage:
+    name: Tests Coverage
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # Prepare environment
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          php-version: 8.3
+          coverage: none
+          extensions: mbstring, xml, ctype, iconv, intl, pdo_sqlite, mysql
+
+      # Setup DDEV
+      - name: Setup DDEV
+        uses: ddev/github-action-setup-ddev@v1
+        with:
+          autostart: false
+      - name: Configure and start DDEV
+        run: |
+          ddev config --project-type=typo3 --xdebug-enabled=true
+          ddev start
+
+      # Install dependencies
+      - name: Install Composer dependencies
+        uses: ramsey/composer-install@v2
 
       # Run tests
       - name: Run acceptance tests
@@ -74,17 +117,17 @@ jobs:
           max_attempts: 3
           retry_on: error
           timeout_minutes: 10
-          command: ddev composer ci:test:acceptance
-          new_command_on_retry: ddev composer ci:test:acceptance -- -g failed
+          command: ddev composer test:coverage:acceptance
+          new_command_on_retry: ddev composer test:acceptance -- -g failed
       - name: Run functional and unit tests
         run: |
-          ddev composer ci:test:functional
-          ddev composer ci:test:unit
+          ddev composer test:coverage:functional
+          ddev composer test:coverage:unit
 
       # Save acceptance reports
       - uses: actions/upload-artifact@v4
         with:
-          name: acceptance-reports-${{ matrix.php-version }}-${{ matrix.typo3-version }}
+          name: acceptance-reports
           path: Tests/Acceptance/_output
         if: failure()
 
