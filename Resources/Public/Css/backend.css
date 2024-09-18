@@ -1,0 +1,22 @@
+.tab-header {
+    padding: 10px 20px;
+}
+
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+}
+
+.infobox[data-message-count="0"] {
+    display: block !important;
+}
+
+#delete-all-messages {
+    margin-top: 30px;
+}
+
+.typo3-v12 .panel-heading {
+    background: #eee;
+}
