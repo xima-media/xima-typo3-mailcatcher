@@ -16,6 +16,7 @@ class BackendCest
     {
         $I->cleanDir(self::MAIL_LOG_DIR);
         $I->cleanDir('/var/www/html/public/typo3temp/assets/xima_typo3_mailcatcher/');
+        $I->amOnPage('/');
     }
 
     public function login(AcceptanceTester $I, ExtensionConfiguration $extensionConfiguration): void
