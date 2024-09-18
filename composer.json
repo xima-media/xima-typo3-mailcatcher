@@ -81,7 +81,11 @@
 	},
 	"scripts": {
 		"post-autoload-dump": [
-			"codecept build"
+			"@environment:prepare"
+		],
+		"environment:prepare": [
+			"codecept build",
+			"mkdir -p public/typo3temp/assets/xima_typo3_mailcatcher"
 		],
 		"php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix",
 		"php:stan": "phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
