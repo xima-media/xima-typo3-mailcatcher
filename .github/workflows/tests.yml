@@ -11,13 +11,14 @@ on:
 
 jobs:
   tests:
-    name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }})
+    name: Tests (PHP ${{ matrix.php-version }}, TYPO3 ${{ matrix.typo3-version }} & ${{ matrix.dependencies }} dependencies)
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         typo3-version: [ "11.5", "12.4", "13.3" ]
         php-version: [ "7.4", "8.1", "8.2", "8.3" ]
+        dependencies: ["highest", "lowest"]
         exclude:
           - typo3-version: "12.4"
             php-version: "7.4"
@@ -77,6 +78,12 @@ jobs:
           ddev composer test:functional
           ddev composer test:unit
 
+      # Save acceptance reports
+      - uses: actions/upload-artifact@v4
+        with:
+          name: acceptance-reports-${{ matrix.php-version }}-${{ matrix.typo3-version }}-${{ matrix.dependencies }}
+          path: Test/Acceptance/_output
+        if: failure()
 
   coverage:
     name: Tests Coverage
