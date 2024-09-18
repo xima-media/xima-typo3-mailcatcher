@@ -71,7 +71,7 @@
                                                         <f:format.date format="H:i, d.m.Y">{mail.date}</f:format.date>
                                                     </span>
                                                 </div>
-                                                <div class="col text-right">
+                                                <div class="col d-flex justify-content-end align-items-center">
                                                     <div class="btn-group content-type-switches">
                                                         <f:if condition="{mail.bodyPlain}">
                                                             <a class="btn btn-primary" data-content-type="plain" data-m-id="{i.cycle}">Plain
@@ -127,33 +127,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    :root {
-        --panel-heading-bg: #eee;
-    }
-
-    .tab-header {
-        background: #fff;
-        padding: 10px;
-    }
-
-    .loading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 300px;
-    }
-
-    .infobox[data-message-count="0"] {
-        display: block !important;
-    }
-
-    #delete-all-messages {
-        margin-top: 30px;
-    }
-
-    .text-right {
-        text-align: right;
-    }
-</style>

@@ -22,6 +22,7 @@ class BackendController extends ActionController
     ) {
         $this->moduleTemplateFactory = $moduleTemplateFactory;
         $this->pageRenderer = $pageRenderer;
+        $this->pageRenderer->addCssFile('EXT:xima_typo3_mailcatcher/Resources/Public/Css/backend.css');
     }
 
     public function indexAction(): ResponseInterface
