@@ -16,3 +16,7 @@
 #delete-all-messages {
     margin-top: 30px;
 }
+
+.typo3-v12 .panel-heading {
+    background: #eee;
+}
