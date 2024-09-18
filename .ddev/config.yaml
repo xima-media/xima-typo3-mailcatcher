@@ -18,7 +18,6 @@ webimage_extra_packages: [libxml2-utils]
 omit_containers: [ddev-ssh-agent]
 disable_settings_management: true
 web_environment:
-  - XDEBUG_MODE=debug,coverage
   - TESTING_DOMAIN=$DDEV_HOSTNAME
   - TYPO3_CONTEXT=Development/DDEV
   - typo3DatabaseHost=db

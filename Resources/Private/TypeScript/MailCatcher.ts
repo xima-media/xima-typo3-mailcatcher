@@ -41,7 +41,7 @@ class MailCatcher {
             },
             {
                 text: 'No, abort',
-                btnClass: 'primary-outline',
+                btnClass: 'btn-default',
                 active: true,
                 trigger: function () {
                     Modal.dismiss();
@@ -100,8 +100,8 @@ class MailCatcher {
         const contentType = $(e.currentTarget).attr('data-content-type');
         const mId = $(e.currentTarget).attr('data-m-id');
 
-        $('.content-type-switches a[data-m-id="' + mId + '"]').addClass('btn-outline-primary').removeClass('btn-primary');
-        $('.content-type-switches a[data-m-id="' + mId + '"][data-content-type="' + contentType + '"]').removeClass('btn-outline-primary').addClass('btn-primary');
+        $('.content-type-switches a[data-m-id="' + mId + '"]').addClass('btn-default').removeClass('btn-primary');
+        $('.content-type-switches a[data-m-id="' + mId + '"][data-content-type="' + contentType + '"]').removeClass('btn-default').addClass('btn-primary');
 
         $('.form-section[data-m-id="' + mId + '"]').addClass('hidden');
         const $formSection = $('.form-section[data-m-id="' + mId + '"][data-content-type="' + contentType + '"]');
@@ -123,7 +123,7 @@ class MailCatcher {
                 const $iframe = $('<iframe />')
                     .attr('width', '100%')
                     .attr('frameBorder', '0')
-                    .attr('height', '650px')
+                    .attr('height', '668px')
                     .attr('srcdoc', resolved.src);
                 // @ts-ignore
                 $('.panel[data-message-file="' + messageFile + '"] .form-section[data-content-type="html"]').html($iframe);

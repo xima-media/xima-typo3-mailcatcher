@@ -51,6 +51,7 @@ if [ -f "$typo3cmsBinary" ]; then
     "$typo3cmsBinary" configuration:set SYS/trustedHostsPattern ".*"
 else
     "$typo3Binary" setup --no-interaction --force --quiet
+    "$typo3Binary" configuration:set SYS/trustedHostsPattern ".*"
 fi
 _done
 

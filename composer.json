@@ -80,14 +80,24 @@
 		}
 	},
 	"scripts": {
+		"post-autoload-dump": [
+			"@environment:prepare"
+		],
+		"environment:prepare": [
+			"codecept build",
+			"mkdir -p public/typo3temp/assets/xima_typo3_mailcatcher"
+		],
 		"php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix",
 		"php:stan": "phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
-		"test:acceptance": "codecept run Acceptance",
+		"test:acceptance": [
+			".ddev/commands/web/init-typo3",
+			"codecept run --steps"
+		],
 		"test:unit": "phpunit -c phpunit.unit.xml --no-coverage",
 		"test:functional": "phpunit -c phpunit.functional.xml --no-coverage",
-		"ci:test:unit": "XDEBUG_MODE=coverage && phpunit -c phpunit.unit.xml",
-		"ci:test:functional": "XDEBUG_MODE=coverage && phpunit -c phpunit.functional.xml",
-		"ci:test:acceptance": "XDEBUG_MODE=coverage && codecept run Acceptance --coverage --coverage-xml",
+		"test:coverage:unit": "phpunit -c phpunit.unit.xml",
+		"test:coverage:functional": "phpunit -c phpunit.functional.xml",
+		"test:coverage:acceptance": "@test:acceptance --coverage --coverage-xml",
 		"ci:php:lint": "find *.php . -name '*.php' ! -path './vendor/*'  ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",
 		"ci:php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix --dry-run --format=checkstyle > php-cs-fixer.xml || true",
 		"ci:php:stan": "phpstan --no-progress --error-format=checkstyle > phpstan.xml || true",

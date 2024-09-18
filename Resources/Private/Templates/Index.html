@@ -1,5 +1,11 @@
-<div class="module-body t3js-module-body">
-    <div class="container">
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Module" />
+
+<f:section name="Content">
+
+    <div class="container container-default">
         <div class="row justify-content-md-center">
             <div class="col"></div>
             <div class="col col-lg-10">
@@ -9,7 +15,9 @@
         <div class="row justify-content-md-center">
             <div class="col">
                 <ul class="list-group">
-                    <li class="list-group-item">Inbox (<span class="message-count">{mails->f:count()}</span>)</li>
+                    <li class="list-group-item">Inbox
+                        (<span class="message-count">{mails->f:count()}</span>)
+                    </li>
                 </ul>
 
                 <div class="text-center">
@@ -27,9 +35,9 @@
                 </div>
 
                 <f:if condition="{mails}">
-                    <div class="panel-group panel-hover" id="messages">
+                    <div id="messages">
                         <f:for each="{mails}" iteration="i" as="mail">
-                            <div class="panel" data-message-file="{mail.fileName}" data-html-loaded="false">
+                            <div class="panel panel-default" data-message-file="{mail.fileName}" data-html-loaded="false">
                                 <div class="panel-heading" id="h{i.cycle}">
                                     <div class="form-irre-header">
                                         <button class="form-irre-header-cell form-irre-header-button" aria-expanded="false">
@@ -71,7 +79,7 @@
                                                         <f:format.date format="H:i, d.m.Y">{mail.date}</f:format.date>
                                                     </span>
                                                 </div>
-                                                <div class="col text-right">
+                                                <div class="col d-flex justify-content-end align-items-center">
                                                     <div class="btn-group content-type-switches">
                                                         <f:if condition="{mail.bodyPlain}">
                                                             <a class="btn btn-primary" data-content-type="plain" data-m-id="{i.cycle}">Plain
@@ -126,34 +134,27 @@
             </div>
         </div>
     </div>
-</div>
+    </div>
 
-<style>
-    :root {
-        --panel-heading-bg: #eee;
-    }
+    <style>
+        .tab-header {
+            padding: 10px 20px;
+        }
 
-    .tab-header {
-        background: #fff;
-        padding: 10px;
-    }
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 300px;
+        }
 
-    .loading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 300px;
-    }
+        .infobox[data-message-count="0"] {
+            display: block !important;
+        }
 
-    .infobox[data-message-count="0"] {
-        display: block !important;
-    }
+        #delete-all-messages {
+            margin-top: 30px;
+        }
+    </style>
 
-    #delete-all-messages {
-        margin-top: 30px;
-    }
-
-    .text-right {
-        text-align: right;
-    }
-</style>
+</f:section>
