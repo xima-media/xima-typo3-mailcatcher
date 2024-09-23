@@ -90,17 +90,6 @@ class LogParserUtility
             }
         }
 
-        /** @var ?AddressHeader $bccHeader */
-        $bccHeader = $message->getHeader(HeaderConsts::BCC);
-        if ($bccHeader) {
-            foreach ($bccHeader->getAddresses() as $address) {
-                $dto->bccRecipients[] = [
-                    'name' => $address->getName(),
-                    'email' => $address->getValue(),
-                ];
-            }
-        }
-
         $subjectHeader = $message->getHeader(HeaderConsts::SUBJECT);
         if ($subjectHeader) {
             $dto->subject = $subjectHeader->getRawValue();
