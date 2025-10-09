@@ -8,7 +8,7 @@ return $isMbox ? [
     'system_mails' => [
         'parent' => 'system',
         'position' => [],
-        'access' => 'user,group',
+        'access' => 'user',
         'iconIdentifier' => 'module-mailcatcher',
         'workspaces' => '*',
         'labels' => 'LLL:EXT:xima_typo3_mailcatcher/Resources/Private/Language/locallang_mod.xlf',
