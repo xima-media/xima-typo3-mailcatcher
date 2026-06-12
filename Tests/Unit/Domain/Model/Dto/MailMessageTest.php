@@ -11,7 +11,7 @@ class MailMessageTest extends UnitTestCase
     {
         $mailMessage = new MailMessage();
         $mailMessage->messageId = 'testMessageId';
-        $mailMessage->date = new \DateTime('2022-01-01');
+        $mailMessage->date = new \DateTime('2022-01-01', new \DateTimeZone('UTC'));
 
         self::assertEquals('1640995200-912a2485140b51754a279414c8780dd5.json', $mailMessage->getFileName());
     }

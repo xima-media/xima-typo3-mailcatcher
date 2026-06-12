@@ -7,13 +7,13 @@
 
     <div class="container container-default">
         <div class="row justify-content-md-center">
-            <div class="col"></div>
-            <div class="col col-lg-10">
+            <div class="col-12 col-md-3 col-lg-2"></div>
+            <div class="col-12 col-md-9 col-lg-10">
                 <h1>{f:translate(key: 'mailLog')}</h1>
             </div>
         </div>
         <div class="row justify-content-md-center">
-            <div class="col">
+            <div class="col-12 col-md-3 col-lg-2">
                 <ul class="list-group">
                     <li class="list-group-item">{f:translate(key: 'inbox')}
                         (<span class="message-count">{mails->f:count()}</span>)
@@ -28,7 +28,7 @@
                 </div>
 
             </div>
-            <div class="col col-lg-10">
+            <div class="col-12 col-md-9 col-lg-10">
 
                 <div class="infobox hidden" data-message-count="{mails->f:count()}">
                     <f:be.infobox title="{f:translate(key: 'empty.title')}" state="-1">{f:translate(key: 'empty.text')}</f:be.infobox>

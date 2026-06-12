@@ -1,6 +1,7 @@
 c3.php
 composer.lock
 coverage
+.phpunit.result.cache
 
 node_modules
 
