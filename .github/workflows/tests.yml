@@ -16,15 +16,22 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        typo3-version: [ "11.5", "12.4", "13.3" ]
-        php-version: [ "7.4", "8.1", "8.2", "8.3" ]
-        exclude:
-          - typo3-version: "12.4"
-            php-version: "7.4"
-          - typo3-version: "13.3"
-            php-version: "7.4"
-          - typo3-version: "13.3"
-            php-version: "8.1"
+        include:
+          # TYPO3 v11 is in ELTS; its public releases carry unpatched security
+          # advisories that Composer blocks by default. --no-security-blocking
+          # lets the v11 cells install for compatibility testing only.
+          - { typo3-version: "11.5", php-version: "7.4", composer-options: "--no-security-blocking" }
+          - { typo3-version: "11.5", php-version: "8.1", composer-options: "--no-security-blocking" }
+          - { typo3-version: "11.5", php-version: "8.2", composer-options: "--no-security-blocking" }
+          - { typo3-version: "12.4", php-version: "8.1" }
+          - { typo3-version: "12.4", php-version: "8.2" }
+          - { typo3-version: "12.4", php-version: "8.3" }
+          - { typo3-version: "13.4", php-version: "8.2" }
+          - { typo3-version: "13.4", php-version: "8.3" }
+          - { typo3-version: "13.4", php-version: "8.4" }
+          - { typo3-version: "14.0", php-version: "8.2" }
+          - { typo3-version: "14.0", php-version: "8.4" }
+          - { typo3-version: "14.0", php-version: "8.5" }
 
     steps:
       - uses: actions/checkout@v4
@@ -55,7 +62,7 @@ jobs:
       - name: Install Composer dependencies
         uses: ramsey/composer-install@v2
         with:
-          composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}"
+          composer-options: --with=typo3/cms-core:"^${{ matrix.typo3-version }}" ${{ matrix.composer-options }}
 
       # Fix namespace (add"/Support" to end of namespace) only for typo3-version 11
       - name: Fix codeception.yml namespace

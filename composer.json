@@ -14,10 +14,6 @@
 	"repositories": [
 		{
 			"type": "github",
-			"url": "git@github.com:bmack/TYPO3-Console.git"
-		},
-		{
-			"type": "github",
 			"url": "git@github.com:maikschneider/typo3-codeception-helper.git"
 		}
 	],
@@ -28,16 +24,16 @@
 	],
 	"require": {
 		"php": "^7.4 || ^8.0",
-		"typo3/cms-core": "^11.0 || ^12.0 || ^13.0",
+		"typo3/cms-core": "^11.0 || ^12.0 || ^13.0 || ^14.0",
 		"ext-json": "*",
 		"zbateson/mail-mime-parser": "^2.0 || ^3.0"
 	},
 	"require-dev": {
 		"codeception/module-phpbrowser": "*",
-		"phpstan/phpstan": "^1.6",
+		"phpstan/phpstan": "^1.10 || ^2.0",
 		"bk2k/bootstrap-package": "*",
 		"friendsofphp/php-cs-fixer": "^3.12",
-		"saschaegerer/phpstan-typo3": "^1.8",
+		"saschaegerer/phpstan-typo3": "^1.8 || ^2.0 || ^3.0",
 		"phpstan/extension-installer": "^1.3",
 		"phpmd/phpmd": "^2.13.0",
 		"ssch/typo3-rector": "*",
@@ -45,7 +41,7 @@
 		"codeception/module-asserts": "*",
 		"codeception/module-cli": "*",
 		"codeception/module-webdriver": "*",
-		"helhum/typo3-console": "* || dev-issue/1169",
+		"helhum/typo3-console": "*",
 		"typo3/cms-install": "*",
 		"codeception/module-filesystem": "*",
 		"eliashaeussler/typo3-codeception-helper": "dev-main",

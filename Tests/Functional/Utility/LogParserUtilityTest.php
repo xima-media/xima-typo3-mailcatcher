@@ -2,6 +2,7 @@
 
 namespace Xima\XimaTypo3Mailcatcher\Tests\Functional\Utility;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Core\Environment;
@@ -11,7 +12,7 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailMessage;
 use Xima\XimaTypo3Mailcatcher\Utility\LogParserUtility;
 
-class LogParserUtilityTest extends FunctionalTestCase
+final class LogParserUtilityTest extends FunctionalTestCase
 {
     protected LogParserUtility $subject;
 
@@ -107,9 +108,7 @@ class LogParserUtilityTest extends FunctionalTestCase
                 ],
             ],
             [
-                [$defaultMail],
-                [$htmlOnlyMail],
-                [$plainOnlyMail],
+                [$defaultMail, $htmlOnlyMail, $plainOnlyMail],
             ],
         ];
     }
@@ -119,6 +118,7 @@ class LogParserUtilityTest extends FunctionalTestCase
      * @param array<int, array<string, string>> $exampleMails
      * @throws TransportExceptionInterface
      */
+    #[DataProvider('mailDataProvider')]
     public function testEmailEncoding(array $exampleMails): void
     {
         foreach ($exampleMails as $exampleMail) {
@@ -210,7 +210,7 @@ class LogParserUtilityTest extends FunctionalTestCase
         self::assertEmpty($message->bccRecipients);
     }
 
-    public static function assertEmailFileEqualsString(string $emailPath, string $string, string $message = null): void
+    public static function assertEmailFileEqualsString(string $emailPath, string $string, ?string $message = null): void
     {
         $emailPath = GeneralUtility::getFileAbsFileName($emailPath);
         self::assertFileExists($emailPath);

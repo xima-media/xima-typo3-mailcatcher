@@ -18,5 +18,5 @@ parameters:
         - Tests
 
     excludePaths:
-        - Classes/Controller/LegacyBackendController
+        - Classes/Controller/LegacyBackendController (?)
         - Tests/Acceptance/Support

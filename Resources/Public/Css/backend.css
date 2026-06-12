@@ -15,8 +15,51 @@
 
 #delete-all-messages {
     margin-top: 30px;
+    max-width: 100%;
+    white-space: normal;
 }
 
 .typo3-v12 .panel-heading {
     background: #eee;
+}
+
+/* TYPO3 v14 removed the core `.form-irre-header*` classes (inline record header
+   was reworked to web components). These classes are used only by this module, so
+   we provide the styling ourselves across all supported versions. */
+.form-irre-header {
+    display: flex;
+    align-items: stretch;
+    width: 100%;
+}
+
+.form-irre-header-cell {
+    display: flex;
+    align-items: center;
+}
+
+.form-irre-header-button {
+    flex: 1 1 auto;
+    appearance: none;
+    border: 0;
+    background: transparent;
+    text-align: left;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.form-irre-header-body {
+    width: 100%;
+}
+
+.form-irre-header-control {
+    margin-left: auto;
+    padding: 8px 12px;
+}
+
+/* TYPO3 v14 sets `.form-section` horizontal padding to 0, so the mail body sticks
+   to the edge. Restore horizontal spacing (variable is only consumed on v14).
+   Attribute selector raises specificity above the core `.form-section` rules, which
+   are loaded after this file. */
+.form-section[data-content-type] {
+    --typo3-form-section-padding-x: 20px;
 }

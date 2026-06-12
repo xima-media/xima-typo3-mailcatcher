@@ -3,6 +3,7 @@
 namespace Xima\XimaTypo3Mailcatcher\Tests\Unit\Utility;
 
 use JsonException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Xima\XimaTypo3Mailcatcher\Utility\LogParserUtility;
@@ -37,6 +38,7 @@ class LogParserUtilityTest extends UnitTestCase
      * @param array<string, string> $exampleMail
      * @throws JsonException
      */
+    #[DataProvider('mailDataProvider')]
     public function testFileCreation(array $exampleMail): void
     {
         $this->subject->setFileContent(file_get_contents(__DIR__ . '/../../Fixtures/' . $exampleMail['transportMboxFile']) ?: '');
@@ -90,6 +92,7 @@ class LogParserUtilityTest extends UnitTestCase
      * @dataProvider mailDataProvider
      * @param array<string, string> $exampleMail
      */
+    #[DataProvider('mailDataProvider')]
     public function testMailContent(array $exampleMail): void
     {
         $this->subject->setFileContent(file_get_contents(__DIR__ . '/../../Fixtures/' . $exampleMail['transportMboxFile']) ?: '');
@@ -115,6 +118,7 @@ class LogParserUtilityTest extends UnitTestCase
      * @param array<string, string> $exampleMail
      * @throws JsonException
      */
+    #[DataProvider('mailDataProvider')]
     public function testDeleteMessages(array $exampleMail): void
     {
         $this->subject->setFileContent(file_get_contents(__DIR__ . '/../../Fixtures/' . $exampleMail['transportMboxFile']) ?: '');
