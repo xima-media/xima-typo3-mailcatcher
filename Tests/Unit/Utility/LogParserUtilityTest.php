@@ -34,7 +34,6 @@ class LogParserUtilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider mailDataProvider
      * @param array<string, string> $exampleMail
      * @throws JsonException
      */
@@ -89,7 +88,6 @@ class LogParserUtilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider mailDataProvider
      * @param array<string, string> $exampleMail
      */
     #[DataProvider('mailDataProvider')]
@@ -114,7 +112,6 @@ class LogParserUtilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider mailDataProvider
      * @param array<string, string> $exampleMail
      * @throws JsonException
      */

@@ -31,7 +31,7 @@ final class LogParserUtilityTest extends FunctionalTestCase
     ];
 
     protected array $testExtensionsToLoad = [
-        'typo3conf/ext/xima_typo3_mailcatcher',
+        'xima/xima-typo3-mailcatcher',
     ];
 
     /**
@@ -114,7 +114,6 @@ final class LogParserUtilityTest extends FunctionalTestCase
     }
 
     /**
-     * @dataProvider mailDataProvider
      * @param array<int, array<string, string>> $exampleMails
      * @throws TransportExceptionInterface
      */
