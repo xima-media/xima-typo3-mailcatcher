@@ -21,7 +21,7 @@ return [
     'files' => [
         'DS_Store',
         'CODE_OF_CONDUCT.md',
-        'codeception.yml',
+        'playwright.config.cts',
         'codecov.yml',
         'CODEOWNERS',
         'composer.lock',
