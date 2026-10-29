@@ -27,7 +27,6 @@ jobs:
       # Install dependencies
       - name: Install Composer dependencies
         run: |
-          ddev service disable selenium-chrome
           ddev start
           ddev composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
           ddev composer install
