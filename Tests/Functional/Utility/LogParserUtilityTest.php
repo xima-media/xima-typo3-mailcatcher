@@ -7,6 +7,7 @@ use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mime\Address;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Mail\FluidEmail;
+use TYPO3\CMS\Core\Mail\Mailer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailMessage;
@@ -135,7 +136,7 @@ final class LogParserUtilityTest extends FunctionalTestCase
     }
 
     /**
-     * @param array<string, string> $exampleMail
+     * @param array<string, mixed> $exampleMail
      * @throws TransportExceptionInterface
      */
     private function createTestMail(array $exampleMail): void
@@ -160,16 +161,11 @@ final class LogParserUtilityTest extends FunctionalTestCase
             $email->attach($attachment['content'], $attachment['filename'], $attachment['contentType']);
         }
 
-        // since typo3 version >12.1 MailerInterface is used
-        if (class_exists(\Symfony\Component\Mailer\MailerInterface::class)) {
-            GeneralUtility::makeInstance(\Symfony\Component\Mailer\MailerInterface::class)->send($email);
-        } else {
-            GeneralUtility::makeInstance(\TYPO3\CMS\Core\Mail\Mailer::class)->send($email);
-        }
+        GeneralUtility::makeInstance(Mailer::class)->send($email);
     }
 
     /**
-     * @param array<string, string> $exampleMail
+     * @param array<string, mixed> $exampleMail
      */
     protected static function testMailMessage(MailMessage $message, array $exampleMail): void
     {

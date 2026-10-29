@@ -1,2 +1,25 @@
 parameters:
-	ignoreErrors: []
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method TYPO3\\CMS\\Backend\\Template\\ModuleTemplate\:\:renderContent\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Controller/BackendController.php
+
+		-
+			message: '#^Call to an undefined method TYPO3\\CMS\\Backend\\Template\\ModuleTemplate\:\:setContent\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Controller/BackendController.php
+
+		-
+			message: '#^Call to an undefined method TYPO3\\CMS\\Core\\Page\\PageRenderer\:\:loadRequireJsModule\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Controller/BackendController.php
+
+		-
+			message: '#^Call to an undefined static method TYPO3\\CMS\\Extbase\\Utility\\ExtensionUtility\:\:registerModule\(\)\.$#'
+			identifier: staticMethod.notFound
+			count: 1
+			path: ext_tables.php

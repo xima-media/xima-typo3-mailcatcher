@@ -1,21 +1,17 @@
 includes:
-    - phpstan-baseline.neon
+	- phpstan-baseline.neon
 
 parameters:
-    parallel:
-        maximumNumberOfProcesses: 5
+	parallel:
+		maximumNumberOfProcesses: 5
 
-    level: 1
+	level: 5
 
-    bootstrapFiles:
-        - vendor/autoload.php
+	bootstrapFiles:
+		- vendor/autoload.php
 
-    scanFiles:
-        - ext_tables.php
-
-    paths:
-        - Classes
-        - Tests
-
-    excludePaths:
-        - Classes/Controller/LegacyBackendController (?)
+	paths:
+		- Classes
+		- Configuration
+		- Tests
+		- ext_tables.php
