@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 
 return static function (
     ContainerConfigurator $containerConfigurator,
@@ -17,7 +18,7 @@ return static function (
     $excludes = ['../Classes/Domain/Model/'];
 
     // Prevent autowiring of unsupported controller (v10 is legacy)
-    if (!$containerBuilder->hasDefinition(\TYPO3\CMS\Backend\Template\ModuleTemplateFactory::class)) {
+    if (!$containerBuilder->hasDefinition(ModuleTemplateFactory::class)) {
         $excludes[] = '../Classes/Controller/BackendController.php';
     } else {
         $excludes[] = '../Classes/Controller/LegacyBackendController.php';

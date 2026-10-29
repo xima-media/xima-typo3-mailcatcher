@@ -10,6 +10,7 @@ use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailAttachment;
 use Xima\XimaTypo3Mailcatcher\Domain\Model\Dto\MailMessage;
 use ZBateson\MailMimeParser\Header\AddressHeader;
 use ZBateson\MailMimeParser\Header\HeaderConsts;
+use ZBateson\MailMimeParser\Header\IHeader;
 use ZBateson\MailMimeParser\Message;
 
 class LogParserUtility
@@ -102,14 +103,14 @@ class LogParserUtility
         }
 
         $subjectHeader = $message->getHeader(HeaderConsts::SUBJECT);
-        if ($subjectHeader) {
+        if ($subjectHeader instanceof IHeader) {
             $dto->subject = $subjectHeader->getRawValue();
         }
 
         $dto->messageId = md5($message->getContentId() ?? '');
 
         try {
-            $dto->date = $message->getHeader('Date') ? new JsonDateTime($message->getHeader('Date')->getRawValue()) : new JsonDateTime();
+            $dto->date = $message->getHeader('Date') instanceof IHeader ? new JsonDateTime($message->getHeader('Date')->getRawValue()) : new JsonDateTime();
         } catch (\Exception $e) {
         }
 
@@ -216,14 +217,12 @@ class LogParserUtility
         $this->messages = [];
 
         foreach ($messageFiles as $filename) {
-            if ($message = $this->getMessageByFilename((string)$filename)) {
+            if (($message = $this->getMessageByFilename((string)$filename)) instanceof MailMessage) {
                 $this->messages[] = $message;
             }
         }
 
-        usort($this->messages, static function (MailMessage $a, MailMessage $b) {
-            return $b->date->getTimestamp() <=> $a->date->getTimestamp();
-        });
+        usort($this->messages, static fn (MailMessage $a, MailMessage $b) => $b->date->getTimestamp() <=> $a->date->getTimestamp());
     }
 
     public function getMessageByFilename(string $filename): ?MailMessage

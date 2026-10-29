@@ -1,6 +1,7 @@
 <?php
 
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use TYPO3\CMS\Extbase\Utility\ExtensionUtility;
 use Xima\XimaTypo3Mailcatcher\Controller\BackendController;
 
 if (isset($GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport']) && $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] === 'mbox') {
@@ -8,7 +9,7 @@ if (isset($GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport']) && $GLOBALS['TYPO3_C
     $controllerName = BackendController::class;
 
     if ($version['version_main'] < 12) {
-        \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerModule(
+        ExtensionUtility::registerModule(
             'XimaTypo3Mailcatcher',
             'system',
             'mails',
