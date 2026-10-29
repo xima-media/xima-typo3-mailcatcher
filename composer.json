@@ -1,39 +1,41 @@
 {
 	"name": "xima/xima-typo3-mailcatcher",
-	"type": "typo3-cms-extension",
 	"description": "Display mails that were send to log file",
-	"homepage": "https://www.xima.de",
 	"license": "GPL-2.0-or-later",
-	"authors": [
-		{
-			"name": "Maik Schneider",
-			"role": "Developer",
-			"email": "maik.schneider@xima.de"
-		}
-	],
+	"type": "typo3-cms-extension",
 	"keywords": [
 		"typo3",
 		"typo3-cms-extension",
 		"mail"
 	],
+	"authors": [
+		{
+			"name": "Maik Schneider",
+			"email": "maik.schneider@xima.de",
+			"role": "Developer"
+		}
+	],
+	"homepage": "https://www.xima.de",
 	"require": {
 		"php": "^7.4 || ^8.0",
-		"typo3/cms-core": "^11.0 || ^12.0 || ^13.0 || ^14.0",
 		"ext-json": "*",
+		"typo3/cms-core": "^11.0 || ^12.0 || ^13.0 || ^14.0",
 		"zbateson/mail-mime-parser": "^2.0 || ^3.0"
 	},
 	"require-dev": {
-		"phpstan/phpstan": "^1.10 || ^2.0",
+		"armin/editorconfig-cli": "^1.8 || ^2.2",
 		"bk2k/bootstrap-package": "*",
+		"ergebnis/composer-normalize": "^2.54",
 		"friendsofphp/php-cs-fixer": "^3.12",
-		"saschaegerer/phpstan-typo3": "^1.8 || ^2.0 || ^3.0",
-		"phpstan/extension-installer": "^1.3",
-		"phpmd/phpmd": "^2.13.0",
-		"ssch/typo3-rector": "*",
-		"typo3/testing-framework": "^8.2 || ^9.0",
 		"helhum/typo3-console": "*",
+		"move-elevator/composer-translation-validator": "^1.4",
+		"phpstan/extension-installer": "^1.3",
+		"phpstan/phpstan": "^1.10 || ^2.0",
+		"saschaegerer/phpstan-typo3": "^1.8 || ^2.0 || ^3.0",
+		"ssch/typo3-rector": "*",
+		"symfony/translation": "*",
 		"typo3/cms-install": "*",
-		"symfony/translation": "*"
+		"typo3/testing-framework": "^8.2 || ^9.0"
 	},
 	"autoload": {
 		"psr-4": {
@@ -45,43 +47,75 @@
 			"Xima\\XimaTypo3Mailcatcher\\Tests\\": "Tests/"
 		}
 	},
+	"config": {
+		"allow-plugins": {
+			"composer/installers": true,
+			"ergebnis/composer-normalize": true,
+			"helhum/typo3-console-plugin": true,
+			"move-elevator/composer-translation-validator": true,
+			"phpstan/extension-installer": true,
+			"typo3/class-alias-loader": true,
+			"typo3/cms-composer-installers": true
+		},
+		"lock": false,
+		"sort-packages": true,
+		"vendor-dir": "vendor"
+	},
 	"extra": {
 		"typo3/cms": {
 			"cms-package-dir": "{$vendor-dir}/typo3/cms",
-			"web-dir": "public",
-			"extension-key": "xima_typo3_mailcatcher"
-		}
-	},
-	"config": {
-		"lock": false,
-		"vendor-dir": "vendor",
-		"allow-plugins": {
-			"composer/installers": true,
-			"typo3/cms-composer-installers": true,
-			"typo3/class-alias-loader": true,
-			"phpstan/extension-installer": true,
-			"helhum/typo3-console-plugin": true
+			"extension-key": "xima_typo3_mailcatcher",
+			"web-dir": "public"
 		}
 	},
 	"scripts": {
+		"ci:composer:normalize": "@composer normalize --no-check-lock --dry-run",
+		"ci:editorconfig:lint": "ec --strict --git-only -n",
+		"ci:language:lint": "@composer validate-translations Resources/Private/Language",
+		"ci:php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix --dry-run --format=checkstyle > php-cs-fixer.xml || true",
+		"ci:php:lint": "find *.php . -name '*.php' ! -path './vendor/*' ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",
+		"ci:php:rector": "rector --dry-run",
+		"ci:php:stan": "phpstan --no-progress --error-format=checkstyle > phpstan.xml || true",
+		"ci:sca": [
+			"@ci:composer:normalize",
+			"@ci:editorconfig:lint",
+			"@ci:php:lint",
+			"@ci:php:rector",
+			"@ci:php:fixer",
+			"@ci:php:stan",
+			"@ci:language:lint",
+			"@ci:yaml:lint"
+		],
+		"ci:yaml:lint": "find ./ ! -path '*node_modules/*' ! -path './vendor/*' ! -path './public/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint",
+		"composer:normalize": "@composer normalize --no-check-lock",
+		"editorconfig:lint": "ec --strict --fix --git-only -n",
+		"language:lint": "@composer validate-translations Resources/Private/Language",
 		"php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix",
+		"php:lint": "find *.php . -name '*.php' ! -path './vendor/*' ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",
+		"php:rector": "rector",
 		"php:stan": "phpstan --generate-baseline=phpstan-baseline.neon --allow-empty-baseline",
+		"sca": [
+			"@composer:normalize",
+			"@editorconfig:lint",
+			"@php:lint",
+			"@php:rector",
+			"@php:fixer",
+			"@php:stan",
+			"@language:lint",
+			"@yaml:lint"
+		],
 		"test": [
 			"@test:unit",
 			"@test:functional"
 		],
-		"test:unit": "phpunit -c phpunit.unit.xml",
-		"test:functional": "phpunit -c phpunit.functional.xml",
 		"test:coverage": [
 			"@test:coverage:unit",
 			"@test:coverage:functional"
 		],
-		"test:coverage:unit": "phpunit -c phpunit.unit.xml --coverage-clover coverage/clover-unit.xml",
 		"test:coverage:functional": "phpunit -c phpunit.functional.xml --coverage-clover coverage/clover-functional.xml",
-		"ci:php:lint": "find *.php . -name '*.php' ! -path './vendor/*'  ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",
-		"ci:php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix --dry-run --format=checkstyle > php-cs-fixer.xml || true",
-		"ci:php:stan": "phpstan --no-progress --error-format=checkstyle > phpstan.xml || true",
-		"ci:xml:lint": "find . -name '*.xlf' ! -path './public/*' ! -path './vendor/*' | xargs -r xmllint --schema vendor/symfony/translation/Resources/schemas/xliff-core-1.2-transitional.xsd --noout",
-		"ci:yaml:lint": "find . ! -path '*node_modules/*' ! -path './vendor/*' ! -path './public/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint"
+		"test:coverage:unit": "phpunit -c phpunit.unit.xml --coverage-clover coverage/clover-unit.xml",
+		"test:functional": "phpunit -c phpunit.functional.xml",
+		"test:unit": "phpunit -c phpunit.unit.xml",
+		"yaml:lint": "find ./ ! -path '*node_modules/*' ! -path './vendor/*' ! -path './public/*' \\( -name '*.yaml' -o -name '*.yml' \\) | xargs -r yaml-lint"
 	}
 }

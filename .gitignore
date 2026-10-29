@@ -20,3 +20,7 @@ var
 vendor
 
 config/system/settings.php
+
+php-cs-fixer.xml
+phpstan.xml
+.php-cs-fixer.cache
