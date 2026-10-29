@@ -14,4 +14,3 @@ parameters:
 		- Classes
 		- Configuration
 		- Tests
-		- ext_tables.php

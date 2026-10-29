@@ -111,7 +111,7 @@ class LogParserUtility
 
         try {
             $dto->date = $message->getHeader('Date') instanceof IHeader ? new JsonDateTime($message->getHeader('Date')->getRawValue()) : new JsonDateTime();
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         $dto->bodyPlain = @mb_convert_encoding($message->getTextContent() ?? '', 'UTF-8', 'auto');
