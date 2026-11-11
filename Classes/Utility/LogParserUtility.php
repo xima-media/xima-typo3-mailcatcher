@@ -51,13 +51,50 @@ class LogParserUtility
             return;
         }
 
-        $mails = preg_split('/(?=(To:\s(.+)\nFrom:\s(.+)\nSubject:\s))/Ums', $this->fileContent);
-        $mails = array_filter($mails);
-
-        foreach ($mails as $mailContent) {
-            $messageString = trim($mailContent);
-            $this->messages[] = self::convertToDto((string)$messageString);
+        foreach (self::splitMessages($this->fileContent) as $mailContent) {
+            $this->messages[] = self::convertToDto($mailContent);
         }
+    }
+
+    /**
+     * Split the content of the mbox file into single messages.
+     *
+     * The mbox transport of TYPO3 appends the raw messages without any separator, with
+     * the headers in the order the sender set them. A message therefore starts at a
+     * header block (consecutive header lines up to the first blank line) that contains
+     * "To", "From" and "Subject" in any order. Each match consumes its header block, so
+     * the following lines of the same block cannot start another message.
+     *
+     * @return string[]
+     */
+    protected static function splitMessages(string $content): array
+    {
+        // a header field incl. folded continuation lines
+        $headerLine = '[!-9;-~]+:[^\r\n]*\r?\n(?:[ \t][^\r\n]*\r?\n)*';
+        $headerBlockContaining = static fn (string $name): string => '(?=(?:' . $headerLine . ')*?' . $name . ':)';
+        $pattern = '/^' . $headerBlockContaining('To') . $headerBlockContaining('From')
+            . $headerBlockContaining('Subject') . '(?:' . $headerLine . ')+/mi';
+
+        if (!preg_match_all($pattern, $content, $matches, PREG_OFFSET_CAPTURE)) {
+            $content = trim($content);
+            return $content !== '' ? [$content] : [];
+        }
+
+        $offsets = array_column($matches[0], 1);
+        if ($offsets[0] > 0) {
+            array_unshift($offsets, 0);
+        }
+        $offsets[] = strlen($content);
+
+        $messages = [];
+        for ($i = 0; $i < count($offsets) - 1; $i++) {
+            $message = trim(substr($content, $offsets[$i], $offsets[$i + 1] - $offsets[$i]));
+            if ($message !== '') {
+                $messages[] = $message;
+            }
+        }
+
+        return $messages;
     }
 
     protected static function convertToDto(string $msg): MailMessage

@@ -1,0 +1,115 @@
+To: Recipient 1 <to1@example.org>
+From: Sender 1 <from1@example.com>
+Subject: Test1: to/from/subject
+Date: Fri, 11 Oct 2024 10:01:00 +0000
+Message-ID: <message1@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary=0ssrpsNa
+
+--0ssrpsNa
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hello Recipient 1,
+this is mail 1.
+
+To: this line only looks like a h=
+eader
+
+--0ssrpsNa
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<p>Hello Recipient 1,</p>
+<p>this is mail 1.</p>
+
+--0ssrpsNa--
+To: Recipient 2 <to2@example.org>
+Subject: Test2: to/subject/from
+From: Sender 2 <from2@example.com>
+Date: Fri, 11 Oct 2024 10:02:00 +0000
+Message-ID: <message2@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary=f_mfB0_l
+
+--f_mfB0_l
+Content-Type: multipart/alternative; boundary=MNfFx_ti
+
+--MNfFx_ti
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hello Recipient 2,
+this is mail 2.
+
+To: this line only looks like a h=
+eader
+
+--MNfFx_ti
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<p>Hello Recipient 2,</p>
+<p>this is mail 2.</p>
+
+--MNfFx_ti--
+
+--f_mfB0_l
+Content-Type: text/plain; name=test.txt
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; name=test.txt; filename=test.txt
+
+QXR0YWNobWVudCBvZiBtYWlsIDI=
+--f_mfB0_l--
+Subject: Test3: subject/from/to
+From: Sender 3 <from3@example.com>
+To: Recipient 3 <to3@example.org>
+Date: Fri, 11 Oct 2024 10:03:00 +0000
+Message-ID: <message3@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary=DM4_DgV6
+
+--DM4_DgV6
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hello Recipient 3,
+this is mail 3.
+
+To: this line only looks like a h=
+eader
+
+--DM4_DgV6
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<p>Hello Recipient 3,</p>
+<p>this is mail 3.</p>
+
+--DM4_DgV6--
+From: Sender 4 <from4@example.com>
+To: Recipient 4 <to4@example.org>
+Subject: Test4: from/to/subject
+Date: Fri, 11 Oct 2024 10:04:00 +0000
+Message-ID: <message4@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary=QSOlE2ls
+
+--QSOlE2ls
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hello Recipient 4,
+this is mail 4.
+
+To: this line only looks like a h=
+eader
+
+--QSOlE2ls
+Content-Type: text/html; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+<p>Hello Recipient 4,</p>
+<p>this is mail 4.</p>
+
+--QSOlE2ls--
