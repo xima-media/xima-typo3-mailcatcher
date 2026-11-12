@@ -66,8 +66,11 @@
 	},
 	"extra": {
 		"typo3/cms": {
-			"cms-package-dir": "{$vendor-dir}/typo3/cms",
+			"Package": {
+				"providesPackages": {}
+			},
 			"extension-key": "xima_typo3_mailcatcher",
+			"version": "1.4.0",
 			"web-dir": "public"
 		}
 	},
