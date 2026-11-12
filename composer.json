@@ -75,10 +75,10 @@
 		"ci:composer:normalize": "@composer normalize --no-check-lock --dry-run",
 		"ci:editorconfig:lint": "ec --strict --git-only -n",
 		"ci:language:lint": "@composer validate-translations Resources/Private/Language",
-		"ci:php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix --dry-run --format=checkstyle > php-cs-fixer.xml || true",
+		"ci:php:fixer": "php-cs-fixer --config=php-cs-fixer.php fix --dry-run --format=checkstyle > php-cs-fixer.xml",
 		"ci:php:lint": "find *.php . -name '*.php' ! -path './vendor/*' ! -path './var/*' ! -path '*node_modules/*' ! -path './public/*' -print0 | xargs -0 -n 1 -P 4 php -l",
 		"ci:php:rector": "rector --dry-run",
-		"ci:php:stan": "phpstan --no-progress --error-format=checkstyle > phpstan.xml || true",
+		"ci:php:stan": "phpstan --no-progress --error-format=checkstyle > phpstan.xml",
 		"ci:sca": [
 			"@ci:composer:normalize",
 			"@ci:editorconfig:lint",
