@@ -175,7 +175,7 @@ class LogParserUtilityTest extends UnitTestCase
                 ],
             ],
             'mails with attachments' => [
-                'Acceptance/Fixtures/mail-multiple.log',
+                'Fixtures/mail-multiple.log',
                 [
                     [
                         'subject' => 'Test1: TYPO3 loves you - here is why',
