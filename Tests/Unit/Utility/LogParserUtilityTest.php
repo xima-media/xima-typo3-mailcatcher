@@ -128,6 +128,105 @@ class LogParserUtilityTest extends UnitTestCase
         self::assertEmpty($this->subject->loadAndGetMessages());
     }
 
+    /**
+     * @return array<string, array{0: string, 1: array<int, array{subject: string, from: string, to: string, attachments: int}>}>
+     */
+    public static function multipleMailsDataProvider(): array
+    {
+        return [
+            'single mail' => [
+                'Fixtures/mail-env-tool.log',
+                [
+                    [
+                        'subject' => 'Test TYPO3 CMS mail delivery from site "New TYPO3 site"',
+                        'from' => 'hello@example.com',
+                        'to' => 'recipent@example.com',
+                        'attachments' => 0,
+                    ],
+                ],
+            ],
+            'mails with headers in different orders' => [
+                'Fixtures/mail-multiple-header-orders.log',
+                [
+                    [
+                        'subject' => 'Test1: to/from/subject',
+                        'from' => 'from1@example.com',
+                        'to' => 'to1@example.org',
+                        'attachments' => 0,
+                    ],
+                    [
+                        'subject' => 'Test2: to/subject/from',
+                        'from' => 'from2@example.com',
+                        'to' => 'to2@example.org',
+                        'attachments' => 1,
+                    ],
+                    [
+                        'subject' => 'Test3: subject/from/to',
+                        'from' => 'from3@example.com',
+                        'to' => 'to3@example.org',
+                        'attachments' => 0,
+                    ],
+                    [
+                        'subject' => 'Test4: from/to/subject',
+                        'from' => 'from4@example.com',
+                        'to' => 'to4@example.org',
+                        'attachments' => 0,
+                    ],
+                ],
+            ],
+            'mails with attachments' => [
+                'Fixtures/mail-multiple.log',
+                [
+                    [
+                        'subject' => 'Test1: TYPO3 loves you - here is why',
+                        'from' => 'hello-world@example.com',
+                        'to' => 'contact@example.org',
+                        'attachments' => 2,
+                    ],
+                    [
+                        'subject' => 'Test2: TYPO3 loves you - here is why',
+                        'from' => 'hello-world@example.com',
+                        'to' => 'contact@example.org',
+                        'attachments' => 2,
+                    ],
+                    [
+                        'subject' => 'Test3: TYPO3 loves you - here is why',
+                        'from' => 'hello-world@example.com',
+                        'to' => 'contact@example.org',
+                        'attachments' => 2,
+                    ],
+                    [
+                        'subject' => 'Test4: TYPO3 loves you - here is why',
+                        'from' => 'hello-world@example.com',
+                        'to' => 'contact@example.org',
+                        'attachments' => 0,
+                    ],
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @dataProvider multipleMailsDataProvider
+     * @param array<int, array{subject: string, from: string, to: string, attachments: int}> $expectedMails
+     */
+    #[DataProvider('multipleMailsDataProvider')]
+    public function testSplittingOfMultipleMails(string $transportMboxFile, array $expectedMails): void
+    {
+        $this->subject->setFileContent(file_get_contents(__DIR__ . '/../../' . $transportMboxFile) ?: '');
+        $this->subject->extractMessages();
+
+        $messages = $this->subject->getMessages();
+        self::assertCount(count($expectedMails), $messages);
+
+        foreach ($expectedMails as $key => $expectedMail) {
+            self::assertEquals($expectedMail['subject'], $messages[$key]->subject);
+            self::assertEquals($expectedMail['from'], $messages[$key]->from);
+            self::assertEquals($expectedMail['to'], $messages[$key]->to);
+            self::assertCount($expectedMail['attachments'], $messages[$key]->attachments);
+        }
+    }
+
     public function testGetTempPath(): void
     {
         self::assertGreaterThan(2, strlen($this->subject::getTempPath()));

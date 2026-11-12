@@ -11,7 +11,7 @@ readonly dbUser="db"
 readonly dbPassword="db"
 readonly dbName="db"
 readonly dbCredentials="-h${dbHost} -u${dbUser} -p${dbPassword}"
-readonly fixturePath="/var/www/html/Tests/Acceptance/Fixtures"
+readonly fixturePath="/var/www/html/Tests/Playwright/Fixtures"
 readonly typo3Binary="/var/www/html/vendor/bin/typo3"
 
 function _progress() {
