@@ -141,19 +141,32 @@ jobs:
         with:
           autostart: false
 
-      - name: Configure and start DDEV
-        run: |
-          ddev config --xdebug-enabled=true --web-environment-add="XDEBUG_MODE=coverage"
-          ddev start
+      - name: Start DDEV
+        run: ddev start
 
       - name: Install Composer dependencies
-        run: ddev composer update --no-progress
+        run: |
+          ddev composer config github-oauth.github.com ${{ secrets.GITHUB_TOKEN }}
+          ddev composer update --no-progress
 
+      - name: Enable Xdebug
+        run: ddev xdebug on
+
+      # `ddev composer` always runs with XDEBUG_MODE=off, so call composer via `ddev exec`.
       - name: Run unit and functional tests with coverage
-        run: ddev composer test:coverage
+        run: ddev exec XDEBUG_MODE=coverage composer test:coverage
 
-      - name: Upload coverage reports to Codecov
+      # Uploaded separately so both suites stay distinguishable as flags in Codecov.
+      - name: Upload unit coverage to Codecov
         uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          files: ./coverage/clover-unit.xml,./coverage/clover-functional.xml
+          files: ./coverage/clover-unit.xml
+          flags: unit
+
+      - name: Upload functional coverage to Codecov
+        uses: codecov/codecov-action@v7
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./coverage/clover-functional.xml
+          flags: functional
