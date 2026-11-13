@@ -69,7 +69,7 @@
 				"providesPackages": {}
 			},
 			"extension-key": "xima_typo3_mailcatcher",
-			"version": "1.4.0",
+			"version": "2.0.0",
 			"web-dir": "public"
 		}
 	},
