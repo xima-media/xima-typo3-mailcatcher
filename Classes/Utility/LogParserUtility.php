@@ -63,8 +63,12 @@ class LogParserUtility
      * The mbox transport of TYPO3 appends the raw messages without any separator, with
      * the headers in the order the sender set them. A message therefore starts at a
      * header block (consecutive header lines up to the first blank line) that contains
-     * "To", "From" and "Subject" in any order. Each match consumes its header block, so
-     * the following lines of the same block cannot start another message.
+     * "To", "From", "Subject" and "MIME-Version" in any order. Each match consumes its
+     * header block, so the following lines of the same block cannot start another message.
+     *
+     * Symfony Mime always adds "MIME-Version", which a header block quoted inside a body
+     * (e.g. an inline forward) lacks. A header block before the closing boundary of a
+     * multipart message belongs to that message (e.g. a message/rfc822 attachment).
      *
      * @return string[]
      */
@@ -74,14 +78,27 @@ class LogParserUtility
         $headerLine = '[!-9;-~]+:[^\r\n]*\r?\n(?:[ \t][^\r\n]*\r?\n)*';
         $headerBlockContaining = static fn (string $name): string => '(?=(?:' . $headerLine . ')*?' . $name . ':)';
         $pattern = '/^' . $headerBlockContaining('To') . $headerBlockContaining('From')
-            . $headerBlockContaining('Subject') . '(?:' . $headerLine . ')+/mi';
+            . $headerBlockContaining('Subject') . $headerBlockContaining('MIME-Version')
+            . '(?:' . $headerLine . ')+/mi';
 
         if (!preg_match_all($pattern, $content, $matches, PREG_OFFSET_CAPTURE)) {
             $content = trim($content);
             return $content !== '' ? [$content] : [];
         }
 
-        $offsets = array_column($matches[0], 1);
+        $offsets = [];
+        $messageEnd = 0;
+        foreach ($matches[0] as [$headerBlock, $offset]) {
+            if ($offset < $messageEnd) {
+                continue;
+            }
+            $offsets[] = $offset;
+            $messageEnd = 0;
+            if (preg_match('/^Content-Type:(?:[^\r\n]|\r?\n[ \t])*?boundary="?([^"\s;]+)/mi', $headerBlock, $boundary)) {
+                $messageEnd = (int)strpos($content, '--' . $boundary[1] . '--', $offset);
+            }
+        }
+
         if ($offsets[0] > 0) {
             array_unshift($offsets, 0);
         }

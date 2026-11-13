@@ -11,3 +11,10 @@ parameters:
 		- Classes
 		- Configuration
 		- Tests
+
+	ignoreErrors:
+		# TYPO3 v12 only API, called behind a version check
+		-
+			message: '#^Call to an undefined method TYPO3\\CMS\\Backend\\Template\\ModuleTemplate\:\:(renderContent|setContent)\(\)\.$#'
+			path: Classes/Controller/BackendController.php
+			reportUnmatched: false
