@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#ddev-generated
 ## Description: Scaffold Playwright test structure into the project
 ## Usage: playwright-init
 ## Example: "ddev playwright-init"
@@ -24,7 +23,9 @@ download_if_missing() {
     fi
 }
 
-download_if_missing "playwright.config.js"
+if ! compgen -G "playwright.config.*" > /dev/null; then
+    download_if_missing "playwright.config.js"
+fi
 download_if_missing "Tests/Playwright/helpers/axe-helper.js"
 download_if_missing "Tests/Playwright/helpers/common-checks.js"
 
