@@ -61,8 +61,9 @@ $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport_mbox_file'] = \TYPO3\CMS\Core\Cor
 ```
 
 When the module is opened, it moves the emails from the log file to
-`public/typo3temp/assets/xima_typo3_mailcatcher/`. Attachments are stored there
-as well, so they are publicly accessible.
+`public/typo3temp/assets/xima_typo3_mailcatcher/`: one JSON file per email
+(addresses, subject and full body) plus its attachments. Anyone who can reach
+this directory over HTTP can read them.
 
 ## Development
 
