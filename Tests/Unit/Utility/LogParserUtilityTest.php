@@ -207,7 +207,6 @@ class LogParserUtilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider multipleMailsDataProvider
      * @param array<int, array{subject: string, from: string, to: string, attachments: int}> $expectedMails
      */
     #[DataProvider('multipleMailsDataProvider')]
