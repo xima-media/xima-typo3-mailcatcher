@@ -203,6 +203,29 @@ class LogParserUtilityTest extends UnitTestCase
                     ],
                 ],
             ],
+            'mails with forwarded mails in the body' => [
+                'Fixtures/mail-forwarded.log',
+                [
+                    [
+                        'subject' => 'Test1: inline forward',
+                        'from' => 'from1@example.com',
+                        'to' => 'to1@example.org',
+                        'attachments' => 0,
+                    ],
+                    [
+                        'subject' => 'Test2: forward as attachment',
+                        'from' => 'from2@example.com',
+                        'to' => 'to2@example.org',
+                        'attachments' => 1,
+                    ],
+                    [
+                        'subject' => 'Test3: plain',
+                        'from' => 'from3@example.com',
+                        'to' => 'to3@example.org',
+                        'attachments' => 0,
+                    ],
+                ],
+            ],
         ];
     }
 
