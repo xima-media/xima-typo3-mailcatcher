@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use Xima\XimaTypo3Mailcatcher\Controller\BackendController;
 
 $isMbox = isset($GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport']) && $GLOBALS['TYPO3_CONF_VARS']['MAIL']['transport'] === 'mbox';

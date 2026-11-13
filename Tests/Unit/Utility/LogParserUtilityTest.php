@@ -34,7 +34,6 @@ class LogParserUtilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider mailDataProvider
      * @param array<string, string> $exampleMail
      * @throws JsonException
      */
@@ -89,7 +88,6 @@ class LogParserUtilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider mailDataProvider
      * @param array<string, string> $exampleMail
      */
     #[DataProvider('mailDataProvider')]
@@ -114,7 +112,6 @@ class LogParserUtilityTest extends UnitTestCase
     }
 
     /**
-     * @dataProvider mailDataProvider
      * @param array<string, string> $exampleMail
      * @throws JsonException
      */
@@ -178,7 +175,7 @@ class LogParserUtilityTest extends UnitTestCase
                 ],
             ],
             'mails with attachments' => [
-                'Acceptance/Fixtures/mail-multiple.log',
+                'Fixtures/mail-multiple.log',
                 [
                     [
                         'subject' => 'Test1: TYPO3 loves you - here is why',
@@ -206,11 +203,33 @@ class LogParserUtilityTest extends UnitTestCase
                     ],
                 ],
             ],
+            'mails with forwarded mails in the body' => [
+                'Fixtures/mail-forwarded.log',
+                [
+                    [
+                        'subject' => 'Test1: inline forward',
+                        'from' => 'from1@example.com',
+                        'to' => 'to1@example.org',
+                        'attachments' => 0,
+                    ],
+                    [
+                        'subject' => 'Test2: forward as attachment',
+                        'from' => 'from2@example.com',
+                        'to' => 'to2@example.org',
+                        'attachments' => 1,
+                    ],
+                    [
+                        'subject' => 'Test3: plain',
+                        'from' => 'from3@example.com',
+                        'to' => 'to3@example.org',
+                        'attachments' => 0,
+                    ],
+                ],
+            ],
         ];
     }
 
     /**
-     * @dataProvider multipleMailsDataProvider
      * @param array<int, array{subject: string, from: string, to: string, attachments: int}> $expectedMails
      */
     #[DataProvider('multipleMailsDataProvider')]

@@ -11,9 +11,8 @@ readonly dbUser="db"
 readonly dbPassword="db"
 readonly dbName="db"
 readonly dbCredentials="-h${dbHost} -u${dbUser} -p${dbPassword}"
-readonly fixturePath="/var/www/html/Tests/Acceptance/Fixtures"
+readonly fixturePath="/var/www/html/Tests/Playwright/Fixtures"
 readonly typo3Binary="/var/www/html/vendor/bin/typo3"
-readonly typo3cmsBinary="/var/www/html/vendor/bin/typo3cms"
 
 function _progress() {
     printf "%s... " "$1"
@@ -45,18 +44,13 @@ export TYPO3_PROJECT_NAME="EXT:xima_typo3_mailcatcher"
 
 # Set up environment
 _progress "Setting up TYPO3 installation"
-# TYPO3 v11
-if [ -f "$typo3cmsBinary" ]; then
-    "$typo3cmsBinary" install:setup --force --database-host-name="db" --database-user-name="db" --database-user-password="db" --database-name="db" --use-existing-database --admin-user-name="admin" --admin-password="Passw0rd!" --database-driver="mysqli" --database-port="3306" --database-socket="" --site-name="EXT:xima_typo3_mailcatcher" --site-setup-type="no" --web-server-config="none"
-    "$typo3cmsBinary" configuration:set SYS/trustedHostsPattern ".*"
-    "$typo3cmsBinary" configuration:set MAIL/defaultMailFromName "MailCatcher TYPO3"
-    "$typo3cmsBinary" configuration:set MAIL/defaultMailFromAddress "typo3@example.com"
-else
-    "$typo3Binary" setup --no-interaction --force --quiet
-    "$typo3Binary" configuration:set SYS/trustedHostsPattern ".*"
-    "$typo3Binary" configuration:set MAIL/defaultMailFromName "MailCatcher TYPO3"
-    "$typo3Binary" configuration:set MAIL/defaultMailFromAddress "typo3@example.com"
-fi
+"$typo3Binary" setup --no-interaction --force --quiet
+"$typo3Binary" configuration:set SYS/trustedHostsPattern ".*"
+"$typo3Binary" configuration:set MAIL/defaultMailFromName "MailCatcher TYPO3"
+"$typo3Binary" configuration:set MAIL/defaultMailFromAddress "typo3@example.com"
+"$typo3Binary" configuration:set MAIL/transport "mbox"
+"$typo3Binary" configuration:set MAIL/transport_mbox_file "/var/www/html/var/log/mail.log"
+"$typo3Binary" cache:flush
 _done
 
 # Import DB fixtures

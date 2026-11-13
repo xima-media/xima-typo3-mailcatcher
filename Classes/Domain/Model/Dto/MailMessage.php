@@ -39,7 +39,7 @@ class MailMessage
     {
         $name = hash('md5', $this->messageId);
 
-        if ($this->date) {
+        if ($this->date instanceof \DateTime) {
             $name = $this->date->getTimestamp() . '-' . $name . '.json';
         }
 

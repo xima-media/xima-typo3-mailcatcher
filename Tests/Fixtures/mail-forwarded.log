@@ -1,0 +1,58 @@
+To: Recipient 1 <to1@example.org>
+From: Sender 1 <from1@example.com>
+Subject: Test1: inline forward
+Date: Fri, 11 Oct 2024 10:01:00 +0000
+Message-ID: <message1@example.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hello Recipient 1,
+see the forwarded mail below.
+
+---------- Forwarded message ---------
+From: Someone Else <someone@example.net>
+Date: Thu, 10 Oct 2024 09:00:00 +0000
+Subject: Original subject
+To: Sender 1 <from1@example.com>
+
+Original body.
+To: Recipient 2 <to2@example.org>
+From: Sender 2 <from2@example.com>
+Subject: Test2: forward as attachment
+Date: Fri, 11 Oct 2024 10:02:00 +0000
+Message-ID: <message2@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/mixed;
+ boundary=fwd_2Xq
+
+--fwd_2Xq
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+See the attached mail.
+--fwd_2Xq
+Content-Type: message/rfc822; name=original.eml
+Content-Disposition: attachment; filename=original.eml
+
+To: Sender 2 <from2@example.com>
+From: Someone Else <someone@example.net>
+Subject: Original subject
+Date: Thu, 10 Oct 2024 09:00:00 +0000
+Message-ID: <original@example.net>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+
+Original body.
+--fwd_2Xq--
+To: Recipient 3 <to3@example.org>
+From: Sender 3 <from3@example.com>
+Subject: Test3: plain
+Date: Fri, 11 Oct 2024 10:03:00 +0000
+Message-ID: <message3@example.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+Hello Recipient 3,
+this is mail 3.

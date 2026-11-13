@@ -14,12 +14,17 @@ trim_trailing_whitespace = true
 [*.js]
 indent_size = 2
 
+# Comments and aligned attributes don't follow the indent size
+[*.{css,html,ts}]
+indent_size = unset
+
 # JSON files
 [*.json]
 indent_style = tab
 
-# package.json
-[package.json]
+# npm and TypeScript configs
+[{package.json,package-lock.json,tsconfig.json}]
+indent_style = space
 indent_size = 2
 
 # ReST files
@@ -40,9 +45,14 @@ indent_size = 2
 [{*.yml,*.yaml}]
 indent_size = 2
 
-# XLF files
+# XLF files are generated/edited by tooling
 [*.xlf]
-indent_style = tab
+indent_style = unset
+indent_size = unset
+
+# PHP formatting is owned by php-cs-fixer
+[*.php]
+indent_style = unset
 
 # .htaccess
 [.htaccess]
@@ -50,4 +60,25 @@ indent_style = tab
 
 # Markdown files
 [*.md]
-max_line_length = 80
+indent_size = 2
+
+# NEON files
+[*.neon]
+indent_style = tab
+indent_size = 2
+
+# Raw mails keep their original line endings and indentation
+[Tests/**.log]
+end_of_line = unset
+indent_style = unset
+indent_size = unset
+trim_trailing_whitespace = unset
+
+# DDEV files are managed by ddev
+[.ddev/**]
+charset = unset
+end_of_line = unset
+insert_final_newline = unset
+trim_trailing_whitespace = unset
+indent_style = unset
+indent_size = unset

@@ -1,6 +1,6 @@
-c3.php
 composer.lock
 coverage
+.phpunit.cache
 .phpunit.result.cache
 
 node_modules
@@ -13,8 +13,14 @@ public/typo3temp
 public/app.php
 public/index.php
 
-Tests/Acceptance/_output
-Tests/Acceptance/Support/_generated
+Tests/Playwright/playwright-report
+Tests/Playwright/test-results
 
 var
 vendor
+
+config/system/settings.php
+
+php-cs-fixer.xml
+phpstan.xml
+.php-cs-fixer.cache

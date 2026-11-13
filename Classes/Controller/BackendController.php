@@ -12,16 +12,10 @@ use Xima\XimaTypo3Mailcatcher\Utility\LogParserUtility;
 
 class BackendController extends ActionController
 {
-    private ModuleTemplateFactory $moduleTemplateFactory;
-
-    private PageRenderer $pageRenderer;
-
     public function __construct(
-        ModuleTemplateFactory $moduleTemplateFactory,
-        PageRenderer $pageRenderer
+        private readonly ModuleTemplateFactory $moduleTemplateFactory,
+        private readonly PageRenderer $pageRenderer
     ) {
-        $this->moduleTemplateFactory = $moduleTemplateFactory;
-        $this->pageRenderer = $pageRenderer;
         $this->pageRenderer->addInlineLanguageLabelFile('EXT:xima_typo3_mailcatcher/Resources/Private/Language/locallang.xlf', 'js');
         $this->pageRenderer->addCssFile('EXT:xima_typo3_mailcatcher/Resources/Public/Css/backend.css');
     }
@@ -36,11 +30,7 @@ class BackendController extends ActionController
         $version = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getNumericTypo3Version());
         $this->view->assign('typo3version', $version['version_main']);
 
-        if ($version['version_main'] >= 12) {
-            $this->pageRenderer->loadJavaScriptModule('@xima/xima-typo3-mailcatcher/MailCatcher.js');
-        } else {
-            $this->pageRenderer->loadRequireJsModule('TYPO3/CMS/XimaTypo3Mailcatcher/MailCatcher');
-        }
+        $this->pageRenderer->loadJavaScriptModule('@xima/xima-typo3-mailcatcher/MailCatcher.js');
 
         if ($version['version_main'] < 13) {
             $this->view->assign('mails', $mails);

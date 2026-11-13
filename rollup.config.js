@@ -35,8 +35,6 @@ const typo3Prefixes = [
     'flatpickr/',
 ];
 
-const lowerDashedToUpperCamelCase = (str) => str.replace(/([-\/])([a-z])/g, (_str, sep, letter) => (sep === '/' ? '/' : '') + letter.toUpperCase());
-
 export function typo3Resolve() {
     return {
         name: 'typo3Resolve',
@@ -58,17 +56,6 @@ export function typo3Resolve() {
                 }
             }
         },
-        renderChunk(code, chunk, outputOptions) {
-            if (outputOptions.format !== 'amd') {
-                return;
-            }
-
-            // Resolve "@typo3/ext-name/module-name.js" into "TYPO3/CMS/ExtName/ModuleName" for TYPO3 v11 (AMD) builds
-            return code.replaceAll(
-                /(["'])@typo3\/([\w\d\/\.\@\-]+)\.js\1/g,
-                (match, quotes, path) => lowerDashedToUpperCamelCase(`${quotes}TYPO3/CMS/${path}${quotes}`)
-            )
-        }
     }
 }
 
@@ -81,12 +68,6 @@ export default {
         {
             dir: 'Resources/Public/ECMAScript6',
             format: 'es',
-            plugins: []
-        },
-        {
-            dir: 'Resources/Public/JavaScript',
-            entryFileNames: (chunkInfo) => lowerDashedToUpperCamelCase('/' + chunkInfo.name).substring(1) + '.js',
-            format: 'amd',
             plugins: []
         },
     ],
