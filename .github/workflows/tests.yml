@@ -122,7 +122,6 @@ jobs:
           retry_on: error
           timeout_minutes: 10
           command: ddev playwright test
-          new_command_on_retry: ddev playwright test --last-failed
 
       - uses: actions/upload-artifact@v7
         if: failure()
